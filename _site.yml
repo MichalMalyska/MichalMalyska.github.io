@@ -1,0 +1,27 @@
+
+name: AlinMorariuWebsite
+navbar:
+  title: Alin Morariu
+  left:
+    - text: Home
+      icon: fa-home
+      href: index.html
+    - text: Teaching
+      icon: fa-book
+      menu:
+      - text: STA130
+        icon: fa-shapes
+        href: STA130_tutorial.html
+      - text: STA314
+        icon: fa-shapes
+        href: STA314_Tutorial.html
+    - text: Course Work
+      icon: fa-pen
+      menu:
+      - text: STA355
+        icon: fa-code
+        href: STA355_Coursework.html
+  right:
+    - text: About me
+      icon: fa-info
+      href: about.html
