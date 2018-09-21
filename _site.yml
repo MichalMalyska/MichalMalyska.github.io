@@ -1,7 +1,7 @@
 
-name: AlinMorariuWebsite
+name: MichalMalyskaWebsite
 navbar:
-  title: Alin Morariu
+  title: Michal Malyska
   left:
     - text: Home
       icon: fa-home
