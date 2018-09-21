@@ -15,7 +15,7 @@ navbar:
         href: STA303_tutorial.html
       - text: STA314
         icon: fa-shapes
-        href: STA314_Tutorial_2.html
+        href: STA314.html
         
     - text: Course Work
       icon: fa-pen
