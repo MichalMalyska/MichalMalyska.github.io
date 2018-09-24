@@ -8,24 +8,25 @@ navbar:
       href: index.html
       
     - text: Teaching
-      icon: fa-book
+      icon: fa-university
       menu:
       - text: STA303
-        icon: fa-shapes
+        icon: fa-book
         href: STA303_tutorial.html
+        
       - text: STA314
-        icon: fa-shapes
+        icon: fa-book
         href: STA314.html
         
     - text: Course Work
-      icon: fa-pen
+      icon: fa-book
       menu:
       - text: STA355
         icon: fa-code
         href: STA355_Coursework.html
     
     - text: Personal Projects
-      icon: fa-pen
+      icon: fa-pencil
       menu: 
       - text: OSFI P & C data extraction
         icon: fa-code
@@ -35,3 +36,7 @@ navbar:
     - text: About me
       icon: fa-info
       href: about.html
+      
+    - text: Resume
+      icon: fa-file-pdf-o
+      href: resume.pdf
