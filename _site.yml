@@ -10,20 +10,24 @@ navbar:
     - text: Teaching
       icon: fa-university
       menu:
-      - text: STA303
+      - text: STA303 - Methods of Data Analysis II
         icon: fa-book
-        href: STA303_tutorial.html
+        href: STA303.html
         
-      - text: STA314
+      - text: STA314 - Machine Learning I
         icon: fa-book
         href: STA314.html
         
     - text: Course Work
       icon: fa-book
       menu:
-      - text: STA355
+#      - text: STA355 - Theory of Statistical Practice
+#        icon: fa-code
+#        href: STA355_Coursework.html
+      
+      - text: STA490 - Stats Consulting and Collaboration
         icon: fa-code
-        href: STA355_Coursework.html
+        href: STA490_Project1.html
     
     - text: Personal Projects
       icon: fa-pencil
