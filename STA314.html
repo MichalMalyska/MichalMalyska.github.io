@@ -1035,6 +1035,256 @@ resids %&gt;%
 <p><img src="STA314_files/figure-html/CH25:%20Unnesting-2.png" width="672" /></p>
 </div>
 </div>
+<div id="week-4" class="section level1">
+<h1>Week 4</h1>
+<div id="principal-component-analysis" class="section level2">
+<h2>Principal Component Analysis</h2>
+<p><strong>Modified from the slides from Alex Stringer’s STA414</strong></p>
+<p>Given a <span class="math inline">\(n\)</span> datapoints with <span class="math inline">\(p\)</span> features each, PCA tries to find a low-dimensional <span class="math inline">\(d &lt; p\)</span> factorization of the data matrix <span class="math inline">\(X\)</span> that preserves the maximum possible variance.</p>
+<p><span class="math display">\[ X = UZ \]</span> <span class="math display">\[ X \in \mathbb{R}^{n \times p} \]</span> <span class="math display">\[ Z \in \mathbb{R}^{d \times p} \]</span> <span class="math display">\[ U \in \mathbb{R}^{n \times d} \]</span></p>
+<p>We estimate <span class="math inline">\(U\)</span> from the data, and call the associated <span class="math inline">\(Z\)</span> the principal components of <span class="math inline">\(X\)</span>.</p>
+<p>PCA is thus states as follows:</p>
+<center>
+<p>for <span class="math inline">\(j = 1, ..., d\)</span></p>
+</center>
+<p><span class="math display">\[ \mathbf{u}_j = argmax(Var(\mathbf{u}^T\mathbf{x})) = argmax(\mathbf{u}^T\mathbf{Su}) \]</span></p>
+<center>
+<p>subject to:</p>
+</center>
+<p><span class="math display">\[ \mathbf{u}^T\mathbf{u} = 1 ,~~ \text{and } ~ \mathbf{u} \perp \mathbf{u}_k ~~ \text{for} ~~ k &lt; j \]</span></p>
+<p>Where S is the sample covariance matrix: <span class="math display">\[ \mathbf{S} = \frac{1}{n}\sum_{i = 1}^{n}{(\mathbf{x_i} - \mathbf{\bar{x}})(\mathbf{x_i} - \mathbf{\bar{x}}) ^T} \]</span></p>
+<p>Using lagrange multipliers we see the solution to the above problem must satisfy:</p>
+<p><span class="math display">\[ \mathbf{S}\mathbf{u}_1 = \lambda \mathbf{u}_1 \]</span> Which means that <span class="math inline">\(\mathbf{u}_1\)</span> is an eigenvector of S with the eigenvalue <span class="math inline">\(\lambda\)</span>.</p>
+<p>By definition of the problem <span class="math inline">\(\lambda\)</span> must be the largest eigenvalue. This is since it doesn’t the second constraint (as there is no previously selected vectors)</p>
+<p>Solving this constrained optimization problem gives us an orthonormal basis where the basis vectors point in the directions of the principal axes of the sample covariance matrix, in decreasing order of length.</p>
+<p>It’s equivalent to the rotation in the original input space!</p>
+<p>We then proceed to “chop off” the <span class="math inline">\(d-p\)</span> dimensions with least variance. And call this the basis for our <span class="math inline">\(d\)</span> dimensional space.</p>
+<p>So, the solution to the PCA problem is:</p>
+<ol style="list-style-type: decimal">
+<li><p>Choose <span class="math inline">\(\mathbf{u}_j\)</span> to be normalized eigenvector of <span class="math inline">\(\mathbf{S}\)</span> corresponding to the <span class="math inline">\(j\)</span>-th highest eigenvalue.</p></li>
+<li><p>Choose <span class="math inline">\(\mathbf{U}\)</span> to be the matrix of orthonormal eigenvectors of S, so that <span class="math inline">\(\mathbf{U}^T\mathbf{U} = \mathbf{I}\)</span></p></li>
+<li><p>Then <span class="math inline">\(\mathbf{Z} = \mathbf{XU}^T\)</span>.</p></li>
+<li><p>Keep only the first d columns of <span class="math inline">\(\mathbf{Z}\)</span> and the corresponding <span class="math inline">\(d \times d\)</span> submatrix of <span class="math inline">\(\mathbf{U}\)</span></p></li>
+<li><p>Reconstruct the data as <span class="math inline">\(\mathbf{X}^* = \mathbf{Z}^*\mathbf{U}^*\)</span></p></li>
+</ol>
+</div>
+<div id="lab-1-pca" class="section level2">
+<h2>Lab 1: PCA</h2>
+<pre class="r"><code># Load the data to a temporary dataframe
+df &lt;- USArrests
+# See variable names
+colnames(df)</code></pre>
+<pre><code>## [1] &quot;Murder&quot;   &quot;Assault&quot;  &quot;UrbanPop&quot; &quot;Rape&quot;</code></pre>
+<pre class="r"><code># Display means of each row
+df %&gt;% summarize_all(funs(mean))</code></pre>
+<pre><code>##   Murder Assault UrbanPop   Rape
+## 1  7.788  170.76    65.54 21.232</code></pre>
+<pre class="r"><code># Display means and variances of each row
+df %&gt;% summarize_all(.funs = c(Mean = mean, Variance = var))</code></pre>
+<pre><code>##   Murder_Mean Assault_Mean UrbanPop_Mean Rape_Mean Murder_Variance
+## 1       7.788       170.76         65.54    21.232        18.97047
+##   Assault_Variance UrbanPop_Variance Rape_Variance
+## 1         6945.166          209.5188      87.72916</code></pre>
+<p>There is a built in function in R to do the principal component analysis:</p>
+<p>It automatically scales the data to have the mean of 0</p>
+<p>There is an added parameter <em>scale</em> which will also scale the standard deviation to 1.</p>
+<p>In general there are at most <span class="math inline">\(min(n-1,p)\)</span> informative principal components.</p>
+<pre class="r"><code># compute the PCA
+pca_out = prcomp(df , scale = TRUE)
+# output the rotation matrix
+pca_out$rotation</code></pre>
+<pre><code>##                 PC1        PC2        PC3         PC4
+## Murder   -0.5358995  0.4181809 -0.3412327  0.64922780
+## Assault  -0.5831836  0.1879856 -0.2681484 -0.74340748
+## UrbanPop -0.2781909 -0.8728062 -0.3780158  0.13387773
+## Rape     -0.5434321 -0.1673186  0.8177779  0.08902432</code></pre>
+<pre class="r"><code># output the reconstructed data in the new coordinates:
+pca_out$x</code></pre>
+<pre><code>##                        PC1         PC2         PC3          PC4
+## Alabama        -0.97566045  1.12200121 -0.43980366  0.154696581
+## Alaska         -1.93053788  1.06242692  2.01950027 -0.434175454
+## Arizona        -1.74544285 -0.73845954  0.05423025 -0.826264240
+## Arkansas        0.13999894  1.10854226  0.11342217 -0.180973554
+## California     -2.49861285 -1.52742672  0.59254100 -0.338559240
+## Colorado       -1.49934074 -0.97762966  1.08400162  0.001450164
+## Connecticut     1.34499236 -1.07798362 -0.63679250 -0.117278736
+## Delaware       -0.04722981 -0.32208890 -0.71141032 -0.873113315
+## Florida        -2.98275967  0.03883425 -0.57103206 -0.095317042
+## Georgia        -1.62280742  1.26608838 -0.33901818  1.065974459
+## Hawaii          0.90348448 -1.55467609  0.05027151  0.893733198
+## Idaho           1.62331903  0.20885253  0.25719021 -0.494087852
+## Illinois       -1.36505197 -0.67498834 -0.67068647 -0.120794916
+## Indiana         0.50038122 -0.15003926  0.22576277  0.420397595
+## Iowa            2.23099579 -0.10300828  0.16291036  0.017379470
+## Kansas          0.78887206 -0.26744941  0.02529648  0.204421034
+## Kentucky        0.74331256  0.94880748 -0.02808429  0.663817237
+## Louisiana      -1.54909076  0.86230011 -0.77560598  0.450157791
+## Maine           2.37274014  0.37260865 -0.06502225 -0.327138529
+## Maryland       -1.74564663  0.42335704 -0.15566968 -0.553450589
+## Massachusetts   0.48128007 -1.45967706 -0.60337172 -0.177793902
+## Michigan       -2.08725025 -0.15383500  0.38100046  0.101343128
+## Minnesota       1.67566951 -0.62590670  0.15153200  0.066640316
+## Mississippi    -0.98647919  2.36973712 -0.73336290  0.213342049
+## Missouri       -0.68978426 -0.26070794  0.37365033  0.223554811
+## Montana         1.17353751  0.53147851  0.24440796  0.122498555
+## Nebraska        1.25291625 -0.19200440  0.17380930  0.015733156
+## Nevada         -2.84550542 -0.76780502  1.15168793  0.311354436
+## New Hampshire   2.35995585 -0.01790055  0.03648498 -0.032804291
+## New Jersey     -0.17974128 -1.43493745 -0.75677041  0.240936580
+## New Mexico     -1.96012351  0.14141308  0.18184598 -0.336121113
+## New York       -1.66566662 -0.81491072 -0.63661186 -0.013348844
+## North Carolina -1.11208808  2.20561081 -0.85489245 -0.944789648
+## North Dakota    2.96215223  0.59309738  0.29824930 -0.251434626
+## Ohio            0.22369436 -0.73477837 -0.03082616  0.469152817
+## Oklahoma        0.30864928 -0.28496113 -0.01515592  0.010228476
+## Oregon         -0.05852787 -0.53596999  0.93038718 -0.235390872
+## Pennsylvania    0.87948680 -0.56536050 -0.39660218  0.355452378
+## Rhode Island    0.85509072 -1.47698328 -1.35617705 -0.607402746
+## South Carolina -1.30744986  1.91397297 -0.29751723 -0.130145378
+## South Dakota    1.96779669  0.81506822  0.38538073 -0.108470512
+## Tennessee      -0.98969377  0.85160534  0.18619262  0.646302674
+## Texas          -1.34151838 -0.40833518 -0.48712332  0.636731051
+## Utah            0.54503180 -1.45671524  0.29077592 -0.081486749
+## Vermont         2.77325613  1.38819435  0.83280797 -0.143433697
+## Virginia        0.09536670  0.19772785  0.01159482  0.209246429
+## Washington      0.21472339 -0.96037394  0.61859067 -0.218628161
+## West Virginia   2.08739306  1.41052627  0.10372163  0.130583080
+## Wisconsin       2.05881199 -0.60512507 -0.13746933  0.182253407
+## Wyoming         0.62310061  0.31778662 -0.23824049 -0.164976866</code></pre>
+<pre class="r"><code># To get the variance explained by each of the prinicpal components we take the 
+# square of the std deviation:
+pca_var &lt;- pca_out$sdev^2
+pca_var</code></pre>
+<pre><code>## [1] 2.4802416 0.9897652 0.3565632 0.1734301</code></pre>
+<pre class="r"><code># To get the proportion of variance explained we just need to divide by the sum:
+pca_varprop &lt;- pca_var / sum(pca_var)
+pca_varprop</code></pre>
+<pre><code>## [1] 0.62006039 0.24744129 0.08914080 0.04335752</code></pre>
+<pre class="r"><code># Plots using base R:
+plot(pca_varprop , xlab = &quot; Principal Component &quot;,
+     ylab = &quot;Proportion of Variance Explained &quot;,
+     ylim = c(0,1), type = &quot;b&quot;)</code></pre>
+<p><img src="STA314_files/figure-html/plots-1.png" width="672" /></p>
+<pre class="r"><code>plot(cumsum(pca_varprop), xlab = &quot;Principal Component &quot;,
+     ylab = &quot;Cumulative Proportion of Variance Explained&quot;,
+     ylim = c(0,1), type = &quot;b&quot;)</code></pre>
+<p><img src="STA314_files/figure-html/plots-2.png" width="672" /></p>
+<pre class="r"><code># Plots using ggplot:
+## Create the dataset:
+df &lt;- tibble(PCA = 1:4, VarianceProportion = pca_varprop)
+
+ggplot(data = df, aes(x = PCA, y = VarianceProportion)) +
+    geom_line() +
+    geom_point() +
+    labs(x = &quot;Principal Component&quot;, y = &quot;Proportion of Variance Explained&quot;) +
+    geom_text(aes(label = round(VarianceProportion,2)), vjust = -1) +
+    scale_y_continuous(limits = c(0, 1))</code></pre>
+<p><img src="STA314_files/figure-html/plots-3.png" width="672" /></p>
+<pre class="r"><code>ggplot(data = df, aes(x = PCA, y = cumsum(VarianceProportion))) +
+    geom_line() +
+    geom_point() +
+    labs(x = &quot;Principal Component&quot;, y = &quot;Cumulative Proportion of Variance Explained&quot;) +
+    geom_text(aes(label = round(cumsum(VarianceProportion),2)), vjust = 2) +
+    scale_y_continuous(limits = c(0, 1))</code></pre>
+<p><img src="STA314_files/figure-html/plots-4.png" width="672" /></p>
+<pre class="r"><code># compute the var-cov matrix of X
+tb &lt;- as.tibble(USArrests)
+# standardize all the variables
+tb_std &lt;- tb %&gt;% mutate_all(.funs = (scale))
+
+
+vcm &lt;- cor(tb_std)
+vcm</code></pre>
+<pre><code>##              Murder   Assault   UrbanPop      Rape
+## Murder   1.00000000 0.8018733 0.06957262 0.5635788
+## Assault  0.80187331 1.0000000 0.25887170 0.6652412
+## UrbanPop 0.06957262 0.2588717 1.00000000 0.4113412
+## Rape     0.56357883 0.6652412 0.41134124 1.0000000</code></pre>
+<pre class="r"><code># look at the eigenvectors and eigenvalues of the var cov matrix
+e &lt;- eigen(vcm)
+e</code></pre>
+<pre><code>## eigen() decomposition
+## $values
+## [1] 2.4802416 0.9897652 0.3565632 0.1734301
+## 
+## $vectors
+##            [,1]       [,2]       [,3]        [,4]
+## [1,] -0.5358995  0.4181809 -0.3412327  0.64922780
+## [2,] -0.5831836  0.1879856 -0.2681484 -0.74340748
+## [3,] -0.2781909 -0.8728062 -0.3780158  0.13387773
+## [4,] -0.5434321 -0.1673186  0.8177779  0.08902432</code></pre>
+<pre class="r"><code># Compute the eigenvector transformation
+
+for (i in 1:length(names(tb))) {
+    assign(paste0(&quot;PC&quot;, i), 
+    as.vector(tb_std$Murder * e$vectors[1,i] +
+    tb_std$Assault * e$vectors[2,i] + 
+    tb_std$UrbanPop * e$vectors[3,i] +
+    tb_std$Rape * e$vectors[4,i]))
+}
+
+manual_PCA &lt;- tibble(PC1 = PC1, PC2 = PC2, PC3 = PC3, PC4 = PC4)
+auto_PCA &lt;- as.tibble(pca_out$x)
+
+difference = manual_PCA - auto_PCA
+difference</code></pre>
+<pre><code>##              PC1           PC2           PC3           PC4
+## 1  -5.551115e-16 -8.881784e-16 -3.330669e-16 -9.992007e-16
+## 2   6.661338e-16 -8.881784e-16  4.440892e-16  1.942890e-15
+## 3   1.110223e-15 -1.998401e-15  1.554312e-15  6.661338e-16
+## 4  -8.326673e-16  2.220446e-16 -1.110223e-16 -3.885781e-16
+## 5   2.220446e-15 -2.442491e-15  1.332268e-15  1.665335e-15
+## 6   1.776357e-15 -1.110223e-15  2.220446e-16  1.859624e-15
+## 7   0.000000e+00  8.881784e-16  2.220446e-16 -1.526557e-16
+## 8   1.665335e-16 -4.996004e-16  1.110223e-15 -5.551115e-16
+## 9   1.332268e-15 -3.080869e-15  8.881784e-16 -3.469447e-16
+## 10 -2.220446e-16 -1.332268e-15 -1.110223e-15 -6.661338e-16
+## 11  6.661338e-16  6.661338e-16 -8.326673e-16  6.661338e-16
+## 12 -8.881784e-16  1.637579e-15  2.220446e-16  5.551115e-17
+## 13  6.661338e-16 -1.665335e-15  6.661338e-16 -3.608225e-16
+## 14 -2.220446e-16  6.106227e-16 -5.551115e-16  3.330669e-16
+## 15 -4.440892e-16  2.137179e-15 -6.661338e-16  9.714451e-17
+## 16 -2.220446e-16  7.771561e-16 -3.885781e-16  8.326673e-17
+## 17 -1.110223e-15  9.992007e-16 -1.110223e-15 -5.551115e-16
+## 18  0.000000e+00 -1.554312e-15 -4.440892e-16 -1.110223e-15
+## 19 -8.881784e-16  2.442491e-15 -2.220446e-16 -4.440892e-16
+## 20  4.440892e-16 -1.776357e-15  8.881784e-16 -4.440892e-16
+## 21  5.551115e-16  2.220446e-16  4.440892e-16  0.000000e+00
+## 22  4.440892e-16 -1.915135e-15  3.330669e-16  6.938894e-16
+## 23  0.000000e+00  1.665335e-15 -3.330669e-16  2.914335e-16
+## 24 -1.554312e-15 -8.881784e-16 -6.661338e-16 -1.887379e-15
+## 25  5.551115e-16 -4.996004e-16 -5.551115e-17  6.106227e-16
+## 26 -8.881784e-16  1.332268e-15 -4.440892e-16 -9.714451e-17
+## 27 -2.220446e-16  1.304512e-15 -1.110223e-16  2.428613e-16
+## 28  1.776357e-15 -2.442491e-15  2.220446e-16  1.776357e-15
+## 29 -8.881784e-16  2.525757e-15 -4.440892e-16 -1.110223e-16
+## 30  8.881784e-16 -6.661338e-16  2.220446e-16 -1.665335e-16
+## 31  8.881784e-16 -1.915135e-15  7.771561e-16  3.885781e-16
+## 32  1.554312e-15 -1.998401e-15  6.661338e-16 -2.289835e-16
+## 33 -1.554312e-15 -1.332268e-15  9.992007e-16 -1.887379e-15
+## 34 -1.776357e-15  2.997602e-15 -4.440892e-16 -2.220446e-16
+## 35  3.608225e-16  0.000000e+00 -4.163336e-16  2.220446e-16
+## 36  1.665335e-16  2.775558e-16 -2.775558e-17  1.110223e-16
+## 37  6.106227e-16  1.110223e-16  3.330669e-16  1.387779e-15
+## 38 -2.220446e-16  7.771561e-16 -4.440892e-16 -3.330669e-16
+## 39  4.440892e-16  2.220446e-16  1.110223e-15 -8.881784e-16
+## 40 -8.881784e-16 -8.881784e-16  5.551115e-17 -1.082467e-15
+## 41 -1.110223e-15  2.220446e-15 -4.440892e-16 -5.551115e-17
+## 42 -2.220446e-16 -5.551115e-16 -7.771561e-16 -1.110223e-16
+## 43  6.661338e-16 -1.443290e-15 -3.330669e-16 -3.330669e-16
+## 44  8.881784e-16  4.440892e-16  2.220446e-16  9.020562e-16
+## 45 -2.220446e-15  3.108624e-15 -8.881784e-16  3.053113e-16
+## 46 -2.081668e-16  1.665335e-16 -2.983724e-16 -8.326673e-17
+## 47  8.326673e-16  2.220446e-16  3.330669e-16  1.110223e-15
+## 48 -1.776357e-15  1.998401e-15 -8.881784e-16 -7.216450e-16
+## 49 -4.440892e-16  1.776357e-15 -5.551115e-16 -5.551115e-17
+## 50 -5.551115e-16  4.996004e-16  0.000000e+00 -4.718448e-16</code></pre>
+</div>
+<div id="lab-3" class="section level2">
+<h2>Lab 3</h2>
+<p>This will be filled out after the tutorial</p>
+</div>
+</div>
 
 
 
