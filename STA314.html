@@ -383,15 +383,15 @@ div.tocify {
 
 <div id="preamble" class="section level1">
 <h1>Preamble</h1>
-<div id="most-of-the-work-in-this-file-is-the-edited-version-of-solutions-provided-by-prof.daniel-simpson-who-is-the-instructor-for-this-course." class="section level3">
-<h3>Most of the work in this file is the edited version of solutions provided by Prof. Daniel Simpson who is the instructor for this course.</h3>
-</div>
+<p>Most of the work in this file is the edited version of solutions provided by Prof. Daniel Simpson who is the instructor for this course.</p>
 <div id="resources" class="section level2">
 <h2>Resources</h2>
 <p>There is a number of resources available for you to learn and master the tidyverse package. It’s technically not required for the course but it will make your life a lot easier.</p>
 <p><a href="http://r4ds.had.co.nz/">Learn R with tidyverse</a> - this on it’s own should give you good enough background to handle most of the coding</p>
 <p><a href="https://adv-r.hadley.nz/">Advanced R with tidyverse</a> - most likely far beyond the scope of what’s needed for the course</p>
 <p><a href="https://www.rstudio.com/resources/cheatsheets/">Cheatsheets</a> - very useful set of cheatsheets</p>
+<p>There is a bunch more teaching materials avaialble on Alex’s webiste:</p>
+<p><a href="https://awstringer1.github.io/leaf2018/">Additional Labs</a></p>
 </div>
 <div id="library-load" class="section level2">
 <h2>Library Load</h2>
@@ -403,12 +403,15 @@ library(ISLR)
 library(car)
 library(modelr)
 library(gapminder)
-library(broom)</code></pre>
+library(broom)
+library(ggdendro)
+library(dendextend)
+set.seed(217828)</code></pre>
 </div>
 </div>
 <div id="week-1" class="section level1">
 <h1>Week 1</h1>
-<p>In the first tutorial we went over the great data notebook by <a href="https://www.linkedin.com/in/alexstringer/?originalSubdomain=ca">Alex Stringer</a> :</p>
+<p>In the first tutorial we went over the great data notebook by Alex Stringer:</p>
 <p><a href="https://awstringer1.github.io/leaf2018/prediction-rossman-store-sales.html">Week 1 Tutorial</a></p>
 </div>
 <div id="week-2" class="section level1">
@@ -548,8 +551,8 @@ plot(hclust(d,method = &quot;single&quot;))</code></pre>
 </div>
 <div id="week-3" class="section level1">
 <h1>Week 3</h1>
-<div id="question-2-1" class="section level2">
-<h2>Question 2</h2>
+<div id="lab-2" class="section level2">
+<h2>Lab 2</h2>
 <p>Medium house value (medv) for 506 neighborhoods in Boston. Includes 13 predictors such as: Avg number of rooms in the house, Avg age of houses, socioeconomic status.</p>
 <pre class="r"><code># Load the data: (from the MASS package)
 data(Boston)
@@ -618,8 +621,6 @@ sum_lm$coefficients[,4][2]</code></pre>
 summary(lm_fit)$coefficients[,4][1]</code></pre>
 <pre><code>##   (Intercept) 
 ## 3.743081e-236</code></pre>
-<pre class="r"><code># Cleanup:
-rm(sum_lm)</code></pre>
 <p>Now how about predicting and plotting the data:</p>
 <pre class="r"><code># Find the intervals for new data
 
@@ -1039,7 +1040,13 @@ resids %&gt;%
 <h1>Week 4</h1>
 <div id="principal-component-analysis" class="section level2">
 <h2>Principal Component Analysis</h2>
-<p><strong>Modified from the slides from Alex Stringer’s STA414</strong></p>
+<p><strong>With thanks to Alex Stringer for teaching me this in STA414</strong></p>
+<div id="motivation" class="section level3">
+<h3>Motivation:</h3>
+<p>Sometimes we are given a dataset containing a much larger number of features than what we like for analysis. (We will see this specifically in lab 3). <em>Principal Component Analysis</em> is one way of reducing the number of features while maintaining as much information about the original data as possible.</p>
+</div>
+<div id="procedure" class="section level3">
+<h3>Procedure:</h3>
 <p>Given a <span class="math inline">\(n\)</span> datapoints with <span class="math inline">\(p\)</span> features each, PCA tries to find a low-dimensional <span class="math inline">\(d &lt; p\)</span> factorization of the data matrix <span class="math inline">\(X\)</span> that preserves the maximum possible variance.</p>
 <p><span class="math display">\[ X = UZ \]</span> <span class="math display">\[ X \in \mathbb{R}^{n \times p} \]</span> <span class="math display">\[ Z \in \mathbb{R}^{d \times p} \]</span> <span class="math display">\[ U \in \mathbb{R}^{n \times d} \]</span></p>
 <p>We estimate <span class="math inline">\(U\)</span> from the data, and call the associated <span class="math inline">\(Z\)</span> the principal components of <span class="math inline">\(X\)</span>.</p>
@@ -1068,29 +1075,28 @@ resids %&gt;%
 <li><p>Reconstruct the data as <span class="math inline">\(\mathbf{X}^* = \mathbf{Z}^*\mathbf{U}^*\)</span></p></li>
 </ol>
 </div>
+</div>
 <div id="lab-1-pca" class="section level2">
 <h2>Lab 1: PCA</h2>
-<pre class="r"><code># Load the data to a temporary dataframe
-df &lt;- USArrests
-# See variable names
-colnames(df)</code></pre>
+<pre class="r"><code># See variable names
+colnames(USArrests)</code></pre>
 <pre><code>## [1] &quot;Murder&quot;   &quot;Assault&quot;  &quot;UrbanPop&quot; &quot;Rape&quot;</code></pre>
 <pre class="r"><code># Display means of each row
-df %&gt;% summarize_all(funs(mean))</code></pre>
+USArrests %&gt;% summarize_all(funs(mean))</code></pre>
 <pre><code>##   Murder Assault UrbanPop   Rape
 ## 1  7.788  170.76    65.54 21.232</code></pre>
 <pre class="r"><code># Display means and variances of each row
-df %&gt;% summarize_all(.funs = c(Mean = mean, Variance = var))</code></pre>
+USArrests %&gt;% summarize_all(.funs = c(Mean = mean, Variance = var))</code></pre>
 <pre><code>##   Murder_Mean Assault_Mean UrbanPop_Mean Rape_Mean Murder_Variance
 ## 1       7.788       170.76         65.54    21.232        18.97047
 ##   Assault_Variance UrbanPop_Variance Rape_Variance
 ## 1         6945.166          209.5188      87.72916</code></pre>
-<p>There is a built in function in R to do the principal component analysis:</p>
+<p>There is a built-in function in R to do the principal component analysis:</p>
 <p>It automatically scales the data to have the mean of 0</p>
 <p>There is an added parameter <em>scale</em> which will also scale the standard deviation to 1.</p>
 <p>In general there are at most <span class="math inline">\(min(n-1,p)\)</span> informative principal components.</p>
 <pre class="r"><code># compute the PCA
-pca_out = prcomp(df , scale = TRUE)
+pca_out = prcomp(USArrests , scale = TRUE)
 # output the rotation matrix
 pca_out$rotation</code></pre>
 <pre><code>##                 PC1        PC2        PC3         PC4
@@ -1170,7 +1176,7 @@ plot(pca_varprop , xlab = &quot; Principal Component &quot;,
      ylim = c(0,1), type = &quot;b&quot;)</code></pre>
 <p><img src="STA314_files/figure-html/plots-2.png" width="672" /></p>
 <pre class="r"><code># Plots using ggplot:
-## Create the dataset:
+## Create the combined dataset:
 df &lt;- tibble(PCA = 1:4, VarianceProportion = pca_varprop)
 
 ggplot(data = df, aes(x = PCA, y = VarianceProportion)) +
@@ -1187,21 +1193,18 @@ ggplot(data = df, aes(x = PCA, y = VarianceProportion)) +
     geom_text(aes(label = round(cumsum(VarianceProportion),2)), vjust = 2) +
     scale_y_continuous(limits = c(0, 1))</code></pre>
 <p><img src="STA314_files/figure-html/plots-4.png" width="672" /></p>
-<pre class="r"><code># compute the var-cov matrix of X
-tb &lt;- as.tibble(USArrests)
-# standardize all the variables
-tb_std &lt;- tb %&gt;% mutate_all(.funs = (scale))
+<pre class="r"><code># standardize all the variables
+USArrests_std &lt;- USArrests %&gt;% mutate_all(.funs = (scale))
 
-
-vcm &lt;- cor(tb_std)
-vcm</code></pre>
+varcov_matrix &lt;- cor(USArrests_std)
+varcov_matrix</code></pre>
 <pre><code>##              Murder   Assault   UrbanPop      Rape
 ## Murder   1.00000000 0.8018733 0.06957262 0.5635788
 ## Assault  0.80187331 1.0000000 0.25887170 0.6652412
 ## UrbanPop 0.06957262 0.2588717 1.00000000 0.4113412
 ## Rape     0.56357883 0.6652412 0.41134124 1.0000000</code></pre>
 <pre class="r"><code># look at the eigenvectors and eigenvalues of the var cov matrix
-e &lt;- eigen(vcm)
+e &lt;- eigen(varcov_matrix)
 e</code></pre>
 <pre><code>## eigen() decomposition
 ## $values
@@ -1215,12 +1218,12 @@ e</code></pre>
 ## [4,] -0.5434321 -0.1673186  0.8177779  0.08902432</code></pre>
 <pre class="r"><code># Compute the eigenvector transformation
 
-for (i in 1:length(names(tb))) {
+for (i in 1:length(names(USArrests_std))) {
     assign(paste0(&quot;PC&quot;, i), 
-    as.vector(tb_std$Murder * e$vectors[1,i] +
-    tb_std$Assault * e$vectors[2,i] + 
-    tb_std$UrbanPop * e$vectors[3,i] +
-    tb_std$Rape * e$vectors[4,i]))
+    as.vector(USArrests_std$Murder * e$vectors[1,i] +
+    USArrests_std$Assault * e$vectors[2,i] + 
+    USArrests_std$UrbanPop * e$vectors[3,i] +
+    USArrests_std$Rape * e$vectors[4,i]))
 }
 
 manual_PCA &lt;- tibble(PC1 = PC1, PC2 = PC2, PC3 = PC3, PC4 = PC4)
@@ -1283,6 +1286,255 @@ difference</code></pre>
 <div id="lab-3" class="section level2">
 <h2>Lab 3</h2>
 <p>This will be filled out after the tutorial</p>
+<pre class="r"><code># Data Load
+nci_labs &lt;- NCI60$labs
+nci_data &lt;- NCI60$data
+
+# Combine
+nci &lt;- as.tibble(nci_data)
+nci$labels &lt;- nci_labs
+
+# It&#39;s a large dataset! 
+dim(nci)</code></pre>
+<pre><code>## [1]   64 6831</code></pre>
+<pre class="r"><code># Let&#39;s see what are the possible labels
+unique(nci$labels)</code></pre>
+<pre><code>##  [1] &quot;CNS&quot;         &quot;RENAL&quot;       &quot;BREAST&quot;      &quot;NSCLC&quot;       &quot;UNKNOWN&quot;    
+##  [6] &quot;OVARIAN&quot;     &quot;MELANOMA&quot;    &quot;PROSTATE&quot;    &quot;LEUKEMIA&quot;    &quot;K562B-repro&quot;
+## [11] &quot;K562A-repro&quot; &quot;COLON&quot;       &quot;MCF7A-repro&quot; &quot;MCF7D-repro&quot;</code></pre>
+<pre class="r"><code># Let&#39;s see how many of each label:
+nci %&gt;% group_by(labels) %&gt;% summarize(n())</code></pre>
+<pre><code>## # A tibble: 14 x 2
+##    labels      `n()`
+##    &lt;chr&gt;       &lt;int&gt;
+##  1 BREAST          7
+##  2 CNS             5
+##  3 COLON           7
+##  4 K562A-repro     1
+##  5 K562B-repro     1
+##  6 LEUKEMIA        6
+##  7 MCF7A-repro     1
+##  8 MCF7D-repro     1
+##  9 MELANOMA        8
+## 10 NSCLC           9
+## 11 OVARIAN         6
+## 12 PROSTATE        2
+## 13 RENAL           9
+## 14 UNKNOWN         1</code></pre>
+<pre class="r"><code># Not very many data points, with a lot of features!</code></pre>
+<p>Are all of those features really necessary? Let’s try doing PCA and seeing what proportion of variance can be explained by taking just a few:</p>
+<pre class="r"><code># I don&#39;t want to rescale the labels (which are not numerical in the first place!)
+nci_pca &lt;- nci_data %&gt;% prcomp(scale = TRUE)
+
+# Since we will be plotting this data, we would like a function that assigns 
+# a color based on the value of the label to each of the datapoints:
+
+Colors = function(vec) {
+    colors = rainbow(length(unique(vec)))
+    return(colors[as.numeric(as.factor(vec))])
+}
+
+# Now let&#39;s plot the PCs 
+par(mfrow = c(1,2))
+
+# plot the first and second PC
+plot(nci_pca$x[,1:2], col = Colors(nci_labs), pch = 19, xlab = &quot;PC1&quot;,ylab = &quot;PC2&quot;)
+# plot the first and third PC
+plot(nci_pca$x[,c(1,3)], col = Colors(nci_labs), pch = 19, xlab = &quot;PC1&quot;, ylab = &quot;PC3&quot;)</code></pre>
+<p><img src="STA314_files/figure-html/NCI60%20PCA-1.png" width="672" /></p>
+<pre class="r"><code># Get back to regular plotting:
+par(mfrow = c(1,1))</code></pre>
+<p>Now if we want to plot without having to write a function to assign colors each time, we can use ggplot:</p>
+<pre class="r"><code># Save as tibble for convenience (you could probably get away with not doing this)
+nci_pca_tb &lt;- as.tibble(nci_pca$x)
+# Add back the labels 
+nci_pca_tb$labels &lt;- nci$labels
+
+# Plot (I&#39;m dropping the argument names beyond this point)
+ggplot(nci_pca_tb, aes(x = PC1, y = PC2, color = labels)) +
+    geom_point()</code></pre>
+<p><img src="STA314_files/figure-html/Plotting%20PCA%20with%20ggplot-1.png" width="672" /></p>
+<pre class="r"><code># Doesn&#39;t this look 100 times simpler to do ?
+ggplot(nci_pca_tb, aes(x = PC1, y = PC3, color = labels)) +
+    geom_point()</code></pre>
+<p><img src="STA314_files/figure-html/Plotting%20PCA%20with%20ggplot-2.png" width="672" /></p>
+<p>For this reason, beyond this point, I will be rewriting all of visualizations from the labs into tidyverse code and omit the base R code.</p>
+<pre class="r"><code># Extract the variances
+df &lt;- tibble(PCA = 1:length(nci_pca$sdev), VarianceProportion = nci_pca$sdev^2 / sum(nci_pca$sdev^2))
+
+# Plot just the variance explanation proportions
+ggplot(data = df, aes(x = PCA, y = VarianceProportion)) +
+    geom_line() +
+    geom_point() +
+    labs(x = &quot;Principal Component&quot;, y = &quot;Proportion of Variance Explained&quot;) +
+    scale_y_continuous(limits = c(0, 1))</code></pre>
+<p><img src="STA314_files/figure-html/NCI60%20PCA%20proportion%20of%20variance-1.png" width="672" /></p>
+<pre class="r"><code># Plot the cumulative variance explanation proportions 
+ggplot(data = df, aes(x = PCA, y = cumsum(VarianceProportion))) +
+    geom_line(color = if_else(cumsum(df$VarianceProportion) &gt; 0.9, &quot;red&quot;, &quot;green&quot;)) +
+    geom_point(color = if_else(cumsum(df$VarianceProportion) &gt; 0.9, &quot;red&quot;, &quot;green&quot;)) +
+    labs(x = &quot;Principal Component&quot;, y = &quot;Cumulative Proportion of Variance Explained&quot;) +
+    scale_y_continuous(limits = c(0, 1)) +
+    geom_line(y = 0.9)</code></pre>
+<p><img src="STA314_files/figure-html/NCI60%20PCA%20proportion%20of%20variance-2.png" width="672" /></p>
+<p>The line on the second plot shows at which point you can cut out to keep <span class="math inline">\(90\)</span>% of variance (<span class="math inline">\(90\)</span>% of information about data), which looks to be about 20 features.</p>
+<p>Note that this is an improvent of an improvements since by just doing the PCA we have decreased the number of features from 6830 to 64 which is a 99.06% decrease, without losing much information!</p>
+<p>Now let’s do some clustering to review what we were doing 2 weeks ago:</p>
+<p>Again for simplicity of visualization I will be using the ggdendro package.</p>
+<pre class="r"><code># Create a vector of types of Hierarchical clustering we covered
+clustering_types &lt;- c(&quot;complete&quot;, &quot;average&quot;, &quot;single&quot;)
+
+# Perform HC in a loop and plotting
+for (method in clustering_types) {
+    # Good example of why %&gt;% is a great operator and method chaining is important
+    nci_data %&gt;% # Take the data
+    scale %&gt;% # Rescale it
+    dist %&gt;%  # Create a distance matrix 
+    hclust(method = method) %&gt;% # Perform HC
+    as.dendrogram %&gt;% # Change type to dendrogram
+    set(&quot;labels&quot;, nci_labs) %&gt;% # Add the labels from the original data
+    set(&quot;branches_k_color&quot;, k = 4) %&gt;% # Split the tree into 4 classes and color
+    set(&quot;labels_cex&quot;, 0.5) %&gt;%
+    plot(main = paste0(method,&quot; linkage&quot;))
+}</code></pre>
+<p><img src="STA314_files/figure-html/NCI60%20Hierarichical%20Clustering-1.png" width="672" /><img src="STA314_files/figure-html/NCI60%20Hierarichical%20Clustering-2.png" width="672" /><img src="STA314_files/figure-html/NCI60%20Hierarichical%20Clustering-3.png" width="672" /></p>
+<p>This illustrates just how different results can be for the types of HC we learned. Complete and average linkages usually result in similarily sized clusters, while Single linkage usually results in a single large cluster that has single leaves added to it at each step. Now let’s compare Complete Linkage with K-Means clustering</p>
+<pre class="r"><code># Create the complete linkage clustering
+cl_clusters &lt;- nci_data %&gt;% # Take the data
+    scale %&gt;% # Rescale it
+    dist %&gt;%  # Create a distance matrix 
+    hclust(method = &quot;complete&quot;) %&gt;% # Perform HC
+    cutree(k = 4) # cut 4 clusters
+
+# Create the kmeans clustering
+kmeans_clusters &lt;- nci_data %&gt;% # Take the data
+    scale %&gt;%
+    kmeans(centers = 4, nstart = 20) # Perform K-Means for 4 clusters 20 times
+    
+# Create a comparison Table:
+table(kmeans_clusters$cluster, cl_clusters)</code></pre>
+<pre><code>##    cl_clusters
+##      1  2  3  4
+##   1 20  7  0  0
+##   2  9  0  0  0
+##   3 11  0  0  9
+##   4  0  0  8  0</code></pre>
+<p>From this table we can see that cluster 4 in k-means is the same as cluster 3 in complete linkage, but the other clusters are a mixture. For example cluster 3 in k-means is a combination of 11 elements from cluster 1 in CL and 9 elements of cluster 4 in CL.</p>
+</div>
+<div id="question-3-1" class="section level2">
+<h2>Question 3:</h2>
+<div id="question" class="section level3">
+<h3>Question:</h3>
+<p>By modifying the argument used in the lecture, argue that the second principal component of a (centred) feature matrix <span class="math inline">\(X\)</span> should maximise the Rayleigh quotent of <span class="math inline">\(X^TX\)</span> over all vectors that are orthogonal to the first principal component and show that this implies that the second prinicipal component is the eigenvector of <span class="math inline">\(X^TX\)</span> that corresponds to the second largest eigenvalue.</p>
+</div>
+<div id="solution" class="section level3">
+<h3>Solution:</h3>
+<p><em>Solution adapted from <a href="https://a-morariu.github.io/">Alin Morariu</a></em></p>
+<p> The second principle component of a centred feature matrix <span class="math inline">\(X\)</span> should maximize Rayleigh’s quotient up to being orthogonal to the fist principle component.</p>
+<p> Note, this argument is almost trivial once we understand that we can order our set of eigenvalues and combining this with the following notation:</p>
+<p><span class="math display">\[ v_2 = \text{arg} \max_{v \in \mathbb{R}^p, v \perp v_1 } \frac{v^T X^T X v}{v^T v} \]</span></p>
+<p>All that this is asking, is that we find the eigenvector that maximizes the quotient with respect to all vectors in <span class="math inline">\(\mathbb{R}^p\)</span> which are orthogonal to <span class="math inline">\(v_1\)</span>. Furthermore, this corresponds to taking the second largest eignevalue from our ordered set. However, we will show this more rigorously using the argument made in class. We begin with the spectral decomposition of our feature matrix.</p>
+<p><span class="math display">\[X^T X = UDU^T \text{ and define } Z = U^Tv \text{ where } v \in \mathbb{R}^p \]</span></p>
+<p><span class="math display">\[ \Rightarrow v^T X^T X v =
+z^T D z =
+\sum_{i=1}^{p} \lambda_i z_i z_i^T \leq \sum_{i=1}^{p} \lambda_2 z_i z_i^T =
+\lambda_2 \sum_{i=1}^{p} z_i z_I^T =
+\lambda_2 v^T U^T U v\]</span></p>
+<p>The inequality above turns into an equality in the case where <span class="math inline">\(z_3 = z_4 = \ldots = z_p = 0\)</span>; otherwise we can say that <span class="math inline">\(\lambda_2 \geq \lambda_i\)</span> for <span class="math inline">\(i \in \{3, 4, \ldots, p\}\)</span> which in turn maximizes the quotient with respect to the constraints. This concludes the proof.</p>
+</div>
+</div>
+<div id="question-4-1" class="section level2">
+<h2>Question 4</h2>
+<div id="question-1" class="section level3">
+<h3>Question:</h3>
+<p>An experiment was undertaken to exmaine differences in burritos made across Toronto. 400 burritos were purchased at commercial venues and four measurements were taken of each burrito: mass (in grams), length (in centimetres), sturdiness (scored from 1-10), and taste (scored from 1-10). The scaled sample covariance matrix was calculated and its four eigenvalues were found to be 14.1, 4.3, 1.2 and 0.4. The corresponding first and second eigenvectors were:</p>
+<p><span class="math display">\[v_1^T = [0.39, 0.42, 0.44, 0.69]\]</span> <span class="math display">\[v_2^T = [0.40, 0.39, 0.42,−0.72]\]</span></p>
+<ol style="list-style-type: lower-roman">
+<li><p>What is the proportion of variance explained by the first two prinicple components?</p></li>
+<li><p>Give an interpretation of the first two principal components</p></li>
+<li><p>Suppose that the data were stored by recording the eigenvalues and eigenvectors together with the 400 values of the first and second principal components and the mean values for the original variables. How would you use this information reconstruct approximations to the original covariance matrix and the original data?</p></li>
+</ol>
+</div>
+<div id="solution-1" class="section level3">
+<h3>Solution:</h3>
+<p><em>Slightly modfied solution from <a href="https://a-morariu.github.io/">Alin Morariu</a></em></p>
+<p>Givens: <span class="math inline">\(\lambda^* = \{14.1, 4.3, 1.2, 0.4 \}\)</span> and <span class="math inline">\(v_1^T = [0.39, 0.42, 0.44, 0.69]\)</span>, <span class="math inline">\(v_2^T = [0.40, 0.39, 0.42, -0.72\)</span> #### i)</p>
+<p>We are asked to calculate the proportion of variance explained by the fist 2 principle components.</p>
+<p><span class="math display">\[\text{proportion explained} = \frac{\sum_{i=1}^{2} \lambda_i }{\sum_{i=1}^{4} \lambda_i } = \ldots = 0.92 \]</span></p>
+<div id="ii" class="section level4">
+<h4>ii)</h4>
+<p>Interpreting the principle components:</p>
+<p>First PC: Notice that each of the components have a positive coefficient we can say that heavier and longer burritos have a tendency to be tastier.</p>
+<p>Second PC: Here we see that the component corresponding to taste has a negative coefficient which indicates that we have some burritos that are small, light, unsturdy and tasty OR large, heavy, sturdy, and bland (their scores would be equivalent).</p>
+</div>
+<div id="iii" class="section level4">
+<h4>iii)</h4>
+<p>Here we are tasked with reconstructing the variance-covariance matrix of the centred data based on our 2 eigenvectors, and 4 eigenvalues. We back out the desired result from the spectral decomposition of the variance-covariance matrix.</p>
+<p>Since we only have the first two principal components we can only use the first two eigenvalues:</p>
+<p><span class="math display">\[\hat{\Sigma} = \hat{U}\hat{D}\hat{U}^T = \sum_{i=1}^{2} \lambda_iv_i v_i^T = \lambda_1 v_1 v_1^T + \lambda_2 v_2 v_2^T  \]</span></p>
+<p>Note that we have all of the quantities specified above so now its a matter of plugging in the values and multiplying them together.</p>
+<p><span class="math display">\[\hat{\Sigma} = \left( \begin{array}{cccc} 
+2.833 \\ 
+2.980 &amp; 3.141 \\
+3.142 &amp; 3.310 &amp; 3.488 \\
+2.556 &amp; 2.879 &amp; 2.980 &amp; 8.942
+\end{array} \right) \]</span></p>
+<p>Noting that <span class="math inline">\(\hat{\Sigma}\)</span> is symmetric we can fill in the rest.</p>
+<p>Remember that we framed the original data as: <span class="math display">\[ X = LU \]</span> Where <span class="math inline">\(U\)</span> are the principal components and <span class="math inline">\(L\)</span> is the loading matrix. Thus to retrieve the original data we need to multiply our eigenvectors by our loading factors matrix to get estimates of mean corrected data.</p>
+<p>$$ x_i^T =</p>
+<span class="math display">\[\begin{pmatrix}
+    l_1 &amp; l_2
+\end{pmatrix}\]</span>
+<span class="math display">\[\begin{pmatrix}
+    v_1^T\\
+    v_2^T
+\end{pmatrix}\]</span>
+<p>=</p>
+<span class="math display">\[\begin{pmatrix}
+    l_1 &amp; l_2
+\end{pmatrix}\]</span>
+<span class="math display">\[\begin{pmatrix}
+    0.39 &amp; 0.42 &amp; 0.44 &amp; 0.69\\
+    0.40 &amp; 0.39 &amp; 0.42 &amp; -0.72
+\end{pmatrix}\]</span>
+<p>$$</p>
+<p>So:</p>
+<p><span class="math display">\[ x_1^T =  \begin{pmatrix}
+    0.39 \cdot l_1 + 0.42 \cdot l_2
+\end{pmatrix}\]</span> <span class="math display">\[ x_2^T =  \begin{pmatrix}
+    0.42 \cdot l_1 + 0.39 \cdot l_2
+\end{pmatrix}\]</span> etc.</p>
+<p>And then to retrive the original we need to add back the mean.</p>
+</div>
+</div>
+</div>
+<div id="questions-from-the-tutorial" class="section level2">
+<h2>Questions from the tutorial:</h2>
+<div id="spectral-decomposition-explanation" class="section level3">
+<h3>Spectral Decomposition explanation</h3>
+<p>Any symmetric matrix A has a spectral decomposition of the form:</p>
+<p><span class="math display">\[ A = Q \Lambda Q^{-1} \]</span></p>
+<p>Where <span class="math inline">\(Q\)</span> is Orthogonal (its column vectors are orthogonal), and <span class="math inline">\(\Lambda\)</span> is diagonal.</p>
+<p>Let <span class="math inline">\(v_i\)</span> denote the <span class="math inline">\(i\)</span>-th column of <span class="math inline">\(Q\)</span>. Then <span class="math inline">\(v_i^Tv_j\)</span> is the <span class="math inline">\(i,j\)</span>-th element of <span class="math inline">\(Q^TQ = Q^{-1}Q = I\)</span>. This means that each column of <span class="math inline">\(Q\)</span> has length <span class="math inline">\(1\)</span> and is perpendicular to every other column.</p>
+<p>Multiplying the equation by <span class="math inline">\(Q\)</span> from the right yields:</p>
+<p><span class="math display">\[ AQ = Q \Lambda Q^{-1} Q = Q \Lambda \]</span></p>
+<p>If we interpret this by looking at columns of <span class="math inline">\(Q\)</span>, <span class="math inline">\(v_i\)</span>:</p>
+<p><span class="math display">\[ Av_i = \lambda_i v_i \]</span></p>
+<p>Where <span class="math inline">\(\lambda_i\)</span> is the <span class="math inline">\(i\)</span>-th diagonal entry of <span class="math inline">\(\Lambda\)</span>.</p>
+<p>Which means that the <span class="math inline">\(v_i\)</span>’s are eigenvectors of <span class="math inline">\(A\)</span> with eigenvalues <span class="math inline">\(\lambda_i\)</span>!</p>
+</div>
+<div id="why-is-variance-covariance-positive-semi-definite-i.e.why-is-s-q-lambda-qt" class="section level3">
+<h3>Why is variance-covariance positive semi-definite? i.e. why is <span class="math inline">\(S = Q \Lambda Q^T\)</span></h3>
+<p>A matrix <span class="math inline">\(V\)</span> is called positive semi-definite if for any vector <span class="math inline">\(a\)</span>:</p>
+<p><span class="math display">\[ a^T V a \geq 0  \]</span></p>
+<p><a href="https://stats.stackexchange.com/a/53105">link to stack exchange for this answer</a></p>
+<p>And for the variance-covariance matrix <span class="math inline">\(S\)</span>:</p>
+<p><span class="math display">\[ S = \frac{1}{n}\sum_{i=1}^{n}{(x_i - \bar{x})(x_i - \bar{x})^T} \]</span></p>
+<p>Then for every non-zero vector <span class="math inline">\(a\)</span> we have:</p>
+<p><span class="math display">\[ a^TSa = a^T(\frac{1}{n}\sum_{i=1}^{n}{(x_i - \bar{x})(x_i - \bar{x})^T} )a\]</span> <span class="math display">\[ = \frac{1}{n}(\sum_{i=1}^{n}{(a^T(x_i - \bar{x})(x_i - \bar{x})^Ta)} ) \]</span> <span class="math display">\[ = \frac{1}{n}\sum_{i=1}^{n}{(((x_i - \bar{x})^Ta^T)((x_i - \bar{x})^Ta))} \]</span></p>
+<p><span class="math display">\[ = \frac{1}{n}\sum_{i=1}^{n}{((x_i - \bar{x})^Ta)^2} \geq 0  \]</span></p>
+<p>So the variance-covariance matrix <span class="math inline">\(S\)</span> is always positive semi-definite and symmetric.</p>
+</div>
 </div>
 </div>
 
