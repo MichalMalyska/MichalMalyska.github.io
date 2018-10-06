@@ -1457,9 +1457,15 @@ z^T D z =
 <div id="solution-1" class="section level3">
 <h3>Solution:</h3>
 <p><em>Slightly modfied solution from <a href="https://a-morariu.github.io/">Alin Morariu</a></em></p>
-<p>Givens: <span class="math inline">\(\lambda^* = \{14.1, 4.3, 1.2, 0.4 \}\)</span> and <span class="math inline">\(v_1^T = [0.39, 0.42, 0.44, 0.69]\)</span>, <span class="math inline">\(v_2^T = [0.40, 0.39, 0.42, -0.72\)</span> #### i)</p>
+<p>Given: <span class="math inline">\(\lambda^* = \{14.1, 4.3, 1.2, 0.4 \}\)</span> , <span class="math inline">\(v_1^T = [0.39, 0.42, 0.44, 0.69]\)</span> , and <span class="math inline">\(v_2^T = [0.40, 0.39, 0.42, -0.72]\)</span></p>
+<div id="i" class="section level4">
+<h4>i)</h4>
 <p>We are asked to calculate the proportion of variance explained by the fist 2 principle components.</p>
-<p><span class="math display">\[\text{proportion explained} = \frac{\sum_{i=1}^{2} \lambda_i }{\sum_{i=1}^{4} \lambda_i } = \ldots = 0.92 \]</span></p>
+<p><span class="math display">\[\text{proportion explained} =
+\frac{\sum_{i=1}^{2} \lambda_i }{\sum_{i=1}^{4} \lambda_i } =
+\frac{14.1 + 4.3}{14.1 + 4.3 + 1.2 + 0.4} =
+0.92 \]</span></p>
+</div>
 <div id="ii" class="section level4">
 <h4>ii)</h4>
 <p>Interpreting the principle components:</p>
@@ -1480,29 +1486,29 @@ z^T D z =
 \end{array} \right) \]</span></p>
 <p>Noting that <span class="math inline">\(\hat{\Sigma}\)</span> is symmetric we can fill in the rest.</p>
 <p>Remember that we framed the original data as: <span class="math display">\[ X = LU \]</span> Where <span class="math inline">\(U\)</span> are the principal components and <span class="math inline">\(L\)</span> is the loading matrix. Thus to retrieve the original data we need to multiply our eigenvectors by our loading factors matrix to get estimates of mean corrected data.</p>
-<p>$$ x_i^T =</p>
-<span class="math display">\[\begin{pmatrix}
+<p><span class="math display">\[ x_i^T =
+\begin{pmatrix}
     l_1 &amp; l_2
-\end{pmatrix}\]</span>
-<span class="math display">\[\begin{pmatrix}
+\end{pmatrix} 
+\begin{pmatrix}
     v_1^T\\
     v_2^T
-\end{pmatrix}\]</span>
-<p>=</p>
-<span class="math display">\[\begin{pmatrix}
+\end{pmatrix} = 
+\begin{pmatrix}
     l_1 &amp; l_2
-\end{pmatrix}\]</span>
-<span class="math display">\[\begin{pmatrix}
+\end{pmatrix} 
+\begin{pmatrix}
     0.39 &amp; 0.42 &amp; 0.44 &amp; 0.69\\
     0.40 &amp; 0.39 &amp; 0.42 &amp; -0.72
-\end{pmatrix}\]</span>
-<p>$$</p>
+\end{pmatrix}
+\]</span></p>
 <p>So:</p>
 <p><span class="math display">\[ x_1^T =  \begin{pmatrix}
     0.39 \cdot l_1 + 0.42 \cdot l_2
 \end{pmatrix}\]</span> <span class="math display">\[ x_2^T =  \begin{pmatrix}
     0.42 \cdot l_1 + 0.39 \cdot l_2
-\end{pmatrix}\]</span> etc.</p>
+\end{pmatrix}\]</span></p>
+<p>etc.</p>
 <p>And then to retrive the original we need to add back the mean.</p>
 </div>
 </div>
