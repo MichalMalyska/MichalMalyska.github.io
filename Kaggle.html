@@ -11,7 +11,7 @@
 
 
 
-<title></title>
+<title>Kaggle Competitions</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -290,26 +290,20 @@ $(document).ready(function () {
 
 
 
+<h1 class="title toc-ignore">Kaggle Competitions</h1>
 
 </div>
 
 
-<div id="welcome" class="section level1">
-<h1>Welcome!</h1>
-<p>My name is <a href="https://www.linkedin.com/in/malyskamichal/">Michal Malyska</a> and I will be hosting most of my work here including:</p>
+<p>The competitions I participated in:</p>
 <ul>
-<li><p>Teaching Materials</p></li>
-<li><p>Personal Projects</p></li>
-<li><p>Research</p></li>
+<li><a href="https://www.kaggle.com/c/home-credit-default-risk">Home Credit Default Risk</a></li>
 </ul>
-
-<p>Most of my work will be related to data analysis and any research projects I’ve worked on. The teaching resources will be what I reference during any tutoiral that I teach and will be organized by class.</p>
-<div id="currently-teaching-university-of-toronto" class="section level2">
-<h2>Currently Teaching (University of Toronto)</h2>
-<p>STA314 - Statistical Methods for Machine Learning I (Fall 2018)</p>
-<p>STA303 - Methods of Data Analysis II (Spring 2019)</p>
-</div>
-</div>
+<p>I worked in a team of 3 with 2 of my coworkers from Deloite. Harrison Jones (HJ) and Guillame Bertrand (GB), each working on our own scripts, and ensembling our models for the final set of predictions. We scored in the 86th percentile, below one of the public collaboration solutions.</p>
+<p>There are two main kernels that were used, one for <a href="https://www.kaggle.com/michalmalyska/testing-script-v3">prediction</a>, and one for <a href="https://www.kaggle.com/michalmalyska/bayesian-optimization-for-testing-script">Bayesian parameter optimization</a>.</p>
+<p>It was a very interesting problem, as the classes of data were very unbalanced, about 13/1 in favour of the non-default category. The solution we found that worked best was to upsample the default class by a factor of 2 or 3. While there are more advanced methods out there (randomly creating points in the convex subsets of the default cluster, and adding them to the class), due to computation constraints (6h), and RAM of the Kaggle server, we kept it simple.</p>
+<p>Together with GB, we created additonal features, beyond what was already in the kernel to further improve on the solution.</p>
+<p>The model we used is an <a href="https://lightgbm.readthedocs.io/en/latest/#">LGBM</a> (Light Gradient Boosted Machine). Which is an implementation of tree based algorithms, we in particular used gradient boosted decision trees.</p>
 
 
 

@@ -36,6 +36,10 @@ navbar:
         icon: fa-code
         href: ASNA2019CC_datacreation.html
         
+      - text: Kaggle Competitions
+        icon: fa-code
+        href: Kaggle.html
+        
   right:
     - text: About me
       icon: fa-info
