@@ -324,6 +324,13 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="STA410_A1.html">
+        <span class="fa fa-code"></span>
+         
+        STA410 - Computational Statistics - Assignment 1
+      </a>
+    </li>
+    <li>
       <a href="STA490_Project1.html">
         <span class="fa fa-code"></span>
          
@@ -396,8 +403,7 @@ div.tocify {
 <div id="library-load" class="section level2">
 <h2>Library Load</h2>
 <p>These are all the libraries we will be using in the course and some additional ones for the extra work done from the R for Data Science textbook:</p>
-<pre class="r"><code>library(tidyverse)
-library(gridExtra)
+<pre class="r"><code>library(gridExtra)
 library(MASS)
 library(ISLR)
 library(car)
@@ -406,6 +412,9 @@ library(gapminder)
 library(broom)
 library(ggdendro)
 library(dendextend)
+
+# tidyverse goes last so that nothing overwrites the functions
+library(tidyverse)
 set.seed(217828)</code></pre>
 </div>
 </div>

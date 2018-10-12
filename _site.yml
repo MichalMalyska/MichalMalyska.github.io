@@ -21,9 +21,9 @@ navbar:
     - text: Course Work
       icon: fa-book
       menu:
-#      - text: STA355 - Theory of Statistical Practice
-#        icon: fa-code
-#        href: STA355_Coursework.html
+      - text: STA410 - Computational Statistics - Assignment 1
+        icon: fa-code
+        href: STA410_A1.html
       
       - text: STA490 - Stats Consulting and Collaboration
         icon: fa-code
@@ -31,10 +31,10 @@ navbar:
     
     - text: Personal Projects
       icon: fa-pencil
-      menu: 
-      - text: OSFI P & C data extraction
+      menu:
+      - text: ASNA2019 Case Competition
         icon: fa-code
-        href: OSFI.html
+        href: ASNA2019CC_datacreation.html
         
   right:
     - text: About me
