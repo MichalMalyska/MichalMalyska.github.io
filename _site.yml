@@ -27,7 +27,7 @@ navbar:
       
       - text: STA490 - Stats Consulting and Collaboration
         icon: fa-code
-        href: STA490_Project1.html
+        href: STA_490_ReactionTimes_Project.html
     
     - text: Personal Projects
       icon: fa-pencil

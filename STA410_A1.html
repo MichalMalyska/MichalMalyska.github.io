@@ -234,7 +234,7 @@ $(document).ready(function () {
       </a>
     </li>
     <li>
-      <a href="STA490_Project1.html">
+      <a href="STA_490_ReactionTimes_Project.html">
         <span class="fa fa-code"></span>
          
         STA490 - Stats Consulting and Collaboration
@@ -574,7 +574,7 @@ emp_data$prop &lt;- emp_data$count / n
 
 # Create a comparison between observed and calculated
 
-comparison &lt;- left_join(result, emp_data, by = c(&quot;y&quot;)) %&gt;% select(-count) %&gt;%
+comparison &lt;- left_join(result, emp_data, by = c(&quot;y&quot;)) %&gt;% dplyr::select(-count) %&gt;%
     replace_na(list(prop = 0))
 
 ggplot(data = comparison, aes(y)) +
