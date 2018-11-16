@@ -423,6 +423,8 @@ library(gapminder)
 library(broom)
 library(ggdendro)
 library(dendextend)
+library(e1071)
+library(summarytools)
 
 # tidyverse goes last so that nothing overwrites the functions
 library(tidyverse)
@@ -1879,6 +1881,263 @@ R(h) = \alpha_{FN}m(x)(1-h(x)) + \alpha_{PN}(1-m(x))h(x)
 <div id="week-8" class="section level1">
 <h1>Week 8</h1>
 <p>Solutions to the practice midterm questions we did in class can be found <a href="https://michalmalyska.github.io/STA314_T7_Sol.pdf">here</a></p>
+</div>
+<div id="week-9" class="section level1">
+<h1>Week 9</h1>
+<div id="lab-5" class="section level2">
+<h2>Lab 5</h2>
+<p>To fit an SVC, it is enough to call the svm(.) function with an argument kernel = “linear”. It has the advantage over our formulation of directly specifying the cost of violating the Marigin. Small cost -&gt; wide marigins.</p>
+<pre class="r"><code>x &lt;- matrix(rnorm(50*2), ncol = 2)
+y &lt;- c(rep(-1,25), rep(1,25))
+x[y == 1,] &lt;- x[y == 1,] + 1
+plot(x, col = (3 - y))</code></pre>
+<p><img src="STA314_files/figure-html/Generate%20Data-1.png" width="672" /> Data is clearly not linearly separable. There are two options:</p>
+<ul>
+<li><p>Try to find a transformation of data that results in it being linearly separable and then fit a linear model (See Linear Basis Function Models at the end)</p></li>
+<li><p>Fit a model that handles non-linearly separable data.</p></li>
+</ul>
+<pre class="r"><code>df &lt;- data.frame(x = x, y = as.factor(y))
+svcfit &lt;- svm( y~., # Y as a function of all the other (so just x)
+               data = df, # Specify where the data comes from
+               kernel = &quot;linear&quot;, # Fit an SVC (linear kernel)
+               cost = 10, # This is the cost of crossing the Margin
+               scale = FALSE) # Should the variables be scaled?
+plot(svcfit , df)</code></pre>
+<p><img src="STA314_files/figure-html/Prepare%20data%20and%20fit%20SVC-1.png" width="672" /></p>
+<pre class="r"><code>plot(x[,2], x[,1], col = (3 - y))</code></pre>
+<p><img src="STA314_files/figure-html/Prepare%20data%20and%20fit%20SVC-2.png" width="672" /></p>
+<p>The light blue side corresponds to the <span class="math inline">\(-1\)</span> class and the pink one is the <span class="math inline">\(1\)</span> class. The support vectors are plotted as crosses, and the rest as circles. In the plot we can see 36 support vectors. We can also identify them by looking at the index of the svm object. We would also like to see what is in the summary of said object.</p>
+<pre class="r"><code>svcfit$index</code></pre>
+<pre><code>##  [1]  1  2  3  5  6  7  8  9 12 15 16 17 18 19 20 22 24 25 26 27 30 31 32
+## [24] 33 34 35 37 38 39 41 43 44 46 47 49 50</code></pre>
+<pre class="r"><code>summary(svcfit)</code></pre>
+<pre><code>## 
+## Call:
+## svm(formula = y ~ ., data = df, kernel = &quot;linear&quot;, cost = 10, 
+##     scale = FALSE)
+## 
+## 
+## Parameters:
+##    SVM-Type:  C-classification 
+##  SVM-Kernel:  linear 
+##        cost:  10 
+##       gamma:  0.5 
+## 
+## Number of Support Vectors:  36
+## 
+##  ( 18 18 )
+## 
+## 
+## Number of Classes:  2 
+## 
+## Levels: 
+##  -1 1</code></pre>
+<p>Let’s now comare how changing the cost parameter changes the decision boundary.</p>
+<pre class="r"><code>svcfit2 &lt;- svm( y~., # Y as a function of all the other (so just x)
+               data = df, # Specify where the data comes from
+               kernel = &quot;linear&quot;, # Fit an SVC (linear kernel)
+               cost = 0.1, # This is the cost of crossing the Margin
+               scale = FALSE) # Should the variables be scaled?
+plot(svcfit2 , df)</code></pre>
+<p><img src="STA314_files/figure-html/Changing%20SVC%20Cost-1.png" width="672" /></p>
+<pre class="r"><code>plot(x[,2], x[,1], col = (3 - y))</code></pre>
+<p><img src="STA314_files/figure-html/Changing%20SVC%20Cost-2.png" width="672" /> In this case the number of support vectors is expected to be higher, and as we can see it’s 41. This is due to the fact that the penalty for crossing the margin is relaxed. Now let’s look at what parameter results in the lowest possible loss via cross-validation:</p>
+<pre class="r"><code>tune.out &lt;- tune(svm ,y~.,data = df ,kernel = &quot;linear&quot;,
+                 ranges = list(cost = c(0.001, 0.01, 0.1, 1,5,10,100)))
+summary(tune.out)</code></pre>
+<pre><code>## 
+## Parameter tuning of &#39;svm&#39;:
+## 
+## - sampling method: 10-fold cross validation 
+## 
+## - best parameters:
+##  cost
+##    10
+## 
+## - best performance: 0.3 
+## 
+## - Detailed performance results:
+##      cost error dispersion
+## 1   0.001  0.68  0.1398412
+## 2   0.010  0.66  0.1646545
+## 3   0.100  0.36  0.2065591
+## 4   1.000  0.34  0.1646545
+## 5   5.000  0.32  0.1398412
+## 6  10.000  0.30  0.1414214
+## 7 100.000  0.32  0.1932184</code></pre>
+<p>This function stores the best iteration of the model which can be accessed in the following way:</p>
+<pre class="r"><code>best &lt;- tune.out$best.model
+summary(best)</code></pre>
+<pre><code>## 
+## Call:
+## best.tune(method = svm, train.x = y ~ ., data = df, ranges = list(cost = c(0.001, 
+##     0.01, 0.1, 1, 5, 10, 100)), kernel = &quot;linear&quot;)
+## 
+## 
+## Parameters:
+##    SVM-Type:  C-classification 
+##  SVM-Kernel:  linear 
+##        cost:  10 
+##       gamma:  0.5 
+## 
+## Number of Support Vectors:  36
+## 
+##  ( 18 18 )
+## 
+## 
+## Number of Classes:  2 
+## 
+## Levels: 
+##  -1 1</code></pre>
+<pre class="r"><code>xtest &lt;- matrix(rnorm(50*2) , ncol = 2)
+ytest &lt;- sample(c(-1,1), 50, rep = TRUE)
+xtest[ytest == 1,] &lt;- xtest[ytest == 1,] + 1
+testdat &lt;- data.frame(x = xtest, y = as.factor(ytest))
+
+ypred &lt;- predict(best ,testdat)
+table(predict = ypred , truth = testdat$y )</code></pre>
+<pre><code>##        truth
+## predict -1  1
+##      -1 17 10
+##      1   4 19</code></pre>
+<p>Now let’s see what would happen if the data was linearly separable.</p>
+<pre class="r"><code>x[y == 1,] &lt;- x[y == 1,] + 4
+plot(x, col = (y + 5)/2, pch = 19)</code></pre>
+<p><img src="STA314_files/figure-html/Linearly%20Separable%20Data-1.png" width="672" /></p>
+<pre class="r"><code>df2 &lt;- data.frame(x = x, y = as.factor(y))
+svcfit_new &lt;- svm(y~., data = df2, kernel = &quot;linear&quot;, cost = 1e5)
+summary(svcfit_new)</code></pre>
+<pre><code>## 
+## Call:
+## svm(formula = y ~ ., data = df2, kernel = &quot;linear&quot;, cost = 100000)
+## 
+## 
+## Parameters:
+##    SVM-Type:  C-classification 
+##  SVM-Kernel:  linear 
+##        cost:  100000 
+##       gamma:  0.5 
+## 
+## Number of Support Vectors:  3
+## 
+##  ( 1 2 )
+## 
+## 
+## Number of Classes:  2 
+## 
+## Levels: 
+##  -1 1</code></pre>
+<pre class="r"><code>plot(svcfit_new, df2)</code></pre>
+<p><img src="STA314_files/figure-html/Linearly%20Separable%20Data-2.png" width="672" /></p>
+<p>Let’s try a smaller value of cost since this might not be very good at performing on test data.</p>
+<pre class="r"><code>svcfit_new2 &lt;- svm(y~., data = df2, kernel = &quot;linear&quot;, cost = 1)
+summary(svcfit_new2)</code></pre>
+<pre><code>## 
+## Call:
+## svm(formula = y ~ ., data = df2, kernel = &quot;linear&quot;, cost = 1)
+## 
+## 
+## Parameters:
+##    SVM-Type:  C-classification 
+##  SVM-Kernel:  linear 
+##        cost:  1 
+##       gamma:  0.5 
+## 
+## Number of Support Vectors:  5
+## 
+##  ( 3 2 )
+## 
+## 
+## Number of Classes:  2 
+## 
+## Levels: 
+##  -1 1</code></pre>
+<pre class="r"><code>plot(svcfit_new2, df2)</code></pre>
+<p><img src="STA314_files/figure-html/Linearly%20Separable%20Data%20low%20cost-1.png" width="672" /></p>
+<p>The decision boundary was linear as we expected, given that we specified it to be linear. Let’s see what happens if we remove that constraint.</p>
+<pre class="r"><code>svmfit &lt;- svm( y~., # Y as a function of all the other (so just x)
+               data = df, # Specify where the data comes from
+               cost = 10, # This is the cost of crossing the Margin
+               kernel = &quot;polynomial&quot;,
+               scale = FALSE) # Should the variables be scaled?
+plot(svmfit , df)</code></pre>
+<p><img src="STA314_files/figure-html/Prepare%20data%20and%20fit%20SVM-1.png" width="672" /></p>
+</div>
+<div id="question-3-2" class="section level2">
+<h2>Question 3</h2>
+<div id="question-7" class="section level3">
+<h3>Question:</h3>
+<p>Consider the support vector classifier with the Lagrangian <span class="math display">\[
+L(\beta,\beta_0,\xi,\lambda,\mu) = \frac{1}{2} \beta^T\beta + C\sum_{i=1}^n \xi_i - \sum_{i=1}^n\lambda_i\left[y_i(x_i^T\beta + \beta_0)-1 + \xi_i\right] - \sum_{i=1}^n \mu_i \xi_i
+\]</span> Using the KKT equations, show that the optimal <span class="math inline">\(\beta\)</span> can be written as</p>
+<p><span class="math display">\[
+\beta = \sum_{i=1}^n \lambda_iy_i x_i.
+\]</span></p>
+Show that <span class="math inline">\(\lambda\)</span> solves
+<span class="math display">\[\begin{align*}
+&amp;\max_\lambda \sum_{i=1}^n\lambda_i - \frac{1}{2}\sum_{i=1}^n \sum_{j=1}^n y_iy_j\lambda_i\lambda_j x_i^Tx_j\\
+&amp;\text{Subject to:}\\
+&amp;\qquad 0\leq \lambda_i \leq C,\quad i=1,\ldots, n \\
+&amp;\qquad \sum_{i=1}^n \lambda_i y_i = 0.
+\end{align*}\]</span>
+Argue that
+<span class="math display">\[\begin{align*}
+\lambda_i = 0 &amp; \Rightarrow y_i( \beta^T x_i + \beta_0) \geq 1 \\
+\lambda_i = C &amp; \Rightarrow y_i( \beta^T x_i + \beta_0) \leq 1 \\
+0 &lt; \lambda_i &lt; C &amp; \Rightarrow y_i( \beta^T x_i + \beta_0) = 1.
+\end{align*}\]</span>
+</div>
+<div id="solution-3" class="section level3">
+<h3>Solution:</h3>
+<p>The KKT conditions say that we need to satisfy <span class="math inline">\(\frac{\partial L}{\partial \beta_0} = 0\)</span>. This implies <span class="math display">\[
+- \sum_{i=1}^n \lambda_i y_i \beta_0 = 0
+\]</span> which is satisfied if <span class="math inline">\(\sum_{i=1}^n \lambda_iy_i=0\)</span>.</p>
+<p>We also need <span class="math inline">\(\nabla_\beta L = 0\)</span>. Doing the derivative, this condition is <span class="math display">\[
+\beta -\sum_{i=1}^n\lambda_i y_i x_i = 0
+\]</span> or, equivalently, <span class="math inline">\(\beta =\sum_{i=1}^n\lambda_i y_i x_i\)</span>.</p>
+<p>We also need <span class="math inline">\(\nabla_\xi L =0\)</span> which holds when <span class="math display">\[
+C1 - \lambda - \mu = 0,
+\]</span> where <span class="math inline">\(1\)</span> is the vector of 1s. This implies <span class="math inline">\(\mu_i = C - \lambda_i\)</span>. Combining this with the condition that <span class="math inline">\(\mu_i \geq 0\)</span> and <span class="math inline">\(\lambda_i \geq 0\)</span>, it follows that <span class="math inline">\(0 \leq \lambda_i \leq C\)</span>.</p>
+Substituting all of this into the Lagrangian we get
+<span class="math display">\[\begin{align*}
+L &amp;= \frac{1}{2} \left(\sum_{i=1}^n\lambda_i y_i x_i\right)^T\left(\sum_{j=1}^n\lambda_j y_j x_j\right)
++ C\sum_{i=1}^n \xi_i - \sum_{i=1}^n\lambda_i\left[y_i(x_i^T\left(\sum_{j=1}^n\lambda_j y_j x_j\right) 
++ \beta_0)-1 + \xi_i\right] - \sum_{i=1}^n (C-\lambda_i) \xi_i \\
+&amp;=\frac{1}{2}\sum_{i=1}^n \sum_{j=1}^n\lambda_i\lambda_j y_iy_j x_i^Tx_j + C \sum_{i=1}^n \xi_i - 
+\sum_{i=1}^n\sum_{j=1}^n \lambda_i\lambda_jy_iy_j x_i^Tx_j - \beta_0\sum_{i=1}^n \lambda_i y_i +  
+\sum_{i=1}^n\lambda_i - \sum_{i=1}^n\lambda_i\xi_i - C\sum_{i=1}^n \xi_i + \sum_{i=1}^n \lambda_i\xi_i \\
+&amp;=\sum_{i=1}^n \lambda_i - \frac{1}{2}\sum_{i=1}^n \sum_{j=1}^n\lambda_i\lambda_j y_iy_j x_i^Tx_j .
+\end{align*}\]</span>
+By strong duality, we want to find the <span class="math inline">\(\lambda\)</span> that maximizes this Lagrangian under the constraints, which gives
+<span class="math display">\[\begin{align*}
+&amp;\max_\lambda \sum_{i=1}^n\lambda_i - \frac{1}{2}\sum_{i=1}^n \sum_{j=1}^n y_iy_j\lambda_i\lambda_j x_i^Tx_j\\
+&amp;\text{Subject to:}\\
+&amp;\qquad 0\leq \lambda_i \leq C,\quad i=1,\ldots, n \\
+&amp;\qquad \sum_{i=1}^n \lambda_i y_i = 0.
+\end{align*}\]</span>
+<p>Finally, by complementatry slackness we know that <span class="math inline">\(\lambda_i[y_i(\beta_0 + \beta^Tx_i ) - 1 + \xi_i] = 0\)</span> and <span class="math inline">\(\xi_i(C-\lambda_i)=0\)</span>. When <span class="math inline">\(\lambda_i=0\)</span>, that means that <span class="math inline">\(C \xi_i=0\)</span> which implies <span class="math inline">\(\xi_i=0\)</span>, which means that the observation is on the correct side of the margin. When <span class="math inline">\(\lambda_i=C\)</span>, that means that <span class="math inline">\(\xi_i\geq 0\)</span> and hence, we are on teh wrong side of the margin. If <span class="math inline">\(0&lt;\lambda &lt; C\)</span>, the second complementary slackness condition gives <span class="math inline">\(\xi=0\)</span>, while the first gives <span class="math inline">\([y_i(\beta_0 + \beta^Tx_i ) = 1\)</span>.</p>
+</div>
+</div>
+<div id="linear-basis-function-models" class="section level2">
+<h2>Linear Basis Function Models</h2>
+<p><em>Again with thanks to Alex Stringer</em></p>
+<div class="figure">
+<img src="figures/LBFM.jpg" />
+
+</div>
+<div class="figure">
+<img src="figures/LBFM2.jpg" />
+
+</div>
+<div class="figure">
+<img src="figures/LBFM3.jpg" />
+
+</div>
+<div class="figure">
+<img src="figures/LBFM4.jpg" />
+
+</div>
+</div>
 </div>
 
 
