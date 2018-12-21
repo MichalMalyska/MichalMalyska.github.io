@@ -12,20 +12,22 @@
 <meta name="author" content="Michal Malyska" />
 
 
-<title>STA303</title>
+<title>STA303 Materials</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
-<link href="site_libs/font-awesome-5.0.13/css/fa-svg-with-js.css" rel="stylesheet" />
-<script src="site_libs/font-awesome-5.0.13/js/fontawesome-all.min.js"></script>
-<script src="site_libs/font-awesome-5.0.13/js/fa-v4-shims.min.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -100,40 +102,79 @@ img {
 button.code-folding-btn:focus {
   outline: none;
 }
+summary {
+  display: list-item;
+}
 </style>
 
 
 <style type="text/css">
 /* padding for bootstrap navbar */
 body {
-  padding-top: 51px;
+  padding-top: 60px;
   padding-bottom: 40px;
 }
 /* offset scroll position for anchor links (for fixed navbar)  */
 .section h1 {
-  padding-top: 56px;
-  margin-top: -56px;
+  padding-top: 65px;
+  margin-top: -65px;
 }
-
 .section h2 {
-  padding-top: 56px;
-  margin-top: -56px;
+  padding-top: 65px;
+  margin-top: -65px;
 }
 .section h3 {
-  padding-top: 56px;
-  margin-top: -56px;
+  padding-top: 65px;
+  margin-top: -65px;
 }
 .section h4 {
-  padding-top: 56px;
-  margin-top: -56px;
+  padding-top: 65px;
+  margin-top: -65px;
 }
 .section h5 {
-  padding-top: 56px;
-  margin-top: -56px;
+  padding-top: 65px;
+  margin-top: -65px;
 }
 .section h6 {
-  padding-top: 56px;
-  margin-top: -56px;
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
 }
 </style>
 
@@ -155,19 +196,173 @@ $(document).ready(function () {
 });
 </script>
 
-
 <div class="container-fluid main-container">
 
 <!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
 <script>
 $(document).ready(function () {
   window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
 });
 </script>
 
 <!-- code folding -->
 
 
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -291,18 +486,72 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">STA303</h1>
+<h1 class="title toc-ignore">STA303 Materials</h1>
 <h4 class="author"><em>Michal Malyska</em></h4>
 
 </div>
 
 
-<div id="course-begins-in-january-2019" class="section level1">
-<h1>Course Begins in January 2019!</h1>
+<div id="resources" class="section level1">
+<h1>Resources:</h1>
+<p>There is a number of resources available for you to learn and master the tidyverse package, which is what you will be using if you ever work with R. It’s technically not required for the course but it will make your life a lot easier.</p>
+<p><a href="http://r4ds.had.co.nz/">Learn R with tidyverse</a> - this on it’s own should give you good enough background to handle most of the coding</p>
+<p><a href="https://adv-r.hadley.nz/">Advanced R with tidyverse</a> - most likely far beyond the scope of what’s needed for the course</p>
+<p><a href="https://www.rstudio.com/resources/cheatsheets/">Cheatsheets</a> - very useful set of cheatsheets</p>
+<p>Some other packages you should consider looking into that will come handy during the class:</p>
+<p>“car” - it is “the package” for regression models, which are the main topic of this course.</p>
+<p>“summarytools” - contains function “dfSummary” which is the fastest way to get meaningful first glance at the data. It’s a good compromise between the ease of using “summary” or “glance”, and providing as much information as possible.</p>
+<p>“forcats” - package for working with factors in r, part of the tidyverse family but not included in the tidyverse itself.</p>
+</div>
+<div id="week-0" class="section level1">
+<h1>Week 0</h1>
+<pre class="r"><code>library(gridExtra)
+library(MASS)
+library(ISLR)
+library(car)
+library(modelr)
+library(gapminder)
+library(broom)
+library(e1071)
+library(summarytools)
+library(tidyverse)
+set.seed(217828)</code></pre>
+<p>Just to cover all bases below I will show you the simple workflow that I follow when working with a new dataset, like you will be doing multiple times throughout the course:</p>
+<div id="rstudio-setup-and-settings" class="section level2">
+<h2>RStudio Setup and settings</h2>
+<p>If this is your first time using RStudio, you should adjust your settings:</p>
+<ul>
+<li><p>Navigate to Tools -&gt; Global Options</p></li>
+<li><p>Change “Save workspace to .RData on exit” to Never - TODO: describe what it does</p></li>
+<li><p>Uncheck “Restore .RData into workspace at startup”</p></li>
+</ul>
+<p>This is what mine look like:</p>
+<div class="figure">
+<img src="figures/RStudio%20Setup.png" />
+
+</div>
+<p>Now, every time you want to start working on something, you should begin by creating an Rproject. This helps you keep track of the files, sets your working directory so that data loading is easier, and TODO: <add more stuff></p>
+<p>Now that we have all that out of the way let’s start with what to do once you have RStudio open and ready to work.</p>
+</div>
+<div id="file-setup" class="section level2">
+<h2>File Setup</h2>
+<p>Since you will need to create pdfs from your code with figures and equations you will be using the knitr package and will be working in .Rmd files. This is the most common way to write anything in R that isn’t pure code. Make sure you have some distribution of LaTeX downloaded as it is necessary to create the pdfs. I recommend MikTeX, but it shouldn’t matter which one you have in this course.</p>
+<p>When you create a new .Rmd file you will notice that at the top it will have a header containing the file title, your name and date. If you want to add a table of contents (which is created from headers) just change the output line to look like this:</p>
+<div class="figure">
+<img src="figures/Table%20of%20contents%20output.png" />
+
+</div>
+</div>
+<div id="loading-data" class="section level2">
+<h2>Loading Data</h2>
+<p>First let’s see how we would load data from a downloaded “.csv” file:</p>
+</div>
 </div>
 
 
 
+</div>
+</div>
 
 </div>
 
