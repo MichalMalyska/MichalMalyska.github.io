@@ -1,0 +1,20 @@
+---
+title: "About the Author" 
+output: 
+  html_document: 
+    theme: flatly 
+---
+
+I'm currently a 4th year undergraduate student at the University of Toronto.
+My - soon to be completed - B.Sc is a specialist degree in statistics
+(for other universities this would qualify as a double major in applied
+statistics and theoretical statistics)
+
+In the past I've worked at Intact Financial on the Belairdirect team,
+and at Deloitte Canada on the Actuarial, Rewards & Analytics team, focusing
+on analytics and predictive modelling.
+
+Throughout my degree, I've focused on taking as many stats and math
+courses that pertained to modelling, machine learning and statstical
+analysis as I could.
+
