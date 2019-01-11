@@ -492,8 +492,30 @@ div.tocify {
 </div>
 
 
-<div id="resources" class="section level1">
-<h1>Resources:</h1>
+<div id="week-0" class="section level1">
+<h1>Week 0</h1>
+<div id="resources" class="section level2">
+<h2>Resources:</h2>
+<p>In case you have never worked with R up until this point, below is a guide to setting everything up. If you are ready, just use the navbar on the left to skip this.</p>
+</div>
+<div id="downloading-r-and-rstudio." class="section level2">
+<h2>Downloading R and Rstudio.</h2>
+<ol style="list-style-type: decimal">
+<li><p>Go to the UofT CRAN <a href="http://cran.utstat.utoronto.ca/">website</a> and download and install R for your Operating System.</p></li>
+<li><p>Go to the Rstudio <a href="https://www.rstudio.com/products/rstudio/download/#download">website</a> and download and install it.</p></li>
+</ol>
+</div>
+<div id="downloading-important-packages" class="section level2">
+<h2>Downloading important packages</h2>
+<p>Open Rstudio, and navigate to the console. Then run the following commands to get the packages I highly recommend you get:</p>
+<p>install.packages(c(“gridExtra”,“MASS”,“ISLR”,“car”,“modelr”,“gapminder”,“broom”,“e1071”,“summarytools”,“tidyverse”)) You will need to replace the quotation marks if you copypaste this.</p>
+<p>This will install all the packages we should need for the class. Whenever you want to add a package you can either call the command:</p>
+<p>install.packages(&lt;quoted package name&gt;)</p>
+<p>or navigate to the Files and plots pane in Rstudio, click on packages, then install, and type in the name.</p>
+<p>Note that you only need to do this once, and the packages will remain for any R script you are writing.</p>
+</div>
+<div id="learning" class="section level2">
+<h2>Learning</h2>
 <p>There is a number of resources available for you to learn and master the tidyverse package, which is what you will be using if you ever work with R. It’s technically not required for the course but it will make your life a lot easier.</p>
 <p><a href="http://r4ds.had.co.nz/">Learn R with tidyverse</a> - this on it’s own should give you good enough background to handle most of the coding you will ever do in R, both in class, and in a professional setting.</p>
 <p><a href="https://adv-r.hadley.nz/">Advanced R with tidyverse</a> - most likely far beyond the scope of what’s needed for the course, but a great resource if you want to get involved with R.</p>
@@ -502,22 +524,8 @@ div.tocify {
 <p>“car” - it is “the package” for regression models, which are the main topic of this course.</p>
 <p>“summarytools” - contains function “dfSummary” which is the fastest way to get meaningful first glance at the data. It’s a good compromise between the ease of using “summary” or “glance”, and providing as much information as possible.</p>
 <p>“forcats” - package for working with factors in r, part of the tidyverse family but not included in the tidyverse itself.</p>
-</div>
-<div id="week-0" class="section level1">
-<h1>Week 0</h1>
-<pre class="r"><code>library(gridExtra)
-library(MASS)
-library(ISLR)
-library(car)
-library(modelr)
-library(gapminder)
-library(broom)
-library(e1071)
-library(summarytools)
-library(tidyverse)
-
-set.seed(217828)</code></pre>
 <p>Just to cover all bases below I will show you the simple workflow that I follow when working with a new dataset, like you will be doing multiple times throughout the course:</p>
+</div>
 <div id="rstudio-setup-and-settings" class="section level2">
 <h2>RStudio Setup and settings</h2>
 <p>If this is your first time using RStudio, you should adjust your settings:</p>
@@ -542,6 +550,22 @@ set.seed(217828)</code></pre>
 <img src="figures/Table%20of%20contents%20output.png" />
 
 </div>
+</div>
+<div id="packages" class="section level2">
+<h2>Packages</h2>
+<p>At the start of each file you should also load ALL the packages you will be using. Please don’t scatter library calls throughout your file.</p>
+<pre class="r"><code>library(gridExtra)
+library(MASS)
+library(ISLR)
+library(car)
+library(modelr)
+library(gapminder)
+library(broom)
+library(e1071)
+library(summarytools)
+library(tidyverse)
+
+set.seed(217828)</code></pre>
 </div>
 <div id="loading-data" class="section level2">
 <h2>Loading Data</h2>
