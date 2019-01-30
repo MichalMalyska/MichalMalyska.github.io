@@ -21,6 +21,10 @@ navbar:
     - text: Course Work
       icon: fa-book
       menu:
+      - text: Coursework Summary
+        icon: fa-book
+        href: Coursework_Summary.html
+      
       - text: STA410 - Computational Statistics - Assignment 1
         icon: fa-code
         href: STA410_A1.html

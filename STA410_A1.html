@@ -323,6 +323,13 @@ $(document).ready(function () {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="Coursework_Summary.html">
+        <span class="fa fa-book"></span>
+         
+        Coursework Summary
+      </a>
+    </li>
+    <li>
       <a href="STA410_A1.html">
         <span class="fa fa-code"></span>
          
@@ -415,8 +422,7 @@ boats &lt;- matrix(scan(&quot;./STA410_A1_source/boats.txt&quot;), ncol = 256, b
 </div>
 <div id="question-1" class="section level1">
 <h1>Question 1</h1>
-<div id="a-we-have" class="section level2">
-<h2>a) We have:</h2>
+<p>##a) We have:</p>
 <p><span class="math display">\[ \hat{Z} = H_mZH_n \]</span></p>
 <p>And we know that:</p>
 <p><span class="math display">\[ H_mH_m^T = mI_m \]</span></p>
@@ -426,7 +432,6 @@ boats &lt;- matrix(scan(&quot;./STA410_A1_source/boats.txt&quot;), ncol = 256, b
 <p><span class="math display">\[ Z = \frac{H_m\hat{Z}H_n}{mn} \]</span></p>
 <p>It’s easy to see that:</p>
 <p><span class="math display">\[ H_m\hat{Z}H_n = H_mH_mZH_nH_n = mI_mZI_nn= mnZ \]</span> Then all that is left is dividing by mn and we are done.</p>
-</div>
 <div id="b" class="section level2">
 <h2>b)</h2>
 <pre class="r"><code>threshold &lt;- function(thresholding_type, data, threshold){
@@ -486,7 +491,7 @@ for (lambda in lambdas) {
 </div>
 <div id="question-2" class="section level1">
 <h1>Question 2</h1>
-<div id="a-we-have-1" class="section level2">
+<div id="a-we-have" class="section level2">
 <h2>a) We have:</h2>
 <p><span class="math display">\[ X_{i} \sim F \]</span> <span class="math display">\[ N \sim poiss(\lambda) \]</span> <span class="math display">\[ Y = \sum_{i=1}^{N}{X_{i}} ~~ \text{and } ~ N=0 \implies Y=0 \]</span></p>
 <p>and <span class="math inline">\(N\)</span> and <span class="math inline">\(X_i\)</span> are independent.</p>
