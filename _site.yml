@@ -28,6 +28,22 @@ navbar:
       - text: STA410 - Computational Statistics - Assignment 1
         icon: fa-code
         href: STA410_A1.html
+        
+      - text: STA410 - Computational Statistics - Assignment 2
+        icon: fa-code
+        href: STA410_A2.html
+        
+      - text: STA410 - Computational Statistics - Assignment 3
+        icon: fa-code
+        href: STA410_A3.html
+        
+      - text: STA410 - Computational Statistics - Assignment 4
+        icon: fa-code
+        href: STA410_A4.html
+        
+      - text: STA447 - Stochastic Processes - Assignment 2
+        icon: fa-code
+        href: STA447_A2.html        
       
       - text: STA490 - Stats Consulting and Collaboration
         icon: fa-code
