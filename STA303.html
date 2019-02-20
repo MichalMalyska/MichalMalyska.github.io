@@ -12,7 +12,7 @@
 <meta name="author" content="Michal Malyska" />
 
 
-<title>STA303 Materials</title>
+<title>STA303 Additional Materials</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -521,7 +521,7 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">STA303 Materials</h1>
+<h1 class="title toc-ignore">STA303 Additional Materials</h1>
 <h4 class="author"><em>Michal Malyska</em></h4>
 
 </div>
@@ -529,6 +529,7 @@ div.tocify {
 
 <div id="introduction" class="section level1">
 <h1>Introduction</h1>
+<p>In my free time I will be writing some guides on things I struggled with in the course, or things that come to mind as what I wish I knew coming into the course. It is by no means necessary to ready any of the things on here to succeed in the course, however I hope tips and readings I post here could help speed up your work and provide additional understanding of the material, beyond what you learn in the classroom.</p>
 <div id="resources" class="section level2">
 <h2>Resources:</h2>
 <p>In case you have never worked with R up until this point, below is a guide to setting everything up. If you are ready, just use the navbar on the left to skip this.</p>
@@ -944,7 +945,7 @@ ggplot(data = new_pvals) +
     aes(y = p_values) +
     aes(x = ID) +
     aes(col = reject) +
-    geom_jitter(width = 0.1, height = 0, size = 1) +
+    geom_point(size = 1) +
     scale_color_manual(name = &quot;&quot;, values = c(&quot;green&quot;, &quot;red&quot;),
                        labels = c(&quot;Don&#39;t reject&quot;, &quot;Reject&quot;)) +
     labs(title = &quot;P-values of Shapiro-Wilk test for normal simulation&quot;,
