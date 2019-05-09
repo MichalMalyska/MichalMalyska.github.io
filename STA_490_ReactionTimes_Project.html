@@ -72,9 +72,7 @@ h6 {
 </style>
 
 
-</head>
 
-<body>
 
 <style type = "text/css">
 .main-container {
@@ -193,8 +191,6 @@ $(document).ready(function () {
 });
 </script>
 
-<div class="container-fluid main-container">
-
 <!-- tabsets -->
 
 <style type="text/css">
@@ -268,6 +264,15 @@ $(document).ready(function () {
 
 
 
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
 
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
   <div class="container">
@@ -298,10 +303,10 @@ $(document).ready(function () {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="STA303.html">
+      <a href="STA220.html">
         <span class="fa fa-book"></span>
          
-        STA303 - Methods of Data Analysis II
+        STA220 - The Practice of Statistics I
       </a>
     </li>
     <li>
@@ -424,7 +429,7 @@ $(document).ready(function () {
 
 
 <h1 class="title toc-ignore">Reaction Time project EDA</h1>
-<h4 class="author"><em>Michal Malyska</em></h4>
+<h4 class="author">Michal Malyska</h4>
 
 </div>
 
@@ -488,6 +493,15 @@ df %&gt;% select(-ID) %&gt;% summarize_if(is.numeric,.funs = c(&quot;mean&quot;,
 ## reaction_var      0.009209944</code></pre>
 <pre class="r"><code># Check for missing values in columns:
 df %&gt;% summarise_all(funs(sum(is.na(.)))) %&gt;% t()</code></pre>
+<pre><code>## Warning: funs() is soft deprecated as of dplyr 0.8.0
+## please use list() instead
+## 
+## # Before:
+## funs(name = f(.)
+## 
+## # After: 
+## list(name = ~f(.))
+## This warning is displayed once per session.</code></pre>
 <pre><code>##             [,1]
 ## ID             0
 ## measurement    0
@@ -502,82 +516,82 @@ df %&gt;% summarise_all(funs(sum(is.na(.)))) %&gt;% t()</code></pre>
 ## reaction       0</code></pre>
 <pre class="r"><code># Print a text summary of the data
 df %&gt;% dfSummary()</code></pre>
-<pre><code>## Data Frame Summary     
-## N: 302   
-## ---------------------------------------------------------------------------------------------------------------------
-## No   Variable       Stats / Values               Freqs (% of Valid)    Text Graph               Valid      Missing   
-## ---- -------------- ---------------------------- --------------------- ------------------------ ---------- ----------
-## 1    ID             mean (sd) : 19.96 (11.38)    39 distinct values    : : . : : . :            302        0         
-##      [numeric]      min &lt; med &lt; max :                                  : : : : : : : :          (100%)     (0%)      
-##                     1 &lt; 20 &lt; 39                                        : : : : : : : :                               
-##                     IQR (CV) : 20 (0.57)                               : : : : : : : :                               
-##                                                                        : : : : : : : :                               
+<pre><code>## Data Frame Summary  
+## df  
+## Dimensions: 302 x 11  
+## Duplicates: 0  
 ## 
-## 2    measurement    mean (sd) : 4.46 (2.3)       1 : 39 (12.9%)        IIIIIIIIIIIIIIII         302        0         
-##      [numeric]      min &lt; med &lt; max :            2 : 39 (12.9%)        IIIIIIIIIIIIIIII         (100%)     (0%)      
-##                     1 &lt; 4 &lt; 8                    3 : 38 (12.6%)        IIIIIIIIIIIIIII                               
-##                     IQR (CV) : 4 (0.52)          4 : 36 (11.9%)        IIIIIIIIIIIIII                                
-##                                                  5 : 38 (12.6%)        IIIIIIIIIIIIIII                               
-##                                                  6 : 38 (12.6%)        IIIIIIIIIIIIIII                               
-##                                                  7 : 37 (12.2%)        IIIIIIIIIIIIIII                               
-##                                                  8 : 37 (12.2%)        IIIIIIIIIIIIIII                               
+## ------------------------------------------------------------------------------------------------------------------
+## No   Variable       Stats / Values            Freqs (% of Valid)    Graph                    Valid      Missing   
+## ---- -------------- ------------------------- --------------------- ------------------------ ---------- ----------
+## 1    ID             Mean (sd) : 20 (11.4)     39 distinct values    : : . : : . :            302        0         
+##      [numeric]      min &lt; med &lt; max:                                : : : : : : : :          (100%)     (0%)      
+##                     1 &lt; 20 &lt; 39                                     : : : : : : : :                               
+##                     IQR (CV) : 20 (0.6)                             : : : : : : : :                               
+##                                                                     : : : : : : : :                               
 ## 
-## 3    daytype        mean (sd) : 0.51 (0.5)       0 : 149 (49.3%)       IIIIIIIIIIIIIII          302        0         
-##      [numeric]      min &lt; med &lt; max :            1 : 153 (50.7%)       IIIIIIIIIIIIIIII         (100%)     (0%)      
-##                     0 &lt; 1 &lt; 1                                                                                        
-##                     IQR (CV) : 1 (0.99)                                                                              
+## 2    measurement    Mean (sd) : 4.5 (2.3)     1 : 39 (12.9%)        II                       302        0         
+##      [numeric]      min &lt; med &lt; max:          2 : 39 (12.9%)        II                       (100%)     (0%)      
+##                     1 &lt; 4 &lt; 8                 3 : 38 (12.6%)        II                                            
+##                     IQR (CV) : 4 (0.5)        4 : 36 (11.9%)        II                                            
+##                                               5 : 38 (12.6%)        II                                            
+##                                               6 : 38 (12.6%)        II                                            
+##                                               7 : 37 (12.2%)        II                                            
+##                                               8 : 37 (12.2%)        II                                            
 ## 
-## 4    stimulant      mean (sd) : 0.12 (0.33)      0 : 251 (87.8%)       IIIIIIIIIIIIIIII         286        16        
-##      [numeric]      min &lt; med &lt; max :            1 :  35 (12.2%)       II                       (94.7%)    (5.3%)    
-##                     0 &lt; 0 &lt; 1                                                                                        
-##                     IQR (CV) : 0 (2.68)                                                                              
+## 3    daytype        Min  : 0                  0 : 149 (49.3%)       IIIIIIIII                302        0         
+##      [numeric]      Mean : 0.5                1 : 153 (50.7%)       IIIIIIIIII               (100%)     (0%)      
+##                     Max  : 1                                                                                      
 ## 
-## 5    hunger         mean (sd) : 4.74 (1.44)      1 :  7 ( 2.4%)        I                        294        8         
-##      [numeric]      min &lt; med &lt; max :            2 :  2 ( 0.7%)                                 (97.35%)   (2.65%)   
-##                     1 &lt; 5 &lt; 9                    3 : 42 (14.3%)        IIIIIIII                                      
-##                     IQR (CV) : 2 (0.3)           4 : 83 (28.2%)        IIIIIIIIIIIIIIII                              
-##                                                  5 : 76 (25.9%)        IIIIIIIIIIIIII                                
-##                                                  6 : 54 (18.4%)        IIIIIIIIII                                    
-##                                                  7 : 22 ( 7.5%)        IIII                                          
-##                                                  8 :  4 ( 1.4%)                                                      
-##                                                  9 :  4 ( 1.4%)                                                      
+## 4    stimulant      Min  : 0                  0 : 251 (87.8%)       IIIIIIIIIIIIIIIII        286        16        
+##      [numeric]      Mean : 0.1                1 :  35 (12.2%)       II                       (94.7%)    (5.3%)    
+##                     Max  : 1                                                                                      
 ## 
-## 6    fatigue        mean (sd) : 3.63 (1.43)      1 : 20 ( 6.8%)        III                      294        8         
-##      [numeric]      min &lt; med &lt; max :            2 : 43 (14.6%)        IIIIIIII                 (97.35%)   (2.65%)   
-##                     1 &lt; 3.5 &lt; 7                  3 : 84 (28.6%)        IIIIIIIIIIIIIIII                              
-##                     IQR (CV) : 2 (0.39)          4 : 61 (20.8%)        IIIIIIIIIII                                   
-##                                                  5 : 57 (19.4%)        IIIIIIIIII                                    
-##                                                  6 : 23 ( 7.8%)        IIII                                          
-##                                                  7 :  6 ( 2.0%)        I                                             
+## 5    hunger         Mean (sd) : 4.7 (1.4)     1 :  7 ( 2.4%)                                 294        8         
+##      [numeric]      min &lt; med &lt; max:          2 :  2 ( 0.7%)                                 (97.35%)   (2.65%)   
+##                     1 &lt; 5 &lt; 9                 3 : 42 (14.3%)        II                                            
+##                     IQR (CV) : 2 (0.3)        4 : 83 (28.2%)        IIIII                                         
+##                                               5 : 76 (25.9%)        IIIII                                         
+##                                               6 : 54 (18.4%)        III                                           
+##                                               7 : 22 ( 7.5%)        I                                             
+##                                               8 :  4 ( 1.4%)                                                      
+##                                               9 :  4 ( 1.4%)                                                      
 ## 
-## 7    time           1. Morning                   77 (25.5%)            IIIIIIIIIIIIIIII         302        0         
-##      [factor]       2. Early Afternoon           77 (25.5%)            IIIIIIIIIIIIIIII         (100%)     (0%)      
-##                     3. Late Afternoon            75 (24.8%)            IIIIIIIIIIIIIII                               
-##                     4. Night                     73 (24.2%)            IIIIIIIIIIIIIII                               
+## 6    fatigue        Mean (sd) : 3.6 (1.4)     1 : 20 ( 6.8%)        I                        294        8         
+##      [numeric]      min &lt; med &lt; max:          2 : 43 (14.6%)        II                       (97.35%)   (2.65%)   
+##                     1 &lt; 3.5 &lt; 7               3 : 84 (28.6%)        IIIII                                         
+##                     IQR (CV) : 2 (0.4)        4 : 61 (20.8%)        IIII                                          
+##                                               5 : 57 (19.4%)        III                                           
+##                                               6 : 23 ( 7.8%)        I                                             
+##                                               7 :  6 ( 2.0%)                                                      
 ## 
-## 8    meq            mean (sd) : 45.18 (9.39)     22 distinct values              :              294        8         
-##      [numeric]      min &lt; med &lt; max :                                            :              (97.35%)   (2.65%)   
-##                     23 &lt; 46 &lt; 64                                             :   :                                   
-##                     IQR (CV) : 13 (0.21)                                   : : . : . .                               
-##                                                                        .   : : : : : : :                             
+## 7    time           1. Morning                77 (25.5%)            IIIII                    302        0         
+##      [factor]       2. Early Afternoon        77 (25.5%)            IIIII                    (100%)     (0%)      
+##                     3. Late Afternoon         75 (24.8%)            IIII                                          
+##                     4. Night                  73 (24.2%)            IIII                                          
 ## 
-## 9    sleep          mean (sd) : 7.89 (1.45)      19 distinct values          :                  264        38        
-##      [numeric]      min &lt; med &lt; max :                                        :                  (87.42%)   (12.58%)  
-##                     4 &lt; 8 &lt; 12                                               :                                       
-##                     IQR (CV) : 1.5 (0.18)                                  . : : .                                   
-##                                                                        . : : : : :   .                               
+## 8    meq            Mean (sd) : 45.2 (9.4)    22 distinct values              :              294        8         
+##      [numeric]      min &lt; med &lt; max:                                          :              (97.35%)   (2.65%)   
+##                     23 &lt; 46 &lt; 64                                          :   :                                   
+##                     IQR (CV) : 13 (0.2)                                 : : . : . .                               
+##                                                                     .   : : : : : : :                             
 ## 
-## 10   shame          mean (sd) : 0.08 (0.27)      0 : 278 (92.0%)       IIIIIIIIIIIIIIII         302        0         
-##      [numeric]      min &lt; med &lt; max :            1 :  24 ( 8.0%)       I                        (100%)     (0%)      
-##                     0 &lt; 0 &lt; 1                                                                                        
-##                     IQR (CV) : 0 (3.41)                                                                              
+## 9    sleep          Mean (sd) : 7.9 (1.4)     19 distinct values          :                  264        38        
+##      [numeric]      min &lt; med &lt; max:                                      :                  (87.42%)   (12.58%)  
+##                     4 &lt; 8 &lt; 12                                            :                                       
+##                     IQR (CV) : 1.5 (0.2)                                . : : .                                   
+##                                                                     . : : : : :   .                               
 ## 
-## 11   reaction       mean (sd) : 0.4 (0.1)        182 distinct values         :                  302        0         
-##      [numeric]      min &lt; med &lt; max :                                        :                  (100%)     (0%)      
-##                     0.1 &lt; 0.38 &lt; 0.85                                        : :                                     
-##                     IQR (CV) : 0.09 (0.24)                                   : :                                     
-##                                                                            . : : .                                   
-## ---------------------------------------------------------------------------------------------------------------------</code></pre>
+## 10   shame          Min  : 0                  0 : 278 (92.0%)       IIIIIIIIIIIIIIIIII       302        0         
+##      [numeric]      Mean : 0.1                1 :  24 ( 8.0%)       I                        (100%)     (0%)      
+##                     Max  : 1                                                                                      
+## 
+## 11   reaction       Mean (sd) : 0.4 (0.1)     182 distinct values         :                  302        0         
+##      [numeric]      min &lt; med &lt; max:                                      :                  (100%)     (0%)      
+##                     0.1 &lt; 0.4 &lt; 0.8                                       : :                                     
+##                     IQR (CV) : 0.1 (0.2)                                  : :                                     
+##                                                                         . : : .                                   
+## ------------------------------------------------------------------------------------------------------------------</code></pre>
 <pre class="r"><code># See the distribution of reaction times (box and whiskers plot)
 ggplot(data = df, aes(y = reaction)) +
     geom_boxplot() +
