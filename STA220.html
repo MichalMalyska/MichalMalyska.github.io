@@ -535,10 +535,10 @@ div.tocify {
 
 <div id="introduction" class="section level1">
 <h1>Introduction</h1>
-<p>In my free time I will be writing some guides on things I struggled with in the course, or things that come to mind as what I wish I knew coming into the course. It is by no means necessary to ready any of the things on here to succeed in the course, however I hope tips and readings I post here could help speed up your work and provide additional understanding of the material, beyond what you learn in the classroom.</p>
+<p>Since one of my goals is to teach this course next year, in my free time I will be writing up some materials that would serve as a guide. It is by no means necessary to ready any of the things on here to succeed in the course, however I hope tips and readings I post here could help speed up your work and provide additional understanding of the material, beyond what you learn in the classroom right now.</p>
 <div id="resources" class="section level2">
 <h2>Resources:</h2>
-<p>In case you have never worked with R up until this point, below is a guide to setting everything up. If you are ready, just use the navbar on the left to skip this.</p>
+<p>In case you have never worked with R up until this point, below is a guide to setting everything up. If you are ready, just use the navbar on the left to skip this and go to the first chapter - Visualizations. I would advise that you at least take a look at the packages I am using for this.</p>
 </div>
 <div id="downloading-r-and-rstudio." class="section level2">
 <h2>Downloading R and Rstudio.</h2>
@@ -550,23 +550,25 @@ div.tocify {
 <div id="downloading-important-packages" class="section level2">
 <h2>Downloading important packages</h2>
 <p>Open Rstudio, and navigate to the console. Then run the following commands to get the packages I highly recommend you get:</p>
-<p>install.packages(c(“gridExtra”,“MASS”,“ISLR”,“car”,“modelr”,“gapminder”,“broom”,“e1071”,“summarytools”,“tidyverse”)) You will need to replace the quotation marks if you copypaste this.</p>
-<p>This will install all the packages we should need for the class. Whenever you want to add a package you can either call the command:</p>
+<p>install.packages(c(‘gridExtra’,‘MASS’,‘ISLR’,‘car’,‘modelr’,‘gapminder’,‘broom’,‘e1071’,‘summarytools’,‘tidyverse’))</p>
+<p>You might need to replace the quotation marks if you copypaste this.</p>
+<p>This will install all the packages we should need for the class and beyond. Whenever you want to add a package you can either call the command:</p>
 <p>install.packages(&lt;quoted package name&gt;)</p>
 <p>or navigate to the Files and plots pane in Rstudio, click on packages, then install, and type in the name.</p>
-<p>Note that you only need to do this once, and the packages will remain for any R script you are writing.</p>
+<p><strong>Note that you only need to do this once, and the packages will remain for any R script you are writing.</strong></p>
 </div>
 <div id="learning" class="section level2">
 <h2>Learning</h2>
 <p>There is a number of resources available for you to learn and master the tidyverse package, which is what you will be using if you ever work with R. It’s technically not required for the course but it will make your life a lot easier.</p>
 <p><a href="http://r4ds.had.co.nz/">Learn R with tidyverse</a> - this on it’s own should give you good enough background to handle most of the coding you will ever do in R, both in class, and in a professional setting.</p>
-<p><a href="https://adv-r.hadley.nz/">Advanced R with tidyverse</a> - most likely far beyond the scope of what’s needed for the course, but a great resource if you want to get involved with R.</p>
+<p><a href="https://adv-r.hadley.nz/">Advanced R with tidyverse</a> - far beyond the scope of what’s needed for the course, but a great resource if you want to get involved with R.</p>
 <p><a href="https://www.rstudio.com/resources/cheatsheets/">Cheatsheets</a> - very useful set of cheatsheets that you should probably keep open whenever you are working with tidyverse. (Especially the visiualization one)</p>
+<p><a href="https://evamaerey.github.io/ggplot_flipbook/ggplot_flipbook_xaringan.html">GGPlot Flipbook</a> - The best resource to get familiar with the slightly unintuitive syntax of ggplot.</p>
 <p>Some other packages you should consider looking into, that will come handy during this class:</p>
-<p>“car” - it is “the package” for regression models, which are the main topic of this course.</p>
+<p>“car” - it is “the package” for regression models.</p>
 <p>“summarytools” - contains function “dfSummary” which is the fastest way to get meaningful first glance at the data. It’s a good compromise between the ease of using “summary” or “glance”, and providing as much information as possible.</p>
 <p>“forcats” - package for working with factors in r, part of the tidyverse family but not included in the tidyverse itself.</p>
-<p>Just to cover all bases below I will show you the simple workflow that I follow when working with a new dataset, like you will be doing multiple times throughout the course:</p>
+<p>Just to cover all bases below I will show you the simple workflow that I follow when working with a new dataset, like you will be doing during this class.</p>
 </div>
 <div id="rstudio-setup-and-settings" class="section level2">
 <h2>RStudio Setup and settings</h2>
@@ -578,14 +580,39 @@ div.tocify {
 </ul>
 <p>This is what mine look like:</p>
 <p><img src="figures/RStudio%20Setup.png" /></p>
-<p>Now, every time you want to start working on something, you should begin by creating an Rproject. This helps you keep track of the files, sets your working directory so that data loading is easier, and you should always do it.</p>
+<p>Now, every time you want to start working on something, you should begin by creating an <strong>Rproject</strong>. This helps you keep track of the files, sets your working directory so that data loading is easier, and you should do it almost <strong>always</strong>.</p>
 <p>Now that we have all that out of the way let’s start with what to do once you have RStudio open and ready to work.</p>
 </div>
 <div id="file-setup" class="section level2">
 <h2>File Setup</h2>
-<p>Since you will need to create pdfs from your code with figures and equations you will be using the knitr package and will be working in .Rmd files. This is the most common way to write anything in R that isn’t pure code. Make sure you have some distribution of LaTeX downloaded as it is necessary to create the pdfs. I recommend MikTeX, but it shouldn’t matter which one you have in this course.</p>
+<p>Since you will need to create pdfs from your code with figures and equations you will be using the knitr package and will be working in .Rmd files. This is the most common way to write anything in R that isn’t pure code. Make sure you have some distribution of LaTeX downloaded as it is necessary to create the pdfs. I recommend MikTeX, but it shouldn’t matter which one you have for this course.</p>
 <p>When you create a new .Rmd file you will notice that at the top it will have a header containing the file title, your name and date. If you want to add a table of contents (which is created from headers) just change the output line to look like this:</p>
 <p><img src="figures/Table%20of%20contents%20output.png" /></p>
+<p>To actually work with pdf creation you will need to download a LaTeX distribution. Navigate to this <a href="https://www.latex-project.org/get/#tex-distributions">link</a>, and download the appropriate one (MacTeX for Macs and MikTeX for Windows).</p>
+<p>After you are done restart your R.</p>
+</div>
+<div id="how-to-work-in-r-without-pain" class="section level2">
+<h2>How to work in R without pain</h2>
+<div id="projects" class="section level3">
+<h3>Projects</h3>
+<p>Each time you work on a new “thing” whether it be a course, or research, I recommend you set up a project. The way to do it is:</p>
+<ol style="list-style-type: decimal">
+<li><p>Open RStudio</p></li>
+<li><p>Look in the top right corner, you will see a project icon.</p></li>
+</ol>
+<p><img src="figures/RStudioProject.png" /></p>
+<ol start="3" style="list-style-type: decimal">
+<li>Click it and select New Project, then select New Directory</li>
+</ol>
+<p><img src="figures/RStudioProject2.png" /></p>
+<ol start="4" style="list-style-type: decimal">
+<li>Create your new folder (It creates a regular folder with a special file inside)</li>
+</ol>
+<p><img src="figures/RStudioProject3.png" /></p>
+<p>Now whenever you work in RStudio just open up the project and work there. It will automatically set your working directory to that folder, and open up all the files you had open previously. You can tell that the project is open by looking in the top right corner again. This website is written in an RProject I called “Files” so when I look in my top right corner I see this:</p>
+<p><img src="figures/RStudioProject4.png" /></p>
+<p>Once you are in a project you should work in RMarkdown files, and knit them to pdf. That way you get very crisp, clean project reports.</p>
+</div>
 </div>
 <div id="packages" class="section level2">
 <h2>Packages</h2>
@@ -601,7 +628,8 @@ library(e1071)
 library(summarytools)
 library(tidyverse)
 
-set.seed(217828)</code></pre>
+set.seed(217828) # This line makes the random generation for this file be the same
+# Every time it is run</code></pre>
 </div>
 <div id="loading-data" class="section level2">
 <h2>Loading Data</h2>
@@ -871,7 +899,7 @@ dfSummary(summary2)</code></pre>
 ##                        IQR (CV) : 210999.5 (0.8)                               : : :                                  
 ##                                                                                : : :   :                              
 ## ----------------------------------------------------------------------------------------------------------------------</code></pre>
-<p>Normally at this point I would be making some simple graphs and reporting back to the business what they wanted to know, or digging deeper for causes depeinding on the communicated need. If this was part of my own project I would try to investigate further why there are not that many large cars in our book and why are the “Premium” coverages not a big part of our business.</p>
+<p>Normally at this point I would be making some simple graphs and reporting back to the business what they wanted to know, or digging deeper for causes depending on the communicated need. If this was part of my own project I would try to investigate further why there are not that many large cars in our book and why are the “Premium” coverages not a big part of our business.</p>
 <p>To get started with the visualisation part, I will prepare some simple graphs from the newly obtained summary data. The main plotting function we will be using is ggplot2 (as opposed to built in functions), the syntax is not very intuitive at first, and there are some kinks you will have to figure out, but ultimately the combination of dplyr (tidyverse) data wrangling and analysis with ggplot2 makes for a very powerful and simple to use set of tools.</p>
 <pre class="r"><code>plot &lt;- ggplot(data = summary2, # Create a plot object, from summary2
                mapping = aes(x = `Vehicle Size`, # x axis is Vehicle Size
@@ -886,11 +914,113 @@ dfSummary(summary2)</code></pre>
 
 plot # Show the plot</code></pre>
 <p><img src="STA220_files/figure-html/basic%20graphs%20in%20ggplot2-1.png" width="672" /></p>
+<p>Is this a good plot? Why should I choose to omit the lines that have less than 100k in Total premium for this plot? Those are very good questions. Let’s dig a bit deeper into visualization of data, starting with <em>Why</em>?</p>
+</div>
+</div>
+<div id="visualization" class="section level1">
+<h1>Visualization</h1>
+<div id="the-why" class="section level2">
+<h2>The why</h2>
+<p>Let’s begin with a short exercise - I have loaded 12 new datasets into my memory. They are all simple and contain 142 observations each of 2 variables - x and y. I will begin by just looking at some data summaries that we typically look at in this class. Mean, standard deviation, and correlation of the two variables.</p>
+<pre class="r"><code>library(datasauRus)
+datasaurus_dozen %&gt;%
+    group_by(dataset) %&gt;%
+    summarize(
+        mean_x    = mean(x),
+        mean_y    = mean(y),
+        std_dev_x = sd(x),
+        std_dev_y = sd(y),
+        corr_x_y  = cor(x, y)
+    ) %&gt;%
+    mutate(ID = 1:13) %&gt;%
+    dplyr::select(-dataset)</code></pre>
+<pre><code>## # A tibble: 13 x 6
+##    mean_x mean_y std_dev_x std_dev_y corr_x_y    ID
+##     &lt;dbl&gt;  &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;int&gt;
+##  1   54.3   47.8      16.8      26.9  -0.0641     1
+##  2   54.3   47.8      16.8      26.9  -0.0686     2
+##  3   54.3   47.8      16.8      26.9  -0.0683     3
+##  4   54.3   47.8      16.8      26.9  -0.0645     4
+##  5   54.3   47.8      16.8      26.9  -0.0603     5
+##  6   54.3   47.8      16.8      26.9  -0.0617     6
+##  7   54.3   47.8      16.8      26.9  -0.0685     7
+##  8   54.3   47.8      16.8      26.9  -0.0690     8
+##  9   54.3   47.8      16.8      26.9  -0.0686     9
+## 10   54.3   47.8      16.8      26.9  -0.0630    10
+## 11   54.3   47.8      16.8      26.9  -0.0694    11
+## 12   54.3   47.8      16.8      26.9  -0.0666    12
+## 13   54.3   47.8      16.8      26.9  -0.0656    13</code></pre>
+<p>As we can see, the numerical summaries are all pretty much the same - so we would expect that whether we are fitting straight lines through the dataset (Linear Regression), or doing simple hypothesis testng, the results should be fairly similar. Let’s confirm that.</p>
+<p>Tidyverse allows us to do some beautiful tricks, like nesting the linear models in the tibble we are working with. If you want to know a bit more on how this is done take a look at the R for Data Science book online, chapter 25 : “Many Models”.</p>
+<pre class="r"><code># Create nested datasets
+by_dataset &lt;- datasaurus_dozen %&gt;%
+    group_by(dataset) %&gt;%
+    nest()
+
+# Write the simple linear regression function we care about.
+slr &lt;- function(df) {
+    lm(y ~ x, data = df)
+}
+
+# Use the function on all the nested datasets using the map function.
+by_dataset &lt;- by_dataset %&gt;%
+    mutate(model = map(data, slr))
+
+# Let&#39;s look at model coefficients (This is the intercept of the line and the slope)
+# y = Intercept + Slope * x
+for (model in by_dataset$model) {
+    print(model$coefficients)
+}</code></pre>
+<pre><code>## (Intercept)           x 
+##  53.4529784  -0.1035825 
+## (Intercept)           x 
+##  53.4251300  -0.1030184 
+## (Intercept)           x 
+## 53.21108724 -0.09916499 
+## (Intercept)           x 
+##  53.8908434  -0.1115508 
+## (Intercept)           x 
+##  53.5542263  -0.1053169 
+## (Intercept)           x 
+##   53.326679   -0.101113 
+## (Intercept)           x 
+##  53.8087932  -0.1100695 
+## (Intercept)           x 
+##  53.0983419  -0.0969127 
+## (Intercept)           x 
+##  53.7970450  -0.1098143 
+## (Intercept)           x 
+##  53.8094708  -0.1101675 
+## (Intercept)           x 
+##  53.8125956  -0.1102184 
+## (Intercept)           x 
+##  53.8497077  -0.1108172 
+## (Intercept)           x 
+##  53.6349489  -0.1069408</code></pre>
+<p>We can see that we fit pretty much the same line (y = 53.8 - 0.1x) for all the sets of data. Now let’s see what the datasets look like, with the fitted lines.</p>
+<pre class="r"><code>ggplot(datasaurus_dozen, aes(x = x, y = y, colour = dataset)) +
+    geom_point() +
+    theme_void() +
+    theme(legend.position = &quot;none&quot;) +
+    facet_wrap( ~ dataset, ncol = 4) +
+    geom_abline(slope = -0.1, intercept = 53.8, colour = &quot;red&quot;, size = 1)</code></pre>
+<p><img src="STA220_files/figure-html/What%20our%20data%20looks%20like-1.png" width="672" /></p>
+</div>
+<div id="the-how" class="section level2">
+<h2>The how</h2>
+<div id="categorical" class="section level3">
+<h3>Categorical</h3>
+</div>
+<div id="numerical" class="section level3">
+<h3>Numerical</h3>
+<p>To come for next tutorial</p>
+</div>
 </div>
 </div>
 <div id="assessing-normality" class="section level1">
 <h1>Assessing Normality</h1>
-<p>During office hours and while grading the assignments I noticed that most people struggle with something that used to be problematic for me as well - assessing normality from Normal QQ-plots. Understandably, It’s very difficult to quantify how much does a plot look like a “normal” Normal QQ-plot would, especially at smaller sample sizes. I want to show you two approaches that have helped me and that I usually resort to when looking for normality.</p>
+<p>Most people starting their journey in statistics<br />
+struggle with something that used to be problematic for me as well - assessing normality from Normal QQ-plots. Understandably, It’s very difficult to quantify how much does a plot look like a “normal” Normal QQ-plot would, especially at smaller sample sizes. I want to show you two approaches that have helped me, and that I usually resort to, when looking for normality.</p>
 <div id="shapiro-wilk-test" class="section level2">
 <h2>Shapiro Wilk test</h2>
 <div id="description-and-example" class="section level3">
