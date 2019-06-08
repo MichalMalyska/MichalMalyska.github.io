@@ -550,7 +550,7 @@ div.tocify {
 <div id="downloading-important-packages" class="section level2">
 <h2>Downloading important packages</h2>
 <p>Open Rstudio, and navigate to the console. Then run the following commands to get the packages I highly recommend you get:</p>
-<p>install.packages(c(‘gridExtra’,‘MASS’,‘ISLR’,‘car’,‘modelr’,‘gapminder’,‘broom’,‘e1071’,‘summarytools’,‘tidyverse’))</p>
+<p>install.packages(c(‘gridExtra’,‘summarytools’,‘tidyverse’,‘plotly’))</p>
 <p>You might need to replace the quotation marks if you copypaste this.</p>
 <p>This will install all the packages we should need for the class and beyond. Whenever you want to add a package you can either call the command:</p>
 <p>install.packages(&lt;quoted package name&gt;)</p>
@@ -618,18 +618,17 @@ div.tocify {
 <h2>Packages</h2>
 <p>At the start of each file you should also load ALL the packages you will be using. Please don’t scatter library calls throughout your file.</p>
 <pre class="r"><code>library(gridExtra)
-library(MASS)
-library(ISLR)
-library(car)
-library(modelr)
-library(gapminder)
-library(broom)
-library(e1071)
 library(summarytools)
 library(tidyverse)
+library(forcats)
+
 
 set.seed(217828) # This line makes the random generation for this file be the same
-# Every time it is run</code></pre>
+# Every time it is run
+
+
+library(plotly) # You don&#39;t need this
+library(gganimate) # Or this</code></pre>
 </div>
 <div id="loading-data" class="section level2">
 <h2>Loading Data</h2>
@@ -913,7 +912,7 @@ dfSummary(summary2)</code></pre>
          y = &quot;Total Premium($)&quot;) # Rename Y axis 
 
 plot # Show the plot</code></pre>
-<p><img src="STA220_files/figure-html/basic%20graphs%20in%20ggplot2-1.png" width="672" /></p>
+<p><img src="STA220_files/figure-html/basic%20graphs%20in%20ggplot2-1.png" width="576" /></p>
 <p>Is this a good plot? Why should I choose to omit the lines that have less than 100k in Total premium for this plot? Those are very good questions. Let’s dig a bit deeper into visualization of data, starting with <em>Why</em>?</p>
 </div>
 </div>
@@ -1004,17 +1003,12 @@ for (model in by_dataset$model) {
     theme(legend.position = &quot;none&quot;) +
     facet_wrap( ~ dataset, ncol = 4) +
     geom_abline(slope = -0.1, intercept = 53.8, colour = &quot;red&quot;, size = 1)</code></pre>
-<p><img src="STA220_files/figure-html/What%20our%20data%20looks%20like-1.png" width="672" /></p>
+<p><img src="STA220_files/figure-html/What%20our%20data%20looks%20like-1.png" width="576" /></p>
+<p>Clearly none of these datasets should have a linear model fit to them. And this is why you should always start with looking at your data before doing any analysis.</p>
 </div>
-<div id="the-how" class="section level2">
-<h2>The how</h2>
-<div id="categorical" class="section level3">
-<h3>Categorical</h3>
-</div>
-<div id="numerical" class="section level3">
-<h3>Numerical</h3>
-<p>To come for next tutorial</p>
-</div>
+<div id="what-makes-a-good-chart" class="section level2">
+<h2>What makes a good chart?</h2>
+<p>In the works</p>
 </div>
 </div>
 <div id="assessing-normality" class="section level1">
@@ -1063,7 +1057,7 @@ ggplot(data = p_vals) +
     geom_hline(yintercept = 0.05, lty = 2, col = &quot;red&quot;) +
     theme_bw(base_size = 12) +
     scale_y_continuous(limits = c(0,1))</code></pre>
-<p><img src="STA220_files/figure-html/Shapiro-Wilk%20Examples-1.png" width="672" /></p>
+<p><img src="STA220_files/figure-html/Shapiro-Wilk%20Examples-1.png" width="576" /></p>
 <p>We can see that it peforms quite well, in fact all the p-values for non-normal distributions are so close to 0, I had to add sideways jitter for you to be able to tell them apart.</p>
 </div>
 <div id="simulations" class="section level3">
@@ -1094,7 +1088,7 @@ ggplot(data = new_pvals) +
     geom_hline(yintercept = 0.05, lty = 2, col = &quot;red&quot;) +
     theme_bw(base_size = 12) +
     scale_y_continuous(limits = c(0,1))</code></pre>
-<p><img src="STA220_files/figure-html/Shapiro-Wilk%20for%20normals-1.png" width="672" /></p>
+<p><img src="STA220_files/figure-html/Shapiro-Wilk%20for%20normals-1.png" width="576" /></p>
 <pre class="r"><code>prop_reject &lt;- mean(new_pvals$reject)</code></pre>
 <p>Now this plot doesn’t tell us too many new things, but you can clearly see the uniform distribution of p-values under the null hypothesis (again if you want to learn more you can take STA355), and we can see that at the <span class="math inline">\(\alpha = 0.05\)</span> we rejected 0.058 of the simulations, which is exactly what we would expect. Now how about seeing how it performs distinguishing t-distributions with higher and higher degrees of freedom from normals. Again I will run the simulation:</p>
 <pre class="r"><code># I will run a simulation of 1000 tests each from t distributions with varying degrees
@@ -1132,7 +1126,7 @@ ggplot(data = new_pvals) +
     geom_hline(yintercept = 0.05, lty = 2, col = &quot;red&quot;) +
     theme_bw(base_size = 12) +
     scale_y_continuous(limits = c(0,1))</code></pre>
-<p><img src="STA220_files/figure-html/Shapiro-Wilk%20for%20t-1.png" width="672" /></p>
+<p><img src="STA220_files/figure-html/Shapiro-Wilk%20for%20t-1.png" width="576" /></p>
 <pre class="r"><code>p_vals_summary &lt;- new_pvals %&gt;% group_by(degrees) %&gt;%
     summarize(reject_prob = mean(p_values &lt; 0.05)) %&gt;%
     mutate(degrees = as.integer(degrees)) %&gt;%
@@ -1180,10 +1174,10 @@ Show/hide
             else{document.getElementById('unnecessary intro') .style.display='none'}">
 Show/hide the unnecessary introduction
 </button>
-<p>As you can probably tell I am very excited that I now know how to make buttons in Rmarkdown that will go on my website (yes, the entire site is written in Rmarkdown).</p>
+<p>As you can probably tell I am overly excited that I now know how to make buttons in Rmarkdown that will go on my website.</p>
 </div>
-<div id="general-idea" class="section level3">
-<h3>General Idea</h3>
+<div id="interpreting-q-q-plots" class="section level3">
+<h3>Interpreting Q-Q Plots</h3>
 <p>The general idea behind interpreting Normal Q-Q plots is that we transform our data in a very specific way. Again, if you want to know a bit more, take STA355. For the purpose of this course all you need to know is that you will expect the newly transformed data to lie on a straight line y = x. However, because the world is not ideal, we will always have data that doesn’t lie on that straight line exactly, that would be too easy. This doesn’t necessarily mean that we have outliers. I’m actually quite convinced that the probability of all points being exactly on that line is exactly 0 for a given sample larger than a few points.</p>
 </div>
 <div id="my-solution" class="section level3">
@@ -1194,7 +1188,7 @@ my_data &lt;- rnorm(100) # Let&#39;s pretend this never happened
 
 prepare_grid &lt;- function(my_data, multiplier = 8){
     
-# Simulate 3, 8, 15 or some other perfect square - 1 number of standard normals
+# Simulate 3, 8, 15 or some other (perfect square - 1) number of standard normals
 # with the same sample size
 
 l &lt;- length(my_data)
@@ -1202,7 +1196,7 @@ l &lt;- length(my_data)
 my_normals &lt;- rnorm(n = multiplier * l)
 combined_data &lt;- tibble(ID = c(rep(1, l), # ID for my data
                                rep(2:(multiplier + 1), l)), # ID&#39;s for the normals
-                        points = c(my_data, my_normals)) %&gt;%
+                        points = c(scale(my_data), my_normals)) %&gt;%
     arrange(ID) %&gt;% 
     mutate(ID = as.factor(as.character(ID)),
            ID2 = fct_anon(ID)) # Randomly shuffled ID&#39;s 
@@ -1222,7 +1216,7 @@ return(list(plot = plot, real_id = real_id))
 
 prepare_grid(my_data)</code></pre>
 <pre><code>## $plot</code></pre>
-<p><img src="STA220_files/figure-html/QQplot%20solution-1.png" width="672" /></p>
+<p><img src="STA220_files/figure-html/QQplot%20solution-1.png" width="576" /></p>
 <pre><code>## 
 ## $real_id
 ## [1] 3</code></pre>
@@ -1230,33 +1224,182 @@ prepare_grid(my_data)</code></pre>
 <p>Now let’s use old simulated data that is not normal and see if you are able to tell where it is in the grid. (Feel free to play around on your own)</p>
 <pre class="r"><code>prepare_grid(ex2)</code></pre>
 <pre><code>## $plot</code></pre>
-<p><img src="STA220_files/figure-html/Playing%20around%20with%20the%20new%20function-1.png" width="672" /></p>
+<p><img src="STA220_files/figure-html/Playing%20around%20with%20the%20new%20function-1.png" width="576" /></p>
 <pre><code>## 
 ## $real_id
 ## [1] 1</code></pre>
 <pre class="r"><code>prepare_grid(ex3)</code></pre>
 <pre><code>## $plot</code></pre>
-<p><img src="STA220_files/figure-html/Playing%20around%20with%20the%20new%20function-2.png" width="672" /></p>
+<p><img src="STA220_files/figure-html/Playing%20around%20with%20the%20new%20function-2.png" width="576" /></p>
 <pre><code>## 
 ## $real_id
 ## [1] 9</code></pre>
 <pre class="r"><code>prepare_grid(ex4)</code></pre>
 <pre><code>## $plot</code></pre>
-<p><img src="STA220_files/figure-html/Playing%20around%20with%20the%20new%20function-3.png" width="672" /></p>
+<p><img src="STA220_files/figure-html/Playing%20around%20with%20the%20new%20function-3.png" width="576" /></p>
 <pre><code>## 
 ## $real_id
 ## [1] 9</code></pre>
 <pre class="r"><code>prepare_grid(ex6)</code></pre>
 <pre><code>## $plot</code></pre>
-<p><img src="STA220_files/figure-html/Playing%20around%20with%20the%20new%20function-4.png" width="672" /></p>
+<p><img src="STA220_files/figure-html/Playing%20around%20with%20the%20new%20function-4.png" width="576" /></p>
 <pre><code>## 
 ## $real_id
 ## [1] 6</code></pre>
+<p>In this class however, you should also be able to interpret QQ plots on their own. I will provide some intuition that I now use whenever looking at them, that I already showed in my tutorials.</p>
+<p>All you need to know about how to view QQplots is that they try to measure how does your sample compare to a normal distribution with the same mean and standard deviation. In the ideal scenario points would fall exactly on the line. X axis is what you expect from a normal distribution, and Y axis is what you have actually observed. The middle part will usually fit very close to the line so you should focus on the right and left portions of the graph (tails). If the middle points are far away from the line you have a much bigger problem. The way to think about it is - Right side of the graph (higher theoretical quantiles) are the datapoints that have high values.</p>
+<p>Let’s see an example.</p>
+<pre class="r"><code># ggplot qqplot
+rs &lt;- ggplot(data = distributions) +
+    aes(sample = right_skewed) +
+    theme_minimal() +
+    geom_qq() +
+    geom_qq_line() +
+    coord_fixed() +
+    labs(title = &quot;Right Skewed Distribution&quot;)
+rs</code></pre>
+<p><img src="STA220_files/figure-html/QQplots%20intuition%20-%20Right%20Skew%20QQ-1.png" width="576" /></p>
+<p>You should immediately notice that the points both on the right and on the left fall above the line. The way to interpret it is:</p>
+<ul>
+<li><p>Since points on the right side (high on the X axis - those that are expected to be high in value) are higher than expectation (Above the line). Which means that the points that are expected to have high values - have values even higher that that.</p></li>
+<li><p>Since points on the left side (Low on the X axis - those that are expected to be lower in value) are higher than expectation (Above the line). Which means that the points that are expected to have lower values - have values higher than expected.</p></li>
+</ul>
+<p>Now consider what this would mean for a histogram. It means that there are fewer actually observed low values, and more of the actually observed high values. So overall the distribution seems to be right skewed (since Right = Higher).</p>
+<p>Let’s confirm it with a histogram.</p>
+<pre class="r"><code># ggplot qqplot
+rs &lt;- ggplot(data = distributions) +
+    aes(x = right_skewed) +
+    theme_minimal() +
+    geom_histogram(bins = 50, fill = &quot;white&quot;, color = &quot;black&quot;) +
+    labs(title = &quot;Right Skewed Distribution&quot;) +
+    geom_vline(xintercept = mean(distributions$right_skewed), size = 0.5, color = &quot;red&quot;) +
+    geom_vline(xintercept = median(distributions$right_skewed), size = 0.5, color = &quot;blue&quot;)
+rs</code></pre>
+<p><img src="STA220_files/figure-html/QQplots%20intuition%20-%20Right%20Skew%20Hist-1.png" width="576" /></p>
+<p>As we can see - there are seems to be a longer tail on the right than on the left. Mean is the red vertical line and median the blue one. This also shows that comparing mean to median might not be a good guide on how skewed the distributions are.</p>
+<p>And now we can see in terms of numbers: The mean is 0, and SD is 1 (since I standardized the data beforehand), and there are points as far as 4 SD away on the right, while there are almost no points that are 2 SD away on the left.</p>
+<p>Let’s see another example.</p>
+<pre class="r"><code># ggplot qqplot
+ht &lt;- ggplot(data = distributions) +
+    aes(sample = heavy_tailed) +
+    theme_minimal() +
+    geom_qq() +
+    geom_qq_line() +
+    labs(title = &quot;Heavy Tailed Distribution&quot;)
+ht</code></pre>
+<p><img src="STA220_files/figure-html/QQplots%20intuition%20-%20Heavy%20Tail%20QQ-1.png" width="576" /></p>
+<p>This is a great example of what a heavy tailed distribution can look like, and also why you should not always remove your outliers at the start. It seems that the points are pretty close to a normal except for one observation that is very far off the line. Let’s remove that extreme observation and redo the plot</p>
+<pre class="r"><code># ggplot qqplot
+distributions %&gt;% filter(heavy_tailed != min(heavy_tailed)) %&gt;%
+    ggplot() +
+    aes(sample = heavy_tailed) +
+    theme_minimal() +
+    geom_qq() +
+    geom_qq_line() +
+    labs(title = &quot;Heavy Tailed Distribution&quot;) -&gt; ht
+ht</code></pre>
+<p><img src="STA220_files/figure-html/QQplots%20intuition%20-%20Heavy%20Tail%20QQ%20minus%20extreme-1.png" width="576" /></p>
+<p>With the point removed, the scaling of the plot changes and we can see that both the right and the left tails are quite far off the line. (And we should keep in mind that we have an extreme observation with a very negative value)</p>
+<p>Again the interpretation would go along these lines:</p>
+<ul>
+<li><p>The points on the right side (expected high values) are much higher (above the line) than expected.</p></li>
+<li><p>The points on the left side (expected low values) are lower than (below the line) than expected.</p></li>
+</ul>
+<p>Combining these two we see that the low values are lower and high values are higher than what we would expect from a normal. This is exactly what we mean when we say “heavy tails” - there are more extreme observations both positive and negative.</p>
+<p>Let’s see what a histogram would look like:</p>
+<pre class="r"><code># ggplot qqplot
+distributions %&gt;% filter(heavy_tailed != min(heavy_tailed)) %&gt;%
+    ggplot() +
+    aes(x = heavy_tailed) +
+    theme_minimal() +
+    geom_histogram(bins = 100, fill = &quot;white&quot;, color = &quot;black&quot;) +
+    labs(title = &quot;Heavy Tailed Distribution&quot;) +
+    geom_vline(xintercept = mean(distributions$heavy_tailed), size = 0.5, color = &quot;red&quot;) +
+    geom_vline(xintercept = median(distributions$heavy_tailed), size = 0.5, color = &quot;blue&quot;) -&gt; ht
+ht</code></pre>
+<p><img src="STA220_files/figure-html/QQplots%20intuition%20-%20Heavy%20Tailed%20Hist-1.png" width="576" /></p>
+<p>We can see that even with the extreme negative observation removed the scale of the histogram is so wide that it looks like one peak on a bad scale. Let’s see a less extreme example of a heavy tailed distribution:</p>
+<pre class="r"><code># ggplot qqplot
+ht &lt;- ggplot(data = distributions) +
+    aes(sample = heavy_tailed_2) +
+    theme_minimal() +
+    geom_qq() +
+    geom_qq_line() +
+    labs(title = &quot;(Less) Heavy Tailed Distribution&quot;)
+ht</code></pre>
+<p><img src="STA220_files/figure-html/QQplots%20intuition%20-%20Heavy%20Tailed%202%20QQ-1.png" width="576" /></p>
+<pre class="r"><code>ht &lt;- ggplot(data = distributions) +
+    aes(x = heavy_tailed_2) +
+    theme_minimal() +
+    geom_histogram(bins = 100, fill = &quot;white&quot;, color = &quot;black&quot;) +
+    labs(title = &quot;(Less) Heavy Tailed Distribution&quot;) +
+    geom_vline(xintercept = mean(distributions$heavy_tailed_2), size = 0.5, color = &quot;red&quot;) +
+    geom_vline(xintercept = median(distributions$heavy_tailed_2), size = 0.5, color = &quot;blue&quot;)
+ht</code></pre>
+<p><img src="STA220_files/figure-html/QQplots%20intuition%20-%20Heavy%20Tailed%202%20QQ-2.png" width="576" /></p>
+<p>As you can see the histogram seems “Bell shaped” and “Symmetric”, and yet we know that the distribution is (very much) not normal. If we conducted a Shapiro-Wilk Test (which is a test for non-normality), we would learn that the probability of observing a data as extreme as this from a normal distribution is 1.460044810^{-10} which is pretty much 0.</p>
+<p>This is why you should always do some normality checks beyond looking at a histogram, especially when your data looks normal.</p>
+<p>Now, for the sake of completion let’s look at a left skewed distribution:</p>
+<pre class="r"><code># ggplot qqplot
+ls &lt;- ggplot(data = distributions) +
+    aes(sample = left_skewed) +
+    theme_minimal() +
+    geom_qq() +
+    geom_qq_line() +
+    coord_fixed() +
+    labs(title = &quot;Left Skewed Distribution&quot;)
+ls</code></pre>
+<p><img src="STA220_files/figure-html/QQplots%20intuition%20-%20Left%20Skew%20QQ-1.png" width="576" /></p>
+<p>Again, points on the left (expected to be low), fall below the line which means they are even lower than expected, while points on the right (expected to be high) also fall below the line, so they are lower than expected as well. Since both high and low points are lower than expected that means our distribution is skewed to the left. Let’s confirm with a histogram:</p>
+<pre class="r"><code># ggplot qqplot
+ls &lt;- ggplot(data = distributions) +
+    aes(x = left_skewed) +
+    theme_minimal() +
+    geom_histogram(bins = 100, fill = &quot;white&quot;, color = &quot;black&quot;) +
+    labs(title = &quot;Left Skewed Distribution&quot;) +
+    geom_vline(xintercept = mean(distributions$left_skewed), size = 0.5, color = &quot;red&quot;) +
+    geom_vline(xintercept = median(distributions$left_skewed), size = 0.5, color = &quot;blue&quot;)
+ls</code></pre>
+<p><img src="STA220_files/figure-html/QQplots%20intuition%20-%20Left%20Skew%20Hist-1.png" width="576" /></p>
+<p>And finally a light tailed distribution:</p>
+<pre class="r"><code># ggplot qqplot
+lt &lt;- ggplot(data = distributions) +
+    aes(sample = light_tailed) +
+    theme_minimal() +
+    geom_qq() +
+    geom_qq_line() +
+    labs(title = &quot;Light tailed Distribution&quot;)
+lt</code></pre>
+<p><img src="STA220_files/figure-html/QQplots%20intuition%20-%20Light%20tailed%20QQ-1.png" width="576" /></p>
+<p>Again, points on the left (expected to be low), fall above the line which means they are higher than expected, while points on the right (expected to be high) fall below the line, so they are lower than expected as well. Now the distribution that has lower points higher than expected and higher points lower than expected (i.e. more squished in the middle), is what we mean when we say “light tailed”.</p>
+<p>Let’s confirm with a histogram:</p>
+<pre class="r"><code># ggplot qqplot
+lt &lt;- ggplot(data = distributions) +
+    aes(x = light_tailed) +
+    theme_minimal() +
+    geom_histogram(bins = 100, fill = &quot;white&quot;, color = &quot;black&quot;) +
+    labs(title = &quot;Light Tailed Distribution&quot;) +
+    geom_vline(xintercept = mean(distributions$light_tailed), size = 0.5, color = &quot;red&quot;) +
+    geom_vline(xintercept = median(distributions$light_tailed), size = 0.5, color = &quot;blue&quot;)
+lt</code></pre>
+<p><img src="STA220_files/figure-html/QQplots%20intuition%20-%20Light%20tail%20Hist-1.png" width="576" /></p>
+<p>Now, this histogram does not make it seem like we have light tails, since the points are quite spread out, one could even guess that we have heavy tails because there is so much spread. This does not take into account that all of what you see in the histogram is the “peak” of the distribution. The tails are so light that essentially they don’t exist! Again this is more evidence that you should look at more than just the histogram of your data.</p>
+<p>To illustrate, I will plot the “light tailed” histogram with normal distribution density overlaid:</p>
+<pre class="r"><code># ggplot qqplot
+lt &lt;- ggplot(data = distributions) +
+    aes(x = light_tailed) +
+    theme_minimal() +
+    geom_histogram(aes(y = ..density..),bins = 100, fill = &quot;white&quot;, color = &quot;black&quot;) +
+    labs(title = &quot;Light Tailed Distribution&quot;) +
+    geom_vline(xintercept = mean(distributions$light_tailed), size = 0.5, color = &quot;red&quot;) +
+    geom_vline(xintercept = median(distributions$light_tailed), size = 0.5, color = &quot;blue&quot;) +
+    stat_function(fun = dnorm, args = list(mean = mean(distributions$light_tailed),
+                                           sd = sd(distributions$light_tailed))) +
+    xlim(-4, 4)
+lt</code></pre>
+<p><img src="STA220_files/figure-html/QQplots%20intuition%20-%20Light%20tail%20Hist%20with%20Norm-1.png" width="576" /></p>
 </div>
 </div>
-</div>
-<div id="next-topic-why-you-should-always-plot-your-data" class="section level1">
-<h1>Next topic: Why you should ALWAYS plot your data</h1>
 </div>
 
 
