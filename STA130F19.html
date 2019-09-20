@@ -515,7 +515,8 @@ div.tocify {
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()</code></pre>
 <pre class="r"><code># For data
-library(VGAMdata)</code></pre>
+library(VGAMdata)
+library(insuranceData)</code></pre>
 <div id="agenda-for-today" class="section level2">
 <h2>Agenda for today:</h2>
 <ul>
@@ -623,6 +624,15 @@ df %&gt;%
 <div id="group-discussion" class="section level2">
 <h2>Group Discussion</h2>
 <p>For Question 1b, you used both histograms and boxplots to visualize your data. Which features were easier/harder to observe from each of the visualizations? In what situations may you want to choose a boxplot over a histogram, or vice versa? Explain.</p>
+<pre class="r"><code>data(&quot;AutoClaims&quot;)
+ggplot(data = AutoClaims, aes(x = PAID)) +
+    geom_histogram(color = &quot;black&quot;,fill = &quot;gray&quot;, bins = 30) -&gt; p1
+
+ggplot(data = AutoClaims, aes(x = &quot;&quot;, y = PAID)) +
+    geom_boxplot() -&gt; p2
+
+gridExtra::grid.arrange(p1,p2, ncol=2)</code></pre>
+<p><img src="STA130F19_files/figure-html/unnamed-chunk-1-1.png" width="576" /></p>
 </div>
 <div id="written-evaluation" class="section level2">
 <h2>Written Evaluation</h2>
