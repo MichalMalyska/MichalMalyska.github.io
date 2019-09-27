@@ -507,14 +507,6 @@ div.tocify {
 </div>
 
 
-<pre class="r"><code>set.seed(1337)
-
-library(tidyverse)
-library(MASS)
-library(ISLR)
-
-# For working with factors 
-library(forcats)</code></pre>
 <div id="preliminaries-and-r-setup" class="section level1">
 <h1>Preliminaries and R setup</h1>
 <div id="resources" class="section level2">
@@ -606,11 +598,7 @@ library(GGally)
 
 
 set.seed(217828) # This line makes the random generation for this file be the same
-# Every time it is run
-
-
-library(plotly) # You don&#39;t need this
-library(gganimate) # Or this</code></pre>
+# Every time it is run</code></pre>
 </div>
 <div id="loading-data" class="section level2">
 <h2>Loading Data</h2>
@@ -715,15 +703,15 @@ summary(model1)</code></pre>
 ## -10.101  -4.074  -1.285   1.891  24.249 
 ## 
 ## Coefficients:
-##             Estimate Std. Error t value            Pr(&gt;|t|)    
-## (Intercept) 34.95053    0.67527   51.76 &lt;0.0000000000000002 ***
-## lstat       -0.96530    0.04638  -20.82 &lt;0.0000000000000002 ***
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 34.95053    0.67527   51.76   &lt;2e-16 ***
+## lstat       -0.96530    0.04638  -20.82   &lt;2e-16 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
 ## Residual standard error: 6.269 on 352 degrees of freedom
 ## Multiple R-squared:  0.5517, Adjusted R-squared:  0.5505 
-## F-statistic: 433.3 on 1 and 352 DF,  p-value: &lt; 0.00000000000000022</code></pre>
+## F-statistic: 433.3 on 1 and 352 DF,  p-value: &lt; 2.2e-16</code></pre>
 <pre class="r"><code>plot(model1)</code></pre>
 <p><img src="STA314F19_files/figure-html/Model%20Assumptions-1.png" width="576" /><img src="STA314F19_files/figure-html/Model%20Assumptions-2.png" width="576" /><img src="STA314F19_files/figure-html/Model%20Assumptions-3.png" width="576" /><img src="STA314F19_files/figure-html/Model%20Assumptions-4.png" width="576" /></p>
 <p>Assumptions are not satisfied!</p>
@@ -758,16 +746,16 @@ summary(model2)</code></pre>
 ## -10.328  -3.989  -1.435   2.054  22.398 
 ## 
 ## Coefficients:
-##             Estimate Std. Error t value             Pr(&gt;|t|)    
-## (Intercept) 33.03263    0.87906  37.577 &lt; 0.0000000000000002 ***
-## lstat       -1.07290    0.05593 -19.184 &lt; 0.0000000000000002 ***
-## age          0.04795    0.01435   3.341             0.000925 ***
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 33.03263    0.87906  37.577  &lt; 2e-16 ***
+## lstat       -1.07290    0.05593 -19.184  &lt; 2e-16 ***
+## age          0.04795    0.01435   3.341 0.000925 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
 ## Residual standard error: 6.181 on 351 degrees of freedom
 ## Multiple R-squared:  0.5656, Adjusted R-squared:  0.5631 
-## F-statistic: 228.5 on 2 and 351 DF,  p-value: &lt; 0.00000000000000022</code></pre>
+## F-statistic: 228.5 on 2 and 351 DF,  p-value: &lt; 2.2e-16</code></pre>
 <pre class="r"><code>plot(model2)</code></pre>
 <p><img src="STA314F19_files/figure-html/MLR-1.png" width="576" /><img src="STA314F19_files/figure-html/MLR-2.png" width="576" /><img src="STA314F19_files/figure-html/MLR-3.png" width="576" /><img src="STA314F19_files/figure-html/MLR-4.png" width="576" /></p>
 <p>How to add everything (and subtract some) variables:</p>
@@ -782,25 +770,25 @@ summary(model3)</code></pre>
 ## -15.3851  -3.0634  -0.7881   1.8407  23.8259 
 ## 
 ## Coefficients:
-##               Estimate Std. Error t value             Pr(&gt;|t|)    
-## (Intercept)  43.396281   6.193223   7.007       0.000000000013 ***
-## crim         -0.116778   0.041475  -2.816              0.00515 ** 
-## zn            0.034244   0.017659   1.939              0.05330 .  
-## chas          2.807666   1.075737   2.610              0.00945 ** 
-## nox         -17.610598   4.398754  -4.004       0.000076564298 ***
-## rm            3.027264   0.487210   6.213       0.000000001506 ***
-## dis          -1.520936   0.233795  -6.505       0.000000000275 ***
-## rad           0.357294   0.082738   4.318       0.000020618157 ***
-## tax          -0.012594   0.004461  -2.823              0.00504 ** 
-## ptratio      -0.980581   0.162278  -6.043       0.000000003962 ***
-## black         0.009449   0.003460   2.731              0.00665 ** 
-## lstat        -0.620182   0.060069 -10.325 &lt; 0.0000000000000002 ***
+##               Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  43.396281   6.193223   7.007 1.30e-11 ***
+## crim         -0.116778   0.041475  -2.816  0.00515 ** 
+## zn            0.034244   0.017659   1.939  0.05330 .  
+## chas          2.807666   1.075737   2.610  0.00945 ** 
+## nox         -17.610598   4.398754  -4.004 7.66e-05 ***
+## rm            3.027264   0.487210   6.213 1.51e-09 ***
+## dis          -1.520936   0.233795  -6.505 2.75e-10 ***
+## rad           0.357294   0.082738   4.318 2.06e-05 ***
+## tax          -0.012594   0.004461  -2.823  0.00504 ** 
+## ptratio      -0.980581   0.162278  -6.043 3.96e-09 ***
+## black         0.009449   0.003460   2.731  0.00665 ** 
+## lstat        -0.620182   0.060069 -10.325  &lt; 2e-16 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
 ## Residual standard error: 5.027 on 342 degrees of freedom
 ## Multiple R-squared:  0.7199, Adjusted R-squared:  0.7109 
-## F-statistic: 79.92 on 11 and 342 DF,  p-value: &lt; 0.00000000000000022</code></pre>
+## F-statistic: 79.92 on 11 and 342 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p>How to add interactions:</p>
 <pre class="r"><code>model4 &lt;- lm(data = df_train, formula = medv ~ . -age -indus + lstat:ptratio )
 summary(model4)</code></pre>
@@ -813,26 +801,26 @@ summary(model4)</code></pre>
 ## -14.9747  -2.9978  -0.8228   1.7182  24.1724 
 ## 
 ## Coefficients:
-##                 Estimate Std. Error t value      Pr(&gt;|t|)    
-## (Intercept)    47.348632   7.588867   6.239 0.00000000130 ***
-## crim           -0.121372   0.041798  -2.904      0.003927 ** 
-## zn              0.030603   0.018119   1.689      0.092137 .  
-## chas            2.907145   1.081673   2.688      0.007549 ** 
-## nox           -15.903558   4.789972  -3.320      0.000997 ***
-## rm              2.915639   0.502822   5.799 0.00000001526 ***
-## dis            -1.453775   0.245435  -5.923 0.00000000771 ***
-## rad             0.356875   0.082762   4.312 0.00002120067 ***
-## tax            -0.013301   0.004531  -2.936      0.003555 ** 
-## ptratio        -1.203747   0.295983  -4.067 0.00005920744 ***
-## black           0.009572   0.003464   2.763      0.006029 ** 
-## lstat          -1.008292   0.434609  -2.320      0.020931 *  
-## ptratio:lstat   0.020383   0.022605   0.902      0.367869    
+##                 Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)    47.348632   7.588867   6.239 1.30e-09 ***
+## crim           -0.121372   0.041798  -2.904 0.003927 ** 
+## zn              0.030603   0.018119   1.689 0.092137 .  
+## chas            2.907145   1.081673   2.688 0.007549 ** 
+## nox           -15.903558   4.789972  -3.320 0.000997 ***
+## rm              2.915639   0.502822   5.799 1.53e-08 ***
+## dis            -1.453775   0.245435  -5.923 7.71e-09 ***
+## rad             0.356875   0.082762   4.312 2.12e-05 ***
+## tax            -0.013301   0.004531  -2.936 0.003555 ** 
+## ptratio        -1.203747   0.295983  -4.067 5.92e-05 ***
+## black           0.009572   0.003464   2.763 0.006029 ** 
+## lstat          -1.008292   0.434609  -2.320 0.020931 *  
+## ptratio:lstat   0.020383   0.022605   0.902 0.367869    
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
 ## Residual standard error: 5.029 on 341 degrees of freedom
 ## Multiple R-squared:  0.7206, Adjusted R-squared:  0.7108 
-## F-statistic: 73.28 on 12 and 341 DF,  p-value: &lt; 0.00000000000000022</code></pre>
+## F-statistic: 73.28 on 12 and 341 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p>How to write high level interactions:</p>
 <pre class="r"><code>model5 &lt;- lm(data = df_train, formula = medv ~ lstat*ptratio*black)
 summary(model5)</code></pre>
@@ -845,19 +833,19 @@ summary(model5)</code></pre>
 ## -12.7835  -3.5310  -0.8976   1.6660  27.1487 
 ## 
 ## Coefficients:
-##                        Estimate  Std. Error t value Pr(&gt;|t|)
-## (Intercept)         -20.0358289  52.0839733  -0.385    0.701
-## lstat                 1.6533724   2.9025591   0.570    0.569
-## ptratio               1.9336021   2.6432879   0.732    0.465
-## black                 0.2234851   0.1368595   1.633    0.103
-## lstat:ptratio        -0.0958973   0.1460792  -0.656    0.512
-## lstat:black          -0.0096108   0.0077186  -1.245    0.214
-## ptratio:black        -0.0095943   0.0069592  -1.379    0.169
-## lstat:ptratio:black   0.0004143   0.0003893   1.064    0.288
+##                       Estimate Std. Error t value Pr(&gt;|t|)
+## (Intercept)         -2.004e+01  5.208e+01  -0.385    0.701
+## lstat                1.653e+00  2.903e+00   0.570    0.569
+## ptratio              1.934e+00  2.643e+00   0.732    0.465
+## black                2.235e-01  1.369e-01   1.633    0.103
+## lstat:ptratio       -9.590e-02  1.461e-01  -0.656    0.512
+## lstat:black         -9.611e-03  7.719e-03  -1.245    0.214
+## ptratio:black       -9.594e-03  6.959e-03  -1.379    0.169
+## lstat:ptratio:black  4.143e-04  3.893e-04   1.064    0.288
 ## 
 ## Residual standard error: 5.78 on 346 degrees of freedom
 ## Multiple R-squared:  0.6254, Adjusted R-squared:  0.6178 
-## F-statistic: 82.52 on 7 and 346 DF,  p-value: &lt; 0.00000000000000022</code></pre>
+## F-statistic: 82.52 on 7 and 346 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p>This is what our data looks like:</p>
 <pre class="r"><code>ggplot(data = df_train, aes(x = lstat, y = medv)) +
   geom_point() +
@@ -875,16 +863,16 @@ summary(model6)</code></pre>
 ## -10.9741  -3.7746  -0.4845   2.4320  25.1016 
 ## 
 ## Coefficients:
-##              Estimate Std. Error t value            Pr(&gt;|t|)    
-## (Intercept) 43.200104   1.036576  41.676 &lt;0.0000000000000002 ***
-## lstat       -2.321884   0.145001 -16.013 &lt;0.0000000000000002 ***
-## I(lstat^2)   0.042125   0.004317   9.758 &lt;0.0000000000000002 ***
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 43.200104   1.036576  41.676   &lt;2e-16 ***
+## lstat       -2.321884   0.145001 -16.013   &lt;2e-16 ***
+## I(lstat^2)   0.042125   0.004317   9.758   &lt;2e-16 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
 ## Residual standard error: 5.568 on 351 degrees of freedom
 ## Multiple R-squared:  0.6474, Adjusted R-squared:  0.6454 
-## F-statistic: 322.2 on 2 and 351 DF,  p-value: &lt; 0.00000000000000022</code></pre>
+## F-statistic: 322.2 on 2 and 351 DF,  p-value: &lt; 2.2e-16</code></pre>
 <pre class="r"><code>ggplot(data = df_train, aes(x = lstat, y = medv)) +
   geom_point() +
   geom_smooth(method = &quot;lm&quot;, formula = y ~ x + I(x^2)) +
@@ -902,26 +890,19 @@ summary(model7)</code></pre>
 ## -13.3723  -3.1633  -0.7816   2.0235  26.6882 
 ## 
 ## Coefficients:
-##                           Estimate Std. Error t value             Pr(&gt;|t|)
-## (Intercept)                22.7251     0.2819  80.620 &lt; 0.0000000000000002
-## poly(lstat, degree = 5)1 -130.4922     5.3036 -24.605 &lt; 0.0000000000000002
-## poly(lstat, degree = 5)2   54.3320     5.3036  10.244 &lt; 0.0000000000000002
-## poly(lstat, degree = 5)3  -19.9810     5.3036  -3.767             0.000194
-## poly(lstat, degree = 5)4   20.5430     5.3036   3.873             0.000128
-## poly(lstat, degree = 5)5  -16.5152     5.3036  -3.114             0.001999
-##                             
-## (Intercept)              ***
-## poly(lstat, degree = 5)1 ***
-## poly(lstat, degree = 5)2 ***
-## poly(lstat, degree = 5)3 ***
-## poly(lstat, degree = 5)4 ***
-## poly(lstat, degree = 5)5 ** 
+##                           Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)                22.7251     0.2819  80.620  &lt; 2e-16 ***
+## poly(lstat, degree = 5)1 -130.4922     5.3036 -24.605  &lt; 2e-16 ***
+## poly(lstat, degree = 5)2   54.3320     5.3036  10.244  &lt; 2e-16 ***
+## poly(lstat, degree = 5)3  -19.9810     5.3036  -3.767 0.000194 ***
+## poly(lstat, degree = 5)4   20.5430     5.3036   3.873 0.000128 ***
+## poly(lstat, degree = 5)5  -16.5152     5.3036  -3.114 0.001999 ** 
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
 ## Residual standard error: 5.304 on 348 degrees of freedom
 ## Multiple R-squared:  0.6828, Adjusted R-squared:  0.6783 
-## F-statistic: 149.8 on 5 and 348 DF,  p-value: &lt; 0.00000000000000022</code></pre>
+## F-statistic: 149.8 on 5 and 348 DF,  p-value: &lt; 2.2e-16</code></pre>
 <pre class="r"><code>ggplot(data = df_train, aes(x = lstat, y = medv)) +
   geom_point() +
   geom_smooth(method = &quot;lm&quot;, formula = y ~ poly(x, degree = 5)) +
@@ -963,16 +944,16 @@ summary(model7)</code></pre>
 ## -7.3748 -1.6324  0.1064  1.6277  5.6765 
 ## 
 ## Coefficients:
-##                 Estimate Std. Error t value             Pr(&gt;|t|)    
-## (Intercept)       5.5035     0.2938  18.731 &lt; 0.0000000000000002 ***
-## ShelveLocGood     4.8989     0.4226  11.591 &lt; 0.0000000000000002 ***
-## ShelveLocMedium   1.8713     0.3461   5.407          0.000000139 ***
+##                 Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)       5.5035     0.2938  18.731  &lt; 2e-16 ***
+## ShelveLocGood     4.8989     0.4226  11.591  &lt; 2e-16 ***
+## ShelveLocMedium   1.8713     0.3461   5.407 1.39e-07 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
 ## Residual standard error: 2.314 on 277 degrees of freedom
 ## Multiple R-squared:  0.3318, Adjusted R-squared:  0.3269 
-## F-statistic: 68.76 on 2 and 277 DF,  p-value: &lt; 0.00000000000000022</code></pre>
+## F-statistic: 68.76 on 2 and 277 DF,  p-value: &lt; 2.2e-16</code></pre>
 <pre class="r"><code># What are ShelveLocGood and ShelveLocMedium 
 contrasts(df2$ShelveLoc)</code></pre>
 <pre><code>##        Good Medium
@@ -985,6 +966,12 @@ contrasts(df2$ShelveLoc)</code></pre>
   library(ISLR)
 }</code></pre>
 <pre class="r"><code>Load_packages()</code></pre>
+<pre><code>## 
+## Attaching package: &#39;MASS&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:dplyr&#39;:
+## 
+##     select</code></pre>
+<p>If you would like to see some more advanced uses of the techniques; I <a href="https://michalmalyska.github.io/STA314.html#r_for_data_science_chapter_25:_many_models">covered</a> the same lab and a chapter of the R for data science textbook that deals with fitting multiple models to the same dataset using tidyverse functions.</p>
 </div>
 </div>
 
