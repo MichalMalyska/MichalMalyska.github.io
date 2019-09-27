@@ -375,6 +375,13 @@ div.tocify {
         STA314 - Machine Learning I
       </a>
     </li>
+    <li>
+      <a href="STA130F19.html">
+        <span class="fa fa-book"></span>
+         
+        STA130 - Intro to Data Science
+      </a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -1142,7 +1149,7 @@ ht</code></pre>
     geom_vline(xintercept = median(distributions$heavy_tailed_2), size = 0.5, color = &quot;blue&quot;)
 ht</code></pre>
 <p><img src="STA220_files/figure-html/QQplots%20intuition%20-%20Heavy%20Tailed%202%20QQ-2.png" width="576" /></p>
-<p>As you can see the histogram seems “Bell shaped” and “Symmetric”, and yet we know that the distribution is (very much) not normal. If we conducted a Shapiro-Wilk Test (which is a test for non-normality), we would learn that the probability of observing a data as extreme as this from a normal distribution is 0 which is pretty much 0.</p>
+<p>As you can see the histogram seems “Bell shaped” and “Symmetric”, and yet we know that the distribution is (very much) not normal. If we conducted a Shapiro-Wilk Test (which is a test for non-normality), we would learn that the probability of observing a data as extreme as this from a normal distribution is 1.295983510^{-10} which is pretty much 0.</p>
 <p>This is why you should always do some normality checks beyond looking at a histogram, especially when your data looks normal.</p>
 <p>Now, for the sake of completion let’s look at a left skewed distribution:</p>
 <pre class="r"><code># ggplot qqplot

@@ -678,6 +678,117 @@ gridExtra::grid.arrange(p1, p2, ncol = 2)</code></pre>
 </div>
 </div>
 </div>
+<div id="tutorial-3" class="section level1">
+<h1>Tutorial 3</h1>
+<div id="agenda-for-today-1" class="section level2">
+<h2>Agenda for today:</h2>
+<ul>
+<li><p>Attendance and names (Please make your nametags again!)</p></li>
+<li><p>Review of last weeks feedback</p></li>
+<li><p>Going over some writing examples</p></li>
+<li><p>Some course material examples (maybe live coding)</p></li>
+<li><p>Group Discussions</p></li>
+<li><p>Writing Activity</p></li>
+</ul>
+</div>
+<div id="atendance-and-names" class="section level2">
+<h2>Atendance and Names</h2>
+<p>I am still trying to learn your names. Please take pieces of paper, write your preferred names on them in big letters and put them in front of you.</p>
+</div>
+<div id="review-of-last-weeks-feedback" class="section level2">
+<h2>Review of last weeks feedback</h2>
+<ol style="list-style-type: decimal">
+<li><p>You want to see more code - I will try live coding with you guys for 10-15 minutes each tutorial and include it on the website later.</p></li>
+<li><p>Why we do things the way we do in this class - Some context for you guys</p></li>
+<li><p>Using aids for your written activity</p></li>
+<li><p>Short time for written activities</p></li>
+<li><p>Vote on additional materials</p></li>
+</ol>
+<p>Vote <a href="https://www.surveymonkey.com/r/WR28GHD">here</a></p>
+</div>
+<div id="writing-examples" class="section level2">
+<h2>Writing Examples</h2>
+<div id="example-1" class="section level3">
+<h3>Example 1</h3>
+<p><img src="figures/T3%20Writing%20Example%20STA130F19.png" /></p>
+</div>
+<div id="example-2" class="section level3">
+<h3>Example 2</h3>
+<p><strong>Take 2 minutes to read this over and identify what is good and what is bad </strong></p>
+<p>Study skills and students’ satisfaction with their performance positively affect their academic achievement. The current research was carried out to investigate the correlation of study skills with academic achievement among the medical and pharmacy students in 2013. This descriptive-analytical study was conducted on 148 students of basic medical sciences and pharmacy through convenience sampling. Data were collected by a valid and reliable questionnaire, consisting of two sections: Demographic information and questions about daily study hours, study skills in six domains, and students’ satisfaction with study skills. Collected data sets were analyzed by SPSS-16 software. In total, 10.9% of students were reported to have favorable study skills. The minimum score was found for preparation for examination domain. Also, a positive correlation was observed between students’ study skills and their Grade Point Average (GPA) of previous term (r=0.269) and satisfaction with study skills (r=0.493). The findings indicated that students’ study skills need to be improved. Given the relationship between study skills and GPA, as an index of academic achievement, and satisfaction, it is necessary to promote the students’ study skills. These skills are suggested to be reinforced, with more emphasis on weaker domains.</p>
+<p><em>Notes about this example: It clearly summarizes all components of a traditional abstract and makes it easy for readers to understand the focus of the research.</em></p>
+</div>
+<div id="example-3" class="section level3">
+<h3>Example 3</h3>
+<p><strong>Take 2 minutes to read this over and identify what is good and what is bad </strong></p>
+<p>Participants were 477 male, first year students at a liberal arts college. In the week before the start of classes, participants were given two surveys: one of expected college engagement, and the second of video game usage, including a measure of video game addiction. Results suggested that video game addiction is: (a) negatively correlated with expected college engagement, (b) negatively correlated with college grade point average (GPA), even when controlling for high school GPA, and (c) negatively correlated with drug and alcohol violations that occurred during the first year in college.</p>
+<p><em>Notes on this example: It doesn’t specifically state why the problem is worth researching, though it is implied as the study focuses on addiction. There is no clear objective; for example: “This study explored the pattern of video game usage and addiction among male college students and examined how video game addiction was related to expectations of college engagement, college GPA, and on-campus drug and alcohol violations.”</em></p>
+</div>
+<div id="good-resource-for-writing-examples" class="section level3">
+<h3>Good resource for writing examples</h3>
+<p>More examples with explanations can be found <a href="https://www.kibin.com/essay-writing-blog/10-good-abstract-examples/">here</a></p>
+</div>
+</div>
+<div id="vocab-and-coding" class="section level2">
+<h2>Vocab and coding</h2>
+<div id="vocab" class="section level3">
+<h3>Vocab</h3>
+<ul>
+<li><p>Cleaning data</p></li>
+<li><p>Tidy data</p></li>
+<li><p>Removing a column</p></li>
+<li><p>Replacing values above/below a certain threshold</p></li>
+<li><p>Taking the subset of variables</p></li>
+<li><p>Filtering the data frame based on a condition (e.g. based on one of the variables/columns)</p></li>
+<li><p>Sorting data based on a variable</p></li>
+<li><p>Renaming the variables</p></li>
+<li><p>Grouping categories</p></li>
+<li><p>Defining new variables</p></li>
+<li><p>Producing new data frames</p></li>
+<li><p>Handling missing values (NAs)</p></li>
+<li><p>Creating summary tables</p></li>
+</ul>
+</div>
+<div id="live-coding-session" class="section level3">
+<h3>Live coding session</h3>
+<pre class="r"><code>data &lt;- read_csv(&quot;~/Desktop/University/Undergrad/Statistics/TA-ing/STA130/titanic.csv&quot;)</code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   Name = col_character(),
+##   Survived = col_character(),
+##   Boarded = col_character(),
+##   Class = col_character(),
+##   MWC = col_character(),
+##   Age = col_double(),
+##   Adut_or_Chld = col_character(),
+##   Sex = col_character(),
+##   Paid = col_double(),
+##   Ticket_No = col_character(),
+##   Boat_or_Body = col_character(),
+##   Job = col_character(),
+##   Class_Dept = col_character(),
+##   Class_Full = col_character()
+## )</code></pre>
+<p>Inline code demonstration for reporting <code>r</code></p>
+</div>
+</div>
+<div id="group-discussions" class="section level2">
+<h2>Group Discussions</h2>
+<p>Question 1: (Based on Practice Problem 1.h)</p>
+<ol style="list-style-type: lower-roman">
+<li><p>Construct a pair of histograms (using facet_wrap) to visualize the distribution of ticket prices for survivors and non-survivors. Write 2-3 sentences comparing the two distributions based on these plots.</p></li>
+<li><p>Construct a pair of boxplots to visualize the distribution of ticket prices for survivors and non-survivors. Write 2-3 sentences comparing the two distributions based on these plots.</p></li>
+<li><p>Construct a summary table with the minimum, median, mean, and maximum ticket price for survivors and non-survivors. Write 2-3 sentences comparing the two distributions based on this summary table.</p></li>
+</ol>
+<p>Comment on the strengths and weaknesses of each of the visualizations and summary table you constructed in parts (i), (ii), and (iii).</p>
+</div>
+<div id="written-evaluation-1" class="section level2">
+<h2>Written Evaluation</h2>
+<p>Imagine you work as a business analyst for a new cruise company, Fun Cruises. Your CEO has asked you to deliver a written summary of your most interesting research findings on the Titanic (practice problem 1). They want this by the end of the day because they’re meeting a new client tonight for dinner and think this research will be of interest to them. It’s already 3:30 pm and it’s a Friday!</p>
+<p>Remember, your CEO is a busy person. They only want the most important information and they don’t want to read more than half a page of text. Use visuals to help get key points across, if you can. The CEO has only limited statistical background, so make sure everything is clear and makes sense! Remember to start with the purpose - your CEO is busy and they may have forgotten exactly what your research was about! Also make sure to include a complete, but concise, summary of the methods, key results, and a conclusion. Remember, you’re the statistics expert and the CEO is counting on you to summary this research!</p>
+<p><strong>SUBMIT ON QUERCUS</strong></p>
+</div>
+</div>
 
 
 
