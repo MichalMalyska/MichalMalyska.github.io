@@ -10,13 +10,23 @@ navbar:
     - text: Teaching
       icon: fa-university
       menu:
-      - text: STA303 - Methods of Data Analysis II
+      - text: STA130 - Intro to Data Science Fall 2019
         icon: fa-book
-        href: STA303.html
+        href: STA130F19.html
         
-      - text: STA314 - Machine Learning I
+      - text: STA314 - Machine Learning I Fall 2019
+        icon: fa-book
+        href: STA314F19.html
+        
+      - text: STA220 - The Practice of Statistics I Summer 2019
+        icon: fa-book
+        href: STA220.html
+        
+      - text: STA314 - Machine Learning I Fall 2018
         icon: fa-book
         href: STA314.html
+        
+
         
     - text: Course Work
       icon: fa-book
