@@ -538,8 +538,16 @@ div.tocify {
 </div>
 <div id="tutorial-2---data-wrangling-and-r" class="section level1">
 <h1>Tutorial 2 - Data Wrangling and R</h1>
-<pre class="r"><code>library(tidyverse)
-library(forcats)
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## ── Attaching packages ──────────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──</code></pre>
+<pre><code>## ✔ ggplot2 3.2.0     ✔ purrr   0.3.2
+## ✔ tibble  2.1.3     ✔ dplyr   0.8.3
+## ✔ tidyr   0.8.3     ✔ stringr 1.4.0
+## ✔ readr   1.3.1     ✔ forcats 0.4.0</code></pre>
+<pre><code>## ── Conflicts ─────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()</code></pre>
+<pre class="r"><code>library(forcats)
 
 # For data
 library(VGAMdata)
@@ -903,7 +911,7 @@ plot # Show the plot</code></pre>
 <p>r mean(summary2$Total_Premium)</p>
 <dl>
 <dt>surrounded by single backticks (`) and what shows up when I knit the file is</dt>
-<dd>287671.0909091
+<dd>2.876710910^{5}
 </dd>
 </dl>
 </div>
@@ -929,10 +937,125 @@ plot # Show the plot</code></pre>
 <h1>Tutorial 4</h1>
 <div id="agenda" class="section level2">
 <h2>Agenda</h2>
+<ul>
+<li><p>Review of vocab and concepts (20-30 mins)</p></li>
+<li><p>Group Discussions of Question 1 (15 mins)</p></li>
+<li><p>Group Discussion of Question 1e (15 mins)</p></li>
+<li><p>Group Discussion of Question 3d (15 mins)</p></li>
+<li><p>Written Evaluation (30 mins)</p></li>
+</ul>
+</div>
+<div id="vocab-and-concept-review" class="section level2">
+<h2>Vocab and Concept Review</h2>
+<p><strong>How to interpret a p-value?</strong> Misinterpreting p-values is a very common mistake – even one made by senior researchers! In technical terms, a p-value is the probability of obtaining an effect at least as extreme as the one in your sample data, assuming the truth of the null hypothesis. For example, suppose that a vaccine effectiveness study produced a p-value of 0.04. This p- value indicates that if the vaccine had no effect, you’d obtain the observed difference or more in 4% of studies due to random sampling error. Critically, p-values address only one question: how likely are your data, assuming a true null hypothesis? It does not measure support for the alternative hypothesis.</p>
+<p><strong>What Doesn’t a p-value Mean?</strong> Statistical significance does not mean practical significance. The word “significance” in everyday usage connotes consequence and noteworthiness. Just because you get a low p-value and conclude a difference is statistically significant, doesn’t mean the difference will automatically be important. For example, a large clinical trial investigating a new weight loss drug found that people who took their drug loss 0.1 pounds more over the course of a year compared to those who took their competitor’s drug (p=0.0001). While this is a statistically significant difference, it’s likely not clinically meaningful. Statistically significant just means a result is unlikely due to chance alone!</p>
+<p>Other important facts:</p>
+<ul>
+<li><p>P-values are almost never zero - If R shows you an exact zero this means you are not looking at enough digits. You should say something like <span class="math inline">\(p &lt; 0.0001\)</span> or <span class="math inline">\(p \approx 0\)</span> never <span class="math inline">\(p = 0\)</span></p></li>
+<li><p>You can never accept the alternative hypothesis. You only reject or fail to reject the null hypothesis. This is the most common error in written assignments.</p></li>
+<li><p>In the vast majority of cases in statistical analysis you will be using the threshold of $ p = 0.05 $. If <span class="math inline">\(p &gt; 0.05\)</span>, then the chance of observing your outcome due to chance alone was greater than 5% (5 times in 100 or more) under you null hypothesis. In this case, you would fail to reject the null hypothesis and would not accept the alternative hypothesis.</p></li>
+<li><p>Evidence of statistically significance is either present or it’s not. Never say that something is “almost” statistically significant.</p></li>
+</ul>
+</div>
+<div id="group-discussions-1" class="section level2">
+<h2>Group Discussions</h2>
+<div id="question-1-discussion" class="section level3">
+<h3>Question 1 Discussion</h3>
+<p>For Question 1, what would you expect to happen your p-value if you used 10 simulations versus 10,000 simulations? Explain.</p>
+<pre class="r"><code># TODO during tutorial</code></pre>
+</div>
+<div id="question-1e-discussion" class="section level3">
+<h3>Question 1e Discussion</h3>
+<p>For Question 1e, which statement is/are valid? Explain.</p>
+</div>
+<div id="question-3d-discussion" class="section level3">
+<h3>Question 3d Discussion</h3>
+<p>Some people claim that they can tell the difference between Coke or Pepsi in the first sip. A researcher wanting to test the claim that people can distinguish (correctly or incorrectly) between them randomly selected 30 people. He then filled 30 plain white cups with Pepsi and asked each person to take one sip from their cup and identify the drink as Coke or Pepsi. 13 participants correctly identified the drink as Pepsi and the other 17 participants said the drink was Coke. Does this suggest that people can correctly (or incorrectly) tell a difference between the two drinks? Suppose you did a simulation analysis with 1000 simulations and the resulting P-value was 0.04.</p>
+<p>For Question 3d, what is an appropriate conclusion? Are there any limitations to this analysis?</p>
+</div>
+<div id="written-evaluation-2" class="section level3">
+<h3>Written Evaluation</h3>
+<pre class="r"><code>repetitions &lt;- 10000
+simulated_stats &lt;- rep(NA, repetitions)
+n_observations &lt;- 12
+test_stat &lt;- 11 / 12
+for (i in 1:repetitions)
+{
+    new_sim &lt;-
+        sample(c(&quot;correct&quot;, &quot;incorrect&quot;),
+               size = n_observations,
+               replace = TRUE)
+    sim_p &lt;- sum(new_sim == &quot;correct&quot;) / n_observations
+    simulated_stats[i] &lt;- sim_p
+}
+sim &lt;- tibble(p_correct = simulated_stats)
+ggplot(sim, aes(p_correct)) +
+    geom_histogram(binwidth = 0.02) +
+    geom_vline(xintercept = 11 / 12, color = &quot;red&quot;) +
+    geom_vline(xintercept = 0.5 - (11 / 12 - .5), color = &quot;red&quot;) +
+    theme_light()</code></pre>
+<p><img src="STA130F19_files/figure-html/Resources%20for%20Written%20Evaluation-1.png" width="576" /></p>
+<pre class="r"><code>sim %&gt;%
+    filter(p_correct &gt;= 11 / 12 | p_correct &lt;= 0.5 - (11 / 12 - .5)) %&gt;%
+    summarise(p_value = n() / repetitions)</code></pre>
+<pre><code>## # A tibble: 1 x 1
+##   p_value
+##     &lt;dbl&gt;
+## 1  0.0057</code></pre>
+<p>The question will show up here when it’s time.</p>
+</div>
 </div>
 <div id="additional-resources-for-coding" class="section level2">
 <h2>Additional Resources for coding:</h2>
 <p>I mentioned in the last tutorial that the best way to become familiar with how to write code in R is to practice and do some simple data analyses. If you would also like too see what the process from getting data to analysis looks like there is a weekly live coding session called Tidy Tuesdays done by David Robinson. They come out to about 90 minutes, and I think it would be very beneficial to you if you watched one an tried to follow along with some of the commands. An example can be found <a href="https://www.youtube.com/watch?v=AQzZNIyjyWM">here</a></p>
+</div>
+<div id="additional-resources---the-why-of-data-visualization" class="section level2">
+<h2>Additional Resources - the “Why” of data visualization</h2>
+<p>Let’s begin with a short exercise - I have loaded 12 new datasets into my memory. They are all simple and contain 142 observations each of 2 variables - x and y. I will begin by just looking at some data summaries that we typically look at in this class. Mean, standard deviation, and correlation of the two variables.</p>
+<pre class="r"><code>library(datasauRus)
+datasaurus_dozen %&gt;%
+    group_by(dataset) %&gt;%
+    summarize(
+        mean_x    = mean(x),
+        mean_y    = mean(y),
+        std_dev_x = sd(x),
+        std_dev_y = sd(y),
+        corr_x_y  = cor(x, y),
+        median_x  = median(x),
+        median_y  = median(y)
+    ) %&gt;%
+    mutate(ID = 1:13) %&gt;%
+    dplyr::select(-dataset)</code></pre>
+<pre><code>## # A tibble: 13 x 8
+##    mean_x mean_y std_dev_x std_dev_y corr_x_y median_x median_y    ID
+##     &lt;dbl&gt;  &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;int&gt;
+##  1   54.3   47.8      16.8      26.9  -0.0641     53.3     47.5     1
+##  2   54.3   47.8      16.8      26.9  -0.0686     53.8     47.4     2
+##  3   54.3   47.8      16.8      26.9  -0.0683     54.0     51.0     3
+##  4   54.3   47.8      16.8      26.9  -0.0645     53.3     46.0     4
+##  5   54.3   47.8      16.8      26.9  -0.0603     51.0     51.3     5
+##  6   54.3   47.8      16.8      26.9  -0.0617     53.1     50.5     6
+##  7   54.3   47.8      16.8      26.9  -0.0685     54.2     32.5     7
+##  8   54.3   47.8      16.8      26.9  -0.0690     53.1     46.4     8
+##  9   54.3   47.8      16.8      26.9  -0.0686     54.3     45.3     9
+## 10   54.3   47.8      16.8      26.9  -0.0630     56.5     50.1    10
+## 11   54.3   47.8      16.8      26.9  -0.0694     50.4     47.1    11
+## 12   54.3   47.8      16.8      26.9  -0.0666     64.6     46.3    12
+## 13   54.3   47.8      16.8      26.9  -0.0656     47.1     39.9    13</code></pre>
+<p>As we can see, the numerical summaries are all pretty much the same - which means the datasets should be fairly similar, right? Let’s look at boxplots first:</p>
+<pre class="r"><code>ggplot(datasaurus_dozen, aes(x = x, y = y, colour = dataset)) +
+    geom_boxplot() +
+    theme_light() +
+    theme(legend.position = &quot;none&quot;) +
+    facet_wrap( ~ dataset, ncol = 4)</code></pre>
+<p><img src="STA130F19_files/figure-html/Datasaurus%20Boxplots-1.png" width="576" /></p>
+<p>Most of them seem quite similar. Let’s see what our data actually looks like:</p>
+<pre class="r"><code>ggplot(datasaurus_dozen, aes(x = x, y = y, colour = dataset)) +
+    geom_point() +
+    theme_void() +
+    theme(legend.position = &quot;none&quot;) +
+    facet_wrap( ~ dataset, ncol = 4)</code></pre>
+<p><img src="STA130F19_files/figure-html/Datasaurus%20plots-1.png" width="576" /></p>
 </div>
 </div>
 
