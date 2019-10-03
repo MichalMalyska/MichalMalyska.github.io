@@ -69,6 +69,17 @@ navbar:
       - text: Kaggle Competitions
         icon: fa-code
         href: Kaggle.html
+    
+    - text: Resources
+      icon: fa-code
+      menu:
+      - text: RStudio / R resources
+        icon: fa-book
+        href: RResources.html
+        
+      - text: General Statistics resources
+        icon: fa-book
+        href: StatsResources.html
         
   right:
     - text: About me
