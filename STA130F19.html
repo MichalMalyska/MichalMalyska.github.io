@@ -973,8 +973,9 @@ plot # Show the plot</code></pre>
 <p>Some people claim that they can tell the difference between Coke or Pepsi in the first sip. A researcher wanting to test the claim that people can distinguish (correctly or incorrectly) between them randomly selected 30 people. He then filled 30 plain white cups with Pepsi and asked each person to take one sip from their cup and identify the drink as Coke or Pepsi. 13 participants correctly identified the drink as Pepsi and the other 17 participants said the drink was Coke. Does this suggest that people can correctly (or incorrectly) tell a difference between the two drinks? Suppose you did a simulation analysis with 1000 simulations and the resulting P-value was 0.04.</p>
 <p>For Question 3d, what is an appropriate conclusion? Are there any limitations to this analysis?</p>
 </div>
-<div id="written-evaluation-2" class="section level3">
-<h3>Written Evaluation</h3>
+</div>
+<div id="written-evaluation-2" class="section level2">
+<h2>Written Evaluation</h2>
 <pre class="r"><code>repetitions &lt;- 10000
 simulated_stats &lt;- rep(NA, repetitions)
 n_observations &lt;- 12
@@ -1001,9 +1002,8 @@ ggplot(sim, aes(p_correct)) +
 <pre><code>## # A tibble: 1 x 1
 ##   p_value
 ##     &lt;dbl&gt;
-## 1  0.0057</code></pre>
-<p>The question will show up here when it’s time.</p>
-</div>
+## 1  0.0062</code></pre>
+<p><strong>QUESTION</strong> A local newspaper has asked you to provide a brief summary of the research you did on this Scottish woman’s amazing abilities (Question 2b)! Remember to include a sentence to state the purpose of your research, a brief explanation of your methods, your key findings, and a concluding sentence that their average reader will understand. You may also want to mention some of the limitations of your research – how confident can we be in these findings? <strong>SUBMIT ON QUERCUS</strong></p>
 </div>
 <div id="additional-resources-for-coding" class="section level2">
 <h2>Additional Resources for coding:</h2>
