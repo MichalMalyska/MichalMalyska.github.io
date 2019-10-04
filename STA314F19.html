@@ -586,18 +586,18 @@ summary(model1)</code></pre>
 ## 
 ## Residuals:
 ##     Min      1Q  Median      3Q     Max 
-## -10.091  -3.974  -1.197   1.921  24.349 
+## -15.478  -4.264  -1.492   2.266  24.180 
 ## 
 ## Coefficients:
 ##             Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept) 34.84799    0.66720   52.23   &lt;2e-16 ***
-## lstat       -0.96510    0.04666  -20.68   &lt;2e-16 ***
+## (Intercept)  34.8172     0.6978   49.90   &lt;2e-16 ***
+## lstat        -0.9441     0.0477  -19.79   &lt;2e-16 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 6.174 on 352 degrees of freedom
-## Multiple R-squared:  0.5486, Adjusted R-squared:  0.5473 
-## F-statistic: 427.7 on 1 and 352 DF,  p-value: &lt; 2.2e-16</code></pre>
+## Residual standard error: 6.55 on 352 degrees of freedom
+## Multiple R-squared:  0.5268, Adjusted R-squared:  0.5254 
+## F-statistic: 391.8 on 1 and 352 DF,  p-value: &lt; 2.2e-16</code></pre>
 <pre class="r"><code>plot(model1)</code></pre>
 <p><img src="STA314F19_files/figure-html/Model%20Assumptions-1.png" width="576" /><img src="STA314F19_files/figure-html/Model%20Assumptions-2.png" width="576" /><img src="STA314F19_files/figure-html/Model%20Assumptions-3.png" width="576" /><img src="STA314F19_files/figure-html/Model%20Assumptions-4.png" width="576" /></p>
 <p>Assumptions are not satisfied!</p>
@@ -629,19 +629,19 @@ summary(model2)</code></pre>
 ## 
 ## Residuals:
 ##     Min      1Q  Median      3Q     Max 
-## -11.430  -3.979  -1.242   2.017  22.961 
+## -16.270  -4.282  -1.484   2.660  22.865 
 ## 
 ## Coefficients:
 ##             Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept) 33.41115    0.86303  38.714  &lt; 2e-16 ***
-## lstat       -1.04942    0.05656 -18.553  &lt; 2e-16 ***
-## age          0.03629    0.01399   2.594  0.00988 ** 
+## (Intercept) 33.48517    0.91463  36.611   &lt;2e-16 ***
+## lstat       -1.02161    0.05875 -17.388   &lt;2e-16 ***
+## age          0.03386    0.01515   2.235    0.026 *  
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 6.124 on 351 degrees of freedom
-## Multiple R-squared:  0.557,  Adjusted R-squared:  0.5545 
-## F-statistic: 220.7 on 2 and 351 DF,  p-value: &lt; 2.2e-16</code></pre>
+## Residual standard error: 6.513 on 351 degrees of freedom
+## Multiple R-squared:  0.5334, Adjusted R-squared:  0.5307 
+## F-statistic: 200.6 on 2 and 351 DF,  p-value: &lt; 2.2e-16</code></pre>
 <pre class="r"><code>plot(model2)</code></pre>
 <p><img src="STA314F19_files/figure-html/MLR-1.png" width="576" /><img src="STA314F19_files/figure-html/MLR-2.png" width="576" /><img src="STA314F19_files/figure-html/MLR-3.png" width="576" /><img src="STA314F19_files/figure-html/MLR-4.png" width="576" /></p>
 <p>How to add everything (and subtract some) variables:</p>
@@ -653,28 +653,28 @@ summary(model3)</code></pre>
 ## 
 ## Residuals:
 ##      Min       1Q   Median       3Q      Max 
-## -15.4698  -2.8446  -0.4782   1.7629  25.2146 
+## -11.3489  -3.0458  -0.6117   2.0301  25.4191 
 ## 
 ## Coefficients:
 ##               Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)  38.582480   5.739256   6.723 7.50e-11 ***
-## crim         -0.143932   0.040008  -3.598 0.000369 ***
-## zn            0.040210   0.016216   2.480 0.013631 *  
-## chas          2.519680   0.971408   2.594 0.009899 ** 
-## nox         -17.805974   4.147667  -4.293 2.30e-05 ***
-## rm            3.554531   0.452795   7.850 5.40e-14 ***
-## dis          -1.417489   0.218384  -6.491 3.00e-10 ***
-## rad           0.315034   0.076760   4.104 5.08e-05 ***
-## tax          -0.010494   0.004152  -2.528 0.011932 *  
-## ptratio      -0.981758   0.154489  -6.355 6.66e-10 ***
-## black         0.009165   0.003215   2.851 0.004628 ** 
-## lstat        -0.556946   0.055368 -10.059  &lt; 2e-16 ***
+## (Intercept)  33.894182   6.330942   5.354 1.58e-07 ***
+## crim         -0.141533   0.036919  -3.834 0.000150 ***
+## zn            0.049012   0.016217   3.022 0.002699 ** 
+## chas          3.838400   1.064806   3.605 0.000359 ***
+## nox         -19.492956   4.337231  -4.494 9.56e-06 ***
+## rm            4.093314   0.518198   7.899 3.87e-14 ***
+## dis          -1.617703   0.223072  -7.252 2.77e-12 ***
+## rad           0.305310   0.074606   4.092 5.33e-05 ***
+## tax          -0.009415   0.003915  -2.405 0.016697 *  
+## ptratio      -0.854389   0.161702  -5.284 2.26e-07 ***
+## black         0.009051   0.003373   2.684 0.007636 ** 
+## lstat        -0.523129   0.056640  -9.236  &lt; 2e-16 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 4.778 on 342 degrees of freedom
-## Multiple R-squared:  0.7373, Adjusted R-squared:  0.7288 
-## F-statistic: 87.25 on 11 and 342 DF,  p-value: &lt; 2.2e-16</code></pre>
+## Residual standard error: 5.007 on 342 degrees of freedom
+## Multiple R-squared:  0.7314, Adjusted R-squared:  0.7227 
+## F-statistic: 84.64 on 11 and 342 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p>How to add interactions:</p>
 <pre class="r"><code>model4 &lt;- lm(data = df_train, formula = medv ~ . -age -indus + lstat:ptratio )
 summary(model4)</code></pre>
@@ -684,29 +684,29 @@ summary(model4)</code></pre>
 ## 
 ## Residuals:
 ##      Min       1Q   Median       3Q      Max 
-## -15.5829  -2.8401  -0.4829   1.7740  25.1561 
+## -11.3495  -3.0458  -0.6146   2.0275  25.4242 
 ## 
 ## Coefficients:
 ##                 Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)    37.677942   7.187875   5.242 2.79e-07 ***
-## crim           -0.143452   0.040129  -3.575 0.000401 ***
-## zn              0.040894   0.016563   2.469 0.014039 *  
-## chas            2.519429   0.972769   2.590 0.010011 *  
-## nox           -18.147283   4.461442  -4.068 5.91e-05 ***
-## rm              3.581243   0.471008   7.603 2.83e-13 ***
-## dis            -1.431299   0.228406  -6.266 1.11e-09 ***
-## rad             0.315238   0.076873   4.101 5.15e-05 ***
-## tax            -0.010363   0.004204  -2.465 0.014187 *  
-## ptratio        -0.931997   0.283422  -3.288 0.001113 ** 
-## black           0.009113   0.003229   2.822 0.005052 ** 
-## lstat          -0.470537   0.416082  -1.131 0.258903    
-## ptratio:lstat  -0.004517   0.021555  -0.210 0.834150    
+## (Intercept)    3.397e+01  7.673e+00   4.428 1.28e-05 ***
+## crim          -1.416e-01  3.703e-02  -3.823 0.000156 ***
+## zn             4.895e-02  1.658e-02   2.952 0.003378 ** 
+## chas           3.839e+00  1.067e+00   3.599 0.000367 ***
+## nox           -1.946e+01  4.671e+00  -4.166 3.93e-05 ***
+## rm             4.091e+00  5.336e-01   7.667 1.86e-13 ***
+## dis           -1.616e+00  2.330e-01  -6.937 2.03e-11 ***
+## rad            3.053e-01  7.472e-02   4.086 5.47e-05 ***
+## tax           -9.428e-03  3.981e-03  -2.368 0.018436 *  
+## ptratio       -8.588e-01  2.883e-01  -2.979 0.003099 ** 
+## black          9.054e-03  3.381e-03   2.678 0.007760 ** 
+## lstat         -5.306e-01  4.039e-01  -1.313 0.189907    
+## ptratio:lstat  3.883e-04  2.087e-02   0.019 0.985170    
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 4.785 on 341 degrees of freedom
-## Multiple R-squared:  0.7373, Adjusted R-squared:  0.7281 
-## F-statistic: 79.76 on 12 and 341 DF,  p-value: &lt; 2.2e-16</code></pre>
+## Residual standard error: 5.014 on 341 degrees of freedom
+## Multiple R-squared:  0.7314, Adjusted R-squared:  0.7219 
+## F-statistic: 77.36 on 12 and 341 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p>How to write high level interactions:</p>
 <pre class="r"><code>model5 &lt;- lm(data = df_train, formula = medv ~ lstat*ptratio*black)
 summary(model5)</code></pre>
@@ -716,22 +716,24 @@ summary(model5)</code></pre>
 ## 
 ## Residuals:
 ##      Min       1Q   Median       3Q      Max 
-## -13.0878  -3.5204  -0.5447   1.5533  27.3616 
+## -13.1307  -3.9053  -0.9233   1.7941  27.1501 
 ## 
 ## Coefficients:
-##                       Estimate Std. Error t value Pr(&gt;|t|)
-## (Intercept)         -3.334e+01  8.516e+01  -0.392    0.696
-## lstat                2.341e+00  5.614e+00   0.417    0.677
-## ptratio              2.513e+00  4.251e+00   0.591    0.555
-## black                2.596e-01  2.215e-01   1.172    0.242
-## lstat:ptratio       -1.262e-01  2.790e-01  -0.452    0.651
-## lstat:black         -1.100e-02  1.465e-02  -0.751    0.453
-## ptratio:black       -1.120e-02  1.107e-02  -1.012    0.312
-## lstat:ptratio:black  4.736e-04  7.288e-04   0.650    0.516
+##                       Estimate Std. Error t value Pr(&gt;|t|)  
+## (Intercept)         -2.814e+01  5.108e+01  -0.551   0.5820  
+## lstat                2.176e+00  2.950e+00   0.738   0.4613  
+## ptratio              2.287e+00  2.584e+00   0.885   0.3766  
+## black                2.515e-01  1.341e-01   1.875   0.0616 .
+## lstat:ptratio       -1.191e-01  1.483e-01  -0.803   0.4223  
+## lstat:black         -1.130e-02  7.822e-03  -1.444   0.1495  
+## ptratio:black       -1.090e-02  6.798e-03  -1.603   0.1098  
+## lstat:ptratio:black  4.956e-04  3.940e-04   1.258   0.2093  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 5.577 on 346 degrees of freedom
-## Multiple R-squared:  0.638,  Adjusted R-squared:  0.6306 
-## F-statistic:  87.1 on 7 and 346 DF,  p-value: &lt; 2.2e-16</code></pre>
+## Residual standard error: 6.019 on 346 degrees of freedom
+## Multiple R-squared:  0.6071, Adjusted R-squared:  0.5992 
+## F-statistic: 76.39 on 7 and 346 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p>This is what our data looks like:</p>
 <pre class="r"><code>ggplot(data = df_train, aes(x = lstat, y = medv)) +
   geom_point() +
@@ -746,19 +748,19 @@ summary(model6)</code></pre>
 ## 
 ## Residuals:
 ##      Min       1Q   Median       3Q      Max 
-## -10.4282  -4.1065  -0.4109   2.4693  25.3656 
+## -15.6090  -4.2046  -0.3744   2.6421  25.2400 
 ## 
 ## Coefficients:
 ##              Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept) 43.177785   1.022679   42.22   &lt;2e-16 ***
-## lstat       -2.376692   0.147466  -16.12   &lt;2e-16 ***
-## I(lstat^2)   0.045215   0.004535    9.97   &lt;2e-16 ***
+## (Intercept) 44.298144   1.056174   41.94   &lt;2e-16 ***
+## lstat       -2.514702   0.149400  -16.83   &lt;2e-16 ***
+## I(lstat^2)   0.048744   0.004456   10.94   &lt;2e-16 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 5.458 on 351 degrees of freedom
-## Multiple R-squared:  0.6482, Adjusted R-squared:  0.6462 
-## F-statistic: 323.4 on 2 and 351 DF,  p-value: &lt; 2.2e-16</code></pre>
+## Residual standard error: 5.665 on 351 degrees of freedom
+## Multiple R-squared:  0.6471, Adjusted R-squared:  0.6451 
+## F-statistic: 321.8 on 2 and 351 DF,  p-value: &lt; 2.2e-16</code></pre>
 <pre class="r"><code>ggplot(data = df_train, aes(x = lstat, y = medv)) +
   geom_point() +
   geom_smooth(method = &quot;lm&quot;, formula = y ~ x + I(x^2)) +
@@ -773,22 +775,22 @@ summary(model7)</code></pre>
 ## 
 ## Residuals:
 ##      Min       1Q   Median       3Q      Max 
-## -13.7431  -3.1562  -0.5747   2.0661  27.1521 
+## -14.4738  -3.1575  -0.5226   2.3261  27.0463 
 ## 
 ## Coefficients:
 ##                           Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)                22.8336     0.2736  83.446  &lt; 2e-16 ***
-## poly(lstat, degree = 5)1 -127.6884     5.1484 -24.802  &lt; 2e-16 ***
-## poly(lstat, degree = 5)2   54.4191     5.1484  10.570  &lt; 2e-16 ***
-## poly(lstat, degree = 5)3  -21.7681     5.1484  -4.228 3.01e-05 ***
-## poly(lstat, degree = 5)4   22.9039     5.1484   4.449 1.16e-05 ***
-## poly(lstat, degree = 5)5  -15.2970     5.1484  -2.971  0.00317 ** 
+## (Intercept)                22.8469     0.2824  80.912  &lt; 2e-16 ***
+## poly(lstat, degree = 5)1 -129.6530     5.3127 -24.404  &lt; 2e-16 ***
+## poly(lstat, degree = 5)2   61.9586     5.3127  11.662  &lt; 2e-16 ***
+## poly(lstat, degree = 5)3  -25.1276     5.3127  -4.730 3.27e-06 ***
+## poly(lstat, degree = 5)4   23.5874     5.3127   4.440 1.21e-05 ***
+## poly(lstat, degree = 5)5  -15.8957     5.3127  -2.992  0.00297 ** 
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 5.148 on 348 degrees of freedom
-## Multiple R-squared:  0.6897, Adjusted R-squared:  0.6852 
-## F-statistic: 154.7 on 5 and 348 DF,  p-value: &lt; 2.2e-16</code></pre>
+## Residual standard error: 5.313 on 348 degrees of freedom
+## Multiple R-squared:  0.6922, Adjusted R-squared:  0.6878 
+## F-statistic: 156.5 on 5 and 348 DF,  p-value: &lt; 2.2e-16</code></pre>
 <pre class="r"><code>ggplot(data = df_train, aes(x = lstat, y = medv)) +
   geom_point() +
   geom_smooth(method = &quot;lm&quot;, formula = y ~ poly(x, degree = 5)) +
@@ -807,17 +809,17 @@ df2_test &lt;- setdiff(df2, df2_train)
 glimpse(df2_train)</code></pre>
 <pre><code>## Observations: 280
 ## Variables: 11
-## $ Sales       &lt;dbl&gt; 7.67, 4.81, 5.61, 4.90, 4.96, 10.96, 6.63, 6.98, 13.…
-## $ CompPrice   &lt;dbl&gt; 129, 97, 138, 134, 133, 115, 115, 116, 149, 131, 122…
-## $ Income      &lt;dbl&gt; 117, 46, 107, 103, 100, 28, 105, 40, 69, 25, 76, 40,…
-## $ Advertising &lt;dbl&gt; 8, 11, 9, 13, 3, 11, 0, 0, 20, 10, 0, 17, 0, 0, 0, 6…
-## $ Population  &lt;dbl&gt; 400, 267, 480, 25, 350, 29, 45, 74, 366, 183, 270, 4…
-## $ Price       &lt;dbl&gt; 101, 107, 154, 144, 126, 86, 108, 97, 134, 104, 100,…
-## $ ShelveLoc   &lt;fct&gt; Bad, Medium, Medium, Medium, Bad, Good, Medium, Medi…
-## $ Age         &lt;dbl&gt; 36, 80, 47, 76, 55, 53, 71, 76, 60, 56, 60, 54, 49, …
-## $ Education   &lt;dbl&gt; 10, 15, 11, 17, 13, 18, 15, 15, 13, 15, 18, 17, 13, …
-## $ Urban       &lt;fct&gt; Yes, Yes, No, No, Yes, Yes, Yes, No, Yes, No, No, No…
-## $ US          &lt;fct&gt; Yes, Yes, Yes, Yes, Yes, Yes, No, No, Yes, Yes, No, …</code></pre>
+## $ Sales       &lt;dbl&gt; 5.40, 10.59, 6.88, 4.10, 5.90, 10.08, 5.55, 2.05, 4.…
+## $ CompPrice   &lt;dbl&gt; 149, 131, 96, 121, 138, 116, 104, 131, 137, 119, 122…
+## $ Income      &lt;dbl&gt; 73, 120, 39, 78, 92, 72, 100, 82, 112, 98, 74, 43, 4…
+## $ Advertising &lt;dbl&gt; 13, 15, 0, 4, 0, 10, 8, 0, 15, 0, 0, 0, 11, 0, 0, 10…
+## $ Population  &lt;dbl&gt; 381, 262, 161, 413, 13, 456, 398, 132, 434, 18, 424,…
+## $ Price       &lt;dbl&gt; 163, 124, 112, 130, 120, 130, 97, 157, 149, 126, 149…
+## $ ShelveLoc   &lt;fct&gt; Bad, Medium, Good, Bad, Bad, Good, Medium, Bad, Bad,…
+## $ Age         &lt;dbl&gt; 26, 30, 27, 46, 61, 41, 61, 25, 66, 73, 51, 57, 80, …
+## $ Education   &lt;dbl&gt; 11, 10, 14, 10, 12, 14, 11, 14, 13, 17, 13, 10, 15, …
+## $ Urban       &lt;fct&gt; No, Yes, No, No, Yes, No, Yes, Yes, Yes, No, Yes, No…
+## $ US          &lt;fct&gt; Yes, Yes, No, Yes, No, Yes, Yes, No, Yes, No, No, Ye…</code></pre>
 <pre class="r"><code># Fit a model with a catergorical variable
 model7 &lt;- lm(data = df2_train, formula = Sales ~ ShelveLoc)
 summary(model7)</code></pre>
@@ -827,19 +829,19 @@ summary(model7)</code></pre>
 ## 
 ## Residuals:
 ##     Min      1Q  Median      3Q     Max 
-## -6.7449 -1.6730 -0.0155  1.6126  5.9634 
+## -7.1669 -1.5894  0.0581  1.5884  6.1931 
 ## 
 ## Coefficients:
 ##                 Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)       5.7066     0.2943  19.392  &lt; 2e-16 ***
-## ShelveLocGood     4.6184     0.4212  10.963  &lt; 2e-16 ***
-## ShelveLocMedium   1.8340     0.3498   5.243 3.14e-07 ***
+## (Intercept)       5.0876     0.2889   17.61  &lt; 2e-16 ***
+## ShelveLocGood     5.2889     0.4243   12.46  &lt; 2e-16 ***
+## ShelveLocMedium   2.0794     0.3443    6.04 4.95e-09 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 2.354 on 277 degrees of freedom
-## Multiple R-squared:  0.3065, Adjusted R-squared:  0.3014 
-## F-statistic:  61.2 on 2 and 277 DF,  p-value: &lt; 2.2e-16</code></pre>
+## Residual standard error: 2.347 on 277 degrees of freedom
+## Multiple R-squared:  0.3619, Adjusted R-squared:  0.3572 
+## F-statistic: 78.54 on 2 and 277 DF,  p-value: &lt; 2.2e-16</code></pre>
 <pre class="r"><code># What are ShelveLocGood and ShelveLocMedium 
 contrasts(df2$ShelveLoc)</code></pre>
 <pre><code>##        Good Medium
@@ -950,6 +952,25 @@ Corr(X,Y) = \frac{(\sum_i x_iy_i)}{\sqrt{\sum_i x_i^2}\sqrt{\sum_i y_i^2}}
 <h2>Additional Materials</h2>
 <p>Great <a href="https://www.alexpghayes.com/blog/understanding-multinomial-regression-with-partial-dependence-plots/">blogpost</a> on understanding Mutinomial regression with Partial Dependence plots.</p>
 <p>If you want to type up your homework 2 in RMarkdown and save on time I would suggest taking a look at the equatiomatic package. (This is also super useful for STA303)</p>
+</div>
+<div id="tutorial-questions" class="section level2">
+<h2>Tutorial Questions</h2>
+<ul>
+<li>Why does logistic regression become unstable for linearly separable data?</li>
+</ul>
+<p>Answer:</p>
+<p>If the data is perfectly linearly separable (meaning that you can draw a hyperplane such that all datapoints of either class are on different sides of it). Then the MLE solution to logistic regression does not exist. What this would mean when you are estimating coefficients is that as you train your model the estimates are going to diverge to infinity as your logistic regression is trying to approximate a step function. A good description of this can be found <a href="https://stats.stackexchange.com/a/254266">here</a></p>
+<ul>
+<li>Can you talk more about LDA?</li>
+</ul>
+<p>Answer:</p>
+<p>I think the most helpful right now would be to share the LDA slides from STA414</p>
+<p><img src="figures/STA314F19/FLDA1.png" /></p>
+<p><img src="figures/STA314F19/FLDA2.png" /></p>
+<p><img src="figures/STA314F19/FLDA3.png" /></p>
+<p><img src="figures/STA314F19/FLDA4.png" /></p>
+<p><img src="figures/STA314F19/FLDA5.png" /></p>
+<p><img src="figures/STA314F19/QDA1.png" /> <img src="figures/STA314F19/QDA2.png" /> <img src="figures/STA314F19/QDA3.png" /> <img src="figures/STA314F19/QDA4.png" /> <img src="figures/STA314F19/QDA5.png" /></p>
 </div>
 </div>
 
