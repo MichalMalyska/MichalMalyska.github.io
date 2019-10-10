@@ -1004,7 +1004,7 @@ run_simulation(10000)</code></pre>
 ## # A tibble: 1 x 1
 ##   p_value
 ##     &lt;dbl&gt;
-## 1  0.0639</code></pre>
+## 1  0.0627</code></pre>
 <pre class="r"><code>run_simulation(10)</code></pre>
 <pre><code>## [[1]]</code></pre>
 <p><img src="STA130F19_files/figure-html/Q1%20Experiment-2.png" width="576" /></p>
@@ -1053,7 +1053,7 @@ ggplot(sim, aes(p_correct)) +
 <pre><code>## # A tibble: 1 x 1
 ##   p_value
 ##     &lt;dbl&gt;
-## 1  0.0061</code></pre>
+## 1  0.0059</code></pre>
 <p><strong>QUESTION</strong> A local newspaper has asked you to provide a brief summary of the research you did on this Scottish woman’s amazing abilities (Question 2b)! Remember to include a sentence to state the purpose of your research, a brief explanation of your methods, your key findings, and a concluding sentence that their average reader will understand. You may also want to mention some of the limitations of your research – how confident can we be in these findings? <strong>SUBMIT ON QUERCUS</strong></p>
 </div>
 <div id="additional-resources-for-coding" class="section level2">
@@ -1107,6 +1107,105 @@ datasaurus_dozen %&gt;%
     theme(legend.position = &quot;none&quot;) +
     facet_wrap( ~ dataset, ncol = 4)</code></pre>
 <p><img src="STA130F19_files/figure-html/Datasaurus%20plots-1.png" width="576" /></p>
+</div>
+</div>
+<div id="tutorial-5" class="section level1">
+<h1>Tutorial 5</h1>
+<div id="agenda-1" class="section level2">
+<h2>Agenda:</h2>
+<ul>
+<li><p>Vocab</p></li>
+<li><p>Presentation Skills</p></li>
+<li><p>Group Discussion</p></li>
+<li><p>Group Presentations</p></li>
+<li><p>Ticket Out the Door</p></li>
+</ul>
+</div>
+<div id="vocab-1" class="section level2">
+<h2>Vocab</h2>
+<ul>
+<li><p>Type I error</p></li>
+<li><p>Type II error</p></li>
+<li><p>Two Sample test</p></li>
+<li><p>One Sample test</p></li>
+<li><p>Approximate Permutation test</p></li>
+</ul>
+<p>Great resource (With LLAMAS!) <a href="https://www.jwilber.me/permutationtest/">here</a></p>
+<p>Real-world example: Somebody is being convicted of murder.</p>
+<p><span class="math inline">\(H_0\)</span> ? <span class="math inline">\(H_a\)</span> ? Type I error? Type II error?</p>
+</div>
+<div id="presentation-skills" class="section level2">
+<h2>Presentation Skills</h2>
+<p>Group Discussion : What makes a good oral presentation?</p>
+<div id="content" class="section level3">
+<h3>Content</h3>
+<ul>
+<li><p>What is the main message you want to get across?</p></li>
+<li><p>Define terms early</p></li>
+<li><p>Make clear transitions between parts of your presentation</p></li>
+<li><p>Make your data/ figures meaningful</p></li>
+<li><p>Summarize</p></li>
+<li><p>Create an (organized) outline of your presentation</p></li>
+</ul>
+</div>
+<div id="delivery" class="section level3">
+<h3>Delivery</h3>
+<ul>
+<li><p>Be confident, make eye contact and avoid reading</p></li>
+<li><p>Avoid filler words – “ummm”, “like”, “you know”</p></li>
+<li><p>Speak slowly and it’s ok to pause (and breathe!)</p></li>
+<li><p>Remember to enunciate all the parts of each word</p></li>
+<li><p>Practice!</p></li>
+</ul>
+</div>
+<div id="useful-phrases" class="section level3">
+<h3>Useful Phrases:</h3>
+<p><strong>Providing an outline of your presentation:</strong></p>
+<p>“I’d like to give you a brief outline of my presentation…”;</p>
+<p>“Here is the agenda for the meeting…”;</p>
+<p>“My presentation consists of the following parts…”;</p>
+<p>“The presentation is divided into four main sections…”</p>
+<p><strong>Making clear transitions:</strong></p>
+<p>“I’d like to move on to another part of the presentation…”;</p>
+<p>“Now I’d like to look at…”; “For instance…”; “In addition…”; “Moreover…”; “This leads me to the next point…”</p>
+<p><strong>Summarizing:</strong></p>
+<p>“Let’s summarize briefly what we’ve looked at…”; “In conclusion…”; “I’d like to recap…”; “I’d like to sum up the main points…”</p>
+</div>
+</div>
+<div id="group-presentations" class="section level2">
+<h2>Group Presentations</h2>
+<p>Prepare a 5-minute presentation summarizing the one of the following research findings.</p>
+<p><strong>Submit your outline on QUERCUS</strong></p>
+<p>Your oral presentation, like a written summary, should include the following components:</p>
+<ol style="list-style-type: decimal">
+<li><p>Contextualize the problem</p></li>
+<li><p>Summarize the methods. E.g. State hypotheses; define the test statistic; etc.</p></li>
+<li><p>Summarize your findings</p></li>
+<li><p>Conclusion</p></li>
+<li><p>Limitations (optional, but good practice)</p></li>
+</ol>
+<div id="scenarios" class="section level3">
+<h3>Scenarios</h3>
+<ol style="list-style-type: lower-alpha">
+<li><p>A health survey asked 200 individuals aged 20-45 living in Toronto to report the number minutes they exercised last week. Researchers were interested in determining whether the average duration of exercise differed between people who consume alcohol and those who do not consume alcohol. Assume the researchers who conducted this study found that people who drank alcohol exercised, on average, 20 minutes per week. In contrast, people who did not drink alcohol exercised 40 minutes per week, on average. The researchers reported a p-value of 0.249.</p></li>
+<li><p>A study was conducted to examine whether the sex of a baby is related to whether or not the baby’s mother smoked while she was pregnant. The researchers used a birth registry of all children born in Ontario in 2018, which included approximately 130,000 births. The researchers found that 4% of mothers reported smoking during pregnancy and 52% of babies born to mothers who smoked were male. In contrast, 51% of babies born to mothers who did not smoke were male. The researchers reported a p-value of 0.50.</p></li>
+<li><p>Based on results from a survey of graduates from the University of Toronto, we would like to compare the median salaries of graduates of statistics programs and graduates of computer science programs. 1,000 recent graduates who completed their Bachelor’s degree in the last five years were included in the study; 80% of the respondents were female and 20% were male. Among statistics graduates, the median reported income was $76,000. Among computer science graduates, the median reported income was $84,000. The researchers reported a p-value of 0.014.</p></li>
+<li><p>A team of researchers were interested in understanding millennial’s views regarding housing affordability in Toronto. The team interviewed 850 millennials currently living in Toronto. 84% reported that they felt housing prices were unaffordable in the city. Suppose the researchers were interested in testing whether this proportion was different from a study published last year, which found that 92% of millennials reported that housing costs were unaffordable. The researchers reported a p-value of 0.023.</p></li>
+<li><p>Suppose a drug company was interested in testing a new weight-loss drug. They enrolled 20,000 participants and assigned 10,000 to take their new drug, SlimX, and 10,000 to take a placebo. The researchers found that over 2 months, participants who took SlimX lost, on average, 5 lbs. In comparison, the control group lost 4.5 lbs during the same time. The researchers reported a p-value of <span class="math inline">\(&lt;0.0001\)</span>.</p></li>
+</ol>
+</div>
+<div id="peer-reviewers" class="section level3">
+<h3>Peer Reviewers</h3>
+<ul>
+<li><p>Will change every week</p></li>
+<li><p>Have to write a question for the presenters</p></li>
+<li><p>Fill out the peer review forms confidentially</p></li>
+</ul>
+</div>
+</div>
+<div id="ticket-out-the-door" class="section level2">
+<h2>Ticket out the door</h2>
+<p>Everyone grabs a piece of paper, HAVE TO WRITE A QUESTION about the course materials.</p>
 </div>
 </div>
 
