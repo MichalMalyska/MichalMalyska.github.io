@@ -1004,7 +1004,7 @@ run_simulation(10000)</code></pre>
 ## # A tibble: 1 x 1
 ##   p_value
 ##     &lt;dbl&gt;
-## 1  0.0627</code></pre>
+## 1  0.0642</code></pre>
 <pre class="r"><code>run_simulation(10)</code></pre>
 <pre><code>## [[1]]</code></pre>
 <p><img src="STA130F19_files/figure-html/Q1%20Experiment-2.png" width="576" /></p>
@@ -1013,7 +1013,7 @@ run_simulation(10000)</code></pre>
 ## # A tibble: 1 x 1
 ##   p_value
 ##     &lt;dbl&gt;
-## 1     0.1</code></pre>
+## 1       0</code></pre>
 </div>
 <div id="question-1e-discussion" class="section level3">
 <h3>Question 1e Discussion</h3>
@@ -1053,7 +1053,7 @@ ggplot(sim, aes(p_correct)) +
 <pre><code>## # A tibble: 1 x 1
 ##   p_value
 ##     &lt;dbl&gt;
-## 1  0.0059</code></pre>
+## 1  0.0045</code></pre>
 <p><strong>QUESTION</strong> A local newspaper has asked you to provide a brief summary of the research you did on this Scottish woman’s amazing abilities (Question 2b)! Remember to include a sentence to state the purpose of your research, a brief explanation of your methods, your key findings, and a concluding sentence that their average reader will understand. You may also want to mention some of the limitations of your research – how confident can we be in these findings? <strong>SUBMIT ON QUERCUS</strong></p>
 </div>
 <div id="additional-resources-for-coding" class="section level2">
@@ -1206,6 +1206,154 @@ datasaurus_dozen %&gt;%
 <div id="ticket-out-the-door" class="section level2">
 <h2>Ticket out the door</h2>
 <p>Everyone grabs a piece of paper, HAVE TO WRITE A QUESTION about the course materials.</p>
+</div>
+</div>
+<div id="tutorial-6" class="section level1">
+<h1>Tutorial 6</h1>
+<div id="agenda-2" class="section level2">
+<h2>Agenda</h2>
+<ul>
+<li><p>Reminder: <strong>Term test is in two weeks</strong> (November 1st) !</p></li>
+<li><p>Vocab</p></li>
+<li><p>Group Discussion</p></li>
+<li><p>Oral Presentations</p></li>
+<li><p>Time to create poster groups - project details will be provided next week.</p></li>
+</ul>
+</div>
+<div id="midterm-details" class="section level2">
+<h2>Midterm details</h2>
+</div>
+<div id="vocab-2" class="section level2">
+<h2>Vocab</h2>
+<div id="this-weeks-review" class="section level3">
+<h3>This week’s review</h3>
+<ul>
+<li>What is a data frame? Tibble?</li>
+</ul>
+<p>Data Frame (DF) / Tibble is an object in R that stores data. We adhere to the tidy principle for DF, that every row is a single observation, and every column contains exactly one variable.</p>
+<ul>
+<li>How to join data frames? (e.g. need a common variable, often called a key)</li>
+</ul>
+<p>We can join two data frames as long as they have at least one column in common. For example if we have a DF with your student numbers and presentation grades, and a second DF with your student numbers and Names, I can join the those two to obtain a table containing your names and presentation grades. I would be using your student numbers as the key.</p>
+</div>
+<div id="ticket-out-the-door-questions" class="section level3">
+<h3>Ticket out the door questions</h3>
+<div id="content-1" class="section level4">
+<h4>Content</h4>
+<ul>
+<li>How to determine Type I and Type II errors?</li>
+</ul>
+<p>You can’t! That is why we are so obsessed with the idea of p-values and power in statistics. When conducting a study you will almost never know that you end up with a Type I or Type II error. We are only able to control the error rate by focusing on studies with low p-values and high power.</p>
+<ul>
+<li>How to calculate p-values?</li>
+</ul>
+<p>We use simulations. All of the code you wrote that was about repetitions is just to get a p-value for the problem. In short:</p>
+<ol start="0" style="list-style-type: decimal">
+<li><p>You conducted a study and obtained some result.</p></li>
+<li><p>Take the distribution under the null hypothesis (e.g. probability = 0.5)</p></li>
+<li><p>Run a large number of simulations using that distribution</p></li>
+<li><p>See in what % of simulations you saw result as extreme or more than your observed test statistic.</p></li>
+</ol>
+<p>That is your approximate p-value. The more simulations you run, the closer it is to the actual p-value.</p>
+<ul>
+<li>What are two-sample and one-sample tests?</li>
+</ul>
+<p>One sample test: I want to see if observations from a certain group are different from a known constant value. (one group -&gt; one sample)</p>
+<p>Two sample test: I want to see if observations from two different groups differ from eachother. (two groups -&gt; two samples)</p>
+<ul>
+<li>What does $ mean?</li>
+</ul>
+<p>I will assume you mean in code. It is a simpler way to access columns of a table. data_frame$column is the same as data_frame[[column]] but it is shorter and more readable.</p>
+</div>
+<div id="organization" class="section level4">
+<h4>Organization</h4>
+<ul>
+<li>Do we need to remember all the R functions from HW?</li>
+</ul>
+<p>You should be familiar with all major tidyverse functions, but we don’t expect you to write code with no syntax errors on the exam.</p>
+<ul>
+<li>How do we know we typed the correct code in week problems?</li>
+</ul>
+<p>Compare your code to the solutions posted on quercus.</p>
+<ul>
+<li>Is there a code reference for R that we can rely on?</li>
+</ul>
+<p>You can access documentation for each function by typing ?function. I link to some other resources where you can look up ways to do things, but overall the best way is to google and look on stack exchange.</p>
+<ul>
+<li>How do we prepare for the midterm?</li>
+</ul>
+<p>Review concepts a lot. Skip code examples. Try to match the focus of classes and tutorials - spend the most time making sure you are familiar with things we spent the most time on. (hint: p-values are one of those things)</p>
+<ul>
+<li>What was the historical average for STA130 ?</li>
+</ul>
+<p>As far as I know it’s pretty high (70s), but don’t quote me on that.</p>
+<ul>
+<li>If the group presentations are marked as a group, what happens if one person performs significantly worse?</li>
+</ul>
+</div>
+<div id="non-course" class="section level4">
+<h4>Non-course</h4>
+<ul>
+<li>Is R more difficult than Python in future study or higher level courses?</li>
+</ul>
+<p>All statistics courses use R and nothing else. If you take CS courses you will have to learn python pretty well. I found R with tidyverse easier to learn for data analysis, and python easier to learn for more advanced algorithms and more involved coding. In the industry you will have to use both.</p>
+<ul>
+<li>How familiar should we be with R for future courses?</li>
+</ul>
+<p>All of statistics courses that use programming, use R. However after STA130 you will not have to learn that much more to be able to handle any other STA course.</p>
+<ul>
+<li>How long did it take you to be able to write entire functions without looking at documentation?</li>
+</ul>
+<p>To get good with tidyverse it took me a couple of projects on my own where I did not have any guidance to get decently good. I only became very proficient after working with tidyverse 8 hours a day at work for a few months.</p>
+<ul>
+<li>How can STA130 help me if I want to study Actuarial Science in the future? How can it help my future workplace?</li>
+</ul>
+<p>Insurance is very slow to adopt new things. I know that most companies are just starting to adopt R, so proficiency with tidyverse can go a long way. But overall it’s not gonna be that useful. Insurance relies on proprietary software to do most complicated things, and has a lot of legacy systems, and environments. You might have to work with SAS and VBA which as far as programming languages go are VERY unpleasant to use.</p>
+<ul>
+<li>What role does STA play in our career planning in the future?</li>
+</ul>
+<p>Depends on what you want to do. Data Science is a rapidly growing field that is still very easy to get into with even basic abilities in R and Python. It also opens the way to more advanced professions and techniques like Machine Learning.</p>
+</div>
+</div>
+</div>
+<div id="group-discussions-in-pairs-this-time" class="section level2">
+<h2>Group Discussions (in pairs this time)</h2>
+<p>Question 1. Based on Practice Problem #2: State which data summary (or summaries) would be appropriate to address each of the following questions based on data in the heroes data frame and why.</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>Do superhero weights tend to vary by publisher?</p></li>
+<li><p>Are good superheroes more likely to be agile than bad superheroes?</p></li>
+</ol>
+<p>Question 2. Based on Practice Problem #3: Describe what each of the following sets of code is doing in 1-2 sentences.</p>
+<ol style="list-style-type: lower-alpha">
+<li></li>
+</ol>
+<pre class="r"><code>data &lt;- full_join(hero_info, hero_power, key=&quot;name&quot;)
+result &lt;- data %&gt;%
+    select(name,Publisher) %&gt;%
+    filter(Publisher==&amp;quot;Marvel Comics&amp;quot;|Publisher==&amp;quot;DC Comics&amp;quot;) %&gt;%
+    group_by(Publisher) %&gt;%
+    summarise(n=n())
+result</code></pre>
+<ol start="2" style="list-style-type: lower-alpha">
+<li></li>
+</ol>
+<pre class="r"><code>data &lt;- left_join(hero_info, hero_power, key=&quot;name&quot;)
+results &lt;- data %&gt;%
+    mutate(weightclass=ifelse(Weight&gt;100,&quot;heavyweight&quot;,&quot;lightweight&quot;)) %&gt;%
+    filter(!is.na(Flight)) %&gt;%
+    group_by(Flight) %&gt;%
+    summarise(prop=sum(weightclass==&quot;heavyweight&quot;)/n()) %&gt;%
+    arrange(desc(prop))
+results</code></pre>
+<p>Question 3. You are interested in exploring which characteristics of neighborhoods in Toronto are associated with higher real-estate values – however, you can only find single pieces of information related to each characteristic in separate databases! For example, you’ve found one source of data with information on housing sale prices and another with condo prices. You found other databases with information on the number of parks and schools in the community, and yet another with the number of restaurants and stores in the community. You also found two other databases with information on community crime rates and walkability scores. What type of information would you need to combine all of these databases into one detailed data set that you can use to explore factors associated with real-estate values? How might you define neighbourhoods?</p>
+</div>
+<div id="oral-presentations" class="section level2">
+<h2>Oral Presentations</h2>
+<ol style="list-style-type: decimal">
+<li><p>Provide a summary of your results for practice problem 1, based on the hypothesis that there are twice as many non-flying superheroes as superheroes who can fly and a significance level of 5%.</p></li>
+<li><p>Provide a summary of your results for practice problem 4, based on the hypothesis that there are an equal number of non-flying superheroes as superheroes who can fly and a significance level of 5%.</p></li>
+<li><p>Based on practice problem 4, how would your conclusion change based on your chosen significance level (i.e., 2.5% versus 5%)? What type of errors (type 1/2) could you have made?</p></li>
+</ol>
 </div>
 </div>
 

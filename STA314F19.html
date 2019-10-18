@@ -549,7 +549,17 @@ div.tocify {
 <pre><code>## The following object is masked from &#39;package:dplyr&#39;:
 ## 
 ##     select</code></pre>
-<pre class="r"><code>library(ISLR)</code></pre>
+<pre class="r"><code>library(ISLR)
+library(corrplot)</code></pre>
+<pre><code>## corrplot 0.84 loaded</code></pre>
+<pre class="r"><code>library(pROC)</code></pre>
+<pre><code>## Type &#39;citation(&quot;pROC&quot;)&#39; for a citation.</code></pre>
+<pre><code>## 
+## Attaching package: &#39;pROC&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     cov, smooth, var</code></pre>
+<pre class="r"><code>library(class)</code></pre>
 <div id="r-setup" class="section level2">
 <h2>R Setup</h2>
 <p>If you need help setting up R and Rstudio, I host a guide on my <a href="https://michalmalyska.github.io/RResources.html">resources page</a></p>
@@ -585,19 +595,19 @@ summary(model1)</code></pre>
 ## lm(formula = medv ~ lstat, data = df_train)
 ## 
 ## Residuals:
-##    Min     1Q Median     3Q    Max 
-## -9.982 -4.000 -1.364  1.931 23.873 
+##     Min      1Q  Median      3Q     Max 
+## -15.215  -3.958  -1.180   2.213  24.447 
 ## 
 ## Coefficients:
 ##             Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept) 34.38968    0.65308   52.66   &lt;2e-16 ***
-## lstat       -0.93051    0.04507  -20.65   &lt;2e-16 ***
+## (Intercept) 34.57179    0.66016   52.37   &lt;2e-16 ***
+## lstat       -0.94632    0.04574  -20.69   &lt;2e-16 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 6.194 on 352 degrees of freedom
-## Multiple R-squared:  0.5477, Adjusted R-squared:  0.5465 
-## F-statistic: 426.3 on 1 and 352 DF,  p-value: &lt; 2.2e-16</code></pre>
+## Residual standard error: 6.163 on 352 degrees of freedom
+## Multiple R-squared:  0.5488, Adjusted R-squared:  0.5475 
+## F-statistic: 428.1 on 1 and 352 DF,  p-value: &lt; 2.2e-16</code></pre>
 <pre class="r"><code>plot(model1)</code></pre>
 <p><img src="STA314F19_files/figure-html/Model%20Assumptions-1.png" width="576" /><img src="STA314F19_files/figure-html/Model%20Assumptions-2.png" width="576" /><img src="STA314F19_files/figure-html/Model%20Assumptions-3.png" width="576" /><img src="STA314F19_files/figure-html/Model%20Assumptions-4.png" width="576" /></p>
 <p>Assumptions are not satisfied!</p>
@@ -629,19 +639,19 @@ summary(model2)</code></pre>
 ## 
 ## Residuals:
 ##     Min      1Q  Median      3Q     Max 
-## -11.320  -4.049  -1.229   1.811  22.801 
+## -16.240  -3.786  -1.238   2.199  22.738 
 ## 
 ## Coefficients:
 ##             Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept) 33.04173    0.84912  38.913   &lt;2e-16 ***
-## lstat       -1.01228    0.05575 -18.157   &lt;2e-16 ***
-## age          0.03512    0.01428   2.459   0.0144 *  
+## (Intercept) 32.82493    0.85566  38.362  &lt; 2e-16 ***
+## lstat       -1.05338    0.05651 -18.639  &lt; 2e-16 ***
+## age          0.04475    0.01420   3.152  0.00176 ** 
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 6.151 on 351 degrees of freedom
-## Multiple R-squared:  0.5554, Adjusted R-squared:  0.5529 
-## F-statistic: 219.2 on 2 and 351 DF,  p-value: &lt; 2.2e-16</code></pre>
+## Residual standard error: 6.087 on 351 degrees of freedom
+## Multiple R-squared:  0.5612, Adjusted R-squared:  0.5587 
+## F-statistic: 224.4 on 2 and 351 DF,  p-value: &lt; 2.2e-16</code></pre>
 <pre class="r"><code>plot(model2)</code></pre>
 <p><img src="STA314F19_files/figure-html/MLR-1.png" width="576" /><img src="STA314F19_files/figure-html/MLR-2.png" width="576" /><img src="STA314F19_files/figure-html/MLR-3.png" width="576" /><img src="STA314F19_files/figure-html/MLR-4.png" width="576" /></p>
 <p>How to add everything (and subtract some) variables:</p>
@@ -653,28 +663,28 @@ summary(model3)</code></pre>
 ## 
 ## Residuals:
 ##      Min       1Q   Median       3Q      Max 
-## -16.0476  -2.8262  -0.5434   1.8303  26.4347 
+## -16.2725  -2.6163  -0.6059   2.1039  24.9894 
 ## 
 ## Coefficients:
 ##               Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)  33.588963   6.154665   5.457 9.29e-08 ***
-## crim         -0.026194   0.050355  -0.520 0.603274    
-## zn            0.042145   0.016541   2.548 0.011274 *  
-## chas          2.999092   1.034052   2.900 0.003969 ** 
-## nox         -17.760867   4.280422  -4.149 4.21e-05 ***
-## rm            3.940325   0.482194   8.172 5.97e-15 ***
-## dis          -1.472799   0.224174  -6.570 1.88e-10 ***
-## rad           0.302250   0.084253   3.587 0.000383 ***
-## tax          -0.013282   0.004484  -2.962 0.003268 ** 
-## ptratio      -0.838186   0.162037  -5.173 3.94e-07 ***
-## black         0.010429   0.003258   3.201 0.001496 ** 
-## lstat        -0.522241   0.056544  -9.236  &lt; 2e-16 ***
+## (Intercept)  34.610681   5.963598   5.804 1.48e-08 ***
+## crim         -0.122622   0.035139  -3.490 0.000547 ***
+## zn            0.049093   0.016594   2.958 0.003308 ** 
+## chas          2.969344   0.999299   2.971 0.003174 ** 
+## nox         -17.555532   4.103385  -4.278 2.45e-05 ***
+## rm            3.854892   0.489971   7.868 4.80e-14 ***
+## dis          -1.464089   0.219273  -6.677 9.87e-11 ***
+## rad           0.293201   0.074997   3.910 0.000112 ***
+## tax          -0.011192   0.003961  -2.826 0.004997 ** 
+## ptratio      -0.829099   0.155306  -5.338 1.71e-07 ***
+## black         0.007305   0.003273   2.232 0.026268 *  
+## lstat        -0.540472   0.056063  -9.640  &lt; 2e-16 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 4.763 on 342 degrees of freedom
-## Multiple R-squared:  0.7402, Adjusted R-squared:  0.7319 
-## F-statistic: 88.59 on 11 and 342 DF,  p-value: &lt; 2.2e-16</code></pre>
+## Residual standard error: 4.755 on 342 degrees of freedom
+## Multiple R-squared:  0.739,  Adjusted R-squared:  0.7306 
+## F-statistic: 88.04 on 11 and 342 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p>How to add interactions:</p>
 <pre class="r"><code>model4 &lt;- lm(data = df_train, formula = medv ~ . -age -indus + lstat:ptratio )
 summary(model4)</code></pre>
@@ -684,29 +694,29 @@ summary(model4)</code></pre>
 ## 
 ## Residuals:
 ##      Min       1Q   Median       3Q      Max 
-## -15.9272  -2.8449  -0.5772   1.8658  26.5312 
+## -16.0577  -2.6329  -0.6341   2.0187  25.1558 
 ## 
 ## Coefficients:
 ##                 Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)    34.759429   7.366624   4.719 3.47e-06 ***
-## crim           -0.028183   0.050887  -0.554 0.580054    
-## zn              0.040873   0.017134   2.385 0.017605 *  
-## chas            3.019162   1.037749   2.909 0.003860 ** 
-## nox           -17.284907   4.589568  -3.766 0.000195 ***
-## rm              3.910229   0.493865   7.918 3.44e-14 ***
-## dis            -1.450514   0.237261  -6.114 2.66e-09 ***
-## rad             0.301616   0.084394   3.574 0.000402 ***
-## tax            -0.013400   0.004508  -2.972 0.003165 ** 
-## ptratio        -0.906469   0.285921  -3.170 0.001661 ** 
-## black           0.010462   0.003264   3.205 0.001477 ** 
-## lstat          -0.636926   0.399444  -1.595 0.111744    
-## ptratio:lstat   0.006030   0.020791   0.290 0.771962    
+## (Intercept)    36.589512   7.192138   5.087 6.01e-07 ***
+## crim           -0.123494   0.035222  -3.506 0.000515 ***
+## zn              0.047463   0.016938   2.802 0.005366 ** 
+## chas            3.014429   1.004570   3.001 0.002892 ** 
+## nox           -16.714599   4.447437  -3.758 0.000201 ***
+## rm              3.796580   0.504550   7.525 4.75e-13 ***
+## dis            -1.432258   0.228799  -6.260 1.16e-09 ***
+## rad             0.291335   0.075175   3.875 0.000128 ***
+## tax            -0.011479   0.004008  -2.864 0.004440 ** 
+## ptratio        -0.938570   0.270916  -3.464 0.000599 ***
+## black           0.007312   0.003277   2.231 0.026300 *  
+## lstat          -0.731034   0.390263  -1.873 0.061898 .  
+## ptratio:lstat   0.009966   0.020197   0.493 0.622032    
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 4.769 on 341 degrees of freedom
-## Multiple R-squared:  0.7403, Adjusted R-squared:  0.7311 
-## F-statistic: 80.99 on 12 and 341 DF,  p-value: &lt; 2.2e-16</code></pre>
+## Residual standard error: 4.761 on 341 degrees of freedom
+## Multiple R-squared:  0.7392, Adjusted R-squared:   0.73 
+## F-statistic: 80.54 on 12 and 341 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p>How to write high level interactions:</p>
 <pre class="r"><code>model5 &lt;- lm(data = df_train, formula = medv ~ lstat*ptratio*black)
 summary(model5)</code></pre>
@@ -716,24 +726,24 @@ summary(model5)</code></pre>
 ## 
 ## Residuals:
 ##      Min       1Q   Median       3Q      Max 
-## -12.6598  -3.3652  -0.8408   1.3818  27.4533 
+## -12.7447  -3.4986  -0.7326   1.6692  27.4842 
 ## 
 ## Coefficients:
 ##                       Estimate Std. Error t value Pr(&gt;|t|)  
-## (Intercept)         -1.925e+01  4.671e+01  -0.412   0.6805  
-## lstat                1.825e+00  2.706e+00   0.674   0.5006  
-## ptratio              1.927e+00  2.362e+00   0.816   0.4152  
-## black                2.286e-01  1.227e-01   1.863   0.0633 .
-## lstat:ptratio       -1.064e-01  1.357e-01  -0.784   0.4337  
-## lstat:black         -1.044e-02  7.206e-03  -1.449   0.1482  
-## ptratio:black       -1.008e-02  6.218e-03  -1.620   0.1061  
-## lstat:ptratio:black  4.693e-04  3.624e-04   1.295   0.1961  
+## (Intercept)         -4.106e+01  5.052e+01  -0.813   0.4169  
+## lstat                2.516e+00  2.736e+00   0.919   0.3585  
+## ptratio              2.954e+00  2.549e+00   1.159   0.2474  
+## black                2.817e-01  1.322e-01   2.131   0.0338 *
+## lstat:ptratio       -1.370e-01  1.375e-01  -0.996   0.3197  
+## lstat:black         -1.196e-02  7.206e-03  -1.660   0.0978 .
+## ptratio:black       -1.250e-02  6.687e-03  -1.870   0.0623 .
+## lstat:ptratio:black  5.303e-04  3.630e-04   1.461   0.1449  
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 5.64 on 346 degrees of freedom
-## Multiple R-squared:  0.6315, Adjusted R-squared:  0.624 
-## F-statistic:  84.7 on 7 and 346 DF,  p-value: &lt; 2.2e-16</code></pre>
+## Residual standard error: 5.611 on 346 degrees of freedom
+## Multiple R-squared:  0.6323, Adjusted R-squared:  0.6249 
+## F-statistic: 85.01 on 7 and 346 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p>This is what our data looks like:</p>
 <pre class="r"><code>ggplot(data = df_train, aes(x = lstat, y = medv)) +
   geom_point() +
@@ -748,19 +758,19 @@ summary(model6)</code></pre>
 ## 
 ## Residuals:
 ##      Min       1Q   Median       3Q      Max 
-## -10.5396  -3.7419  -0.4165   2.3696  24.5457 
+## -15.2670  -4.0100  -0.2982   2.3336  25.3675 
 ## 
 ## Coefficients:
 ##              Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept) 42.929795   0.980458   43.78   &lt;2e-16 ***
-## lstat       -2.367085   0.140022  -16.91   &lt;2e-16 ***
-## I(lstat^2)   0.044947   0.004206   10.69   &lt;2e-16 ***
+## (Intercept) 42.367124   1.034271  40.963   &lt;2e-16 ***
+## lstat       -2.253864   0.147919 -15.237   &lt;2e-16 ***
+## I(lstat^2)   0.041232   0.004481   9.202   &lt;2e-16 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 5.388 on 351 degrees of freedom
-## Multiple R-squared:  0.6588, Adjusted R-squared:  0.6568 
-## F-statistic: 338.8 on 2 and 351 DF,  p-value: &lt; 2.2e-16</code></pre>
+## Residual standard error: 5.54 on 351 degrees of freedom
+## Multiple R-squared:  0.6365, Adjusted R-squared:  0.6344 
+## F-statistic: 307.3 on 2 and 351 DF,  p-value: &lt; 2.2e-16</code></pre>
 <pre class="r"><code>ggplot(data = df_train, aes(x = lstat, y = medv)) +
   geom_point() +
   geom_smooth(method = &quot;lm&quot;, formula = y ~ x + I(x^2)) +
@@ -775,22 +785,22 @@ summary(model7)</code></pre>
 ## 
 ## Residuals:
 ##      Min       1Q   Median       3Q      Max 
-## -14.2779  -3.0292  -0.5651   2.0560  26.6656 
+## -13.3038  -3.1736  -0.6387   2.1873  26.8217 
 ## 
 ## Coefficients:
-##                           Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)                22.7441     0.2649  85.855  &lt; 2e-16 ***
-## poly(lstat, degree = 5)1 -127.9015     4.9843 -25.661  &lt; 2e-16 ***
-## poly(lstat, degree = 5)2   57.5847     4.9843  11.553  &lt; 2e-16 ***
-## poly(lstat, degree = 5)3  -25.6720     4.9843  -5.151 4.36e-07 ***
-## poly(lstat, degree = 5)4   21.8966     4.9843   4.393 1.49e-05 ***
-## poly(lstat, degree = 5)5  -20.1715     4.9843  -4.047 6.40e-05 ***
+##                          Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)                22.714      0.283  80.257  &lt; 2e-16 ***
+## poly(lstat, degree = 5)1 -127.518      5.325 -23.948  &lt; 2e-16 ***
+## poly(lstat, degree = 5)2   50.980      5.325   9.574  &lt; 2e-16 ***
+## poly(lstat, degree = 5)3  -16.865      5.325  -3.167 0.001675 ** 
+## poly(lstat, degree = 5)4   20.432      5.325   3.837 0.000148 ***
+## poly(lstat, degree = 5)5  -14.271      5.325  -2.680 0.007709 ** 
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 4.984 on 348 degrees of freedom
-## Multiple R-squared:  0.7105, Adjusted R-squared:  0.7064 
-## F-statistic: 170.8 on 5 and 348 DF,  p-value: &lt; 2.2e-16</code></pre>
+## Residual standard error: 5.325 on 348 degrees of freedom
+## Multiple R-squared:  0.667,  Adjusted R-squared:  0.6622 
+## F-statistic: 139.4 on 5 and 348 DF,  p-value: &lt; 2.2e-16</code></pre>
 <pre class="r"><code>ggplot(data = df_train, aes(x = lstat, y = medv)) +
   geom_point() +
   geom_smooth(method = &quot;lm&quot;, formula = y ~ poly(x, degree = 5)) +
@@ -809,17 +819,17 @@ df2_test &lt;- setdiff(df2, df2_train)
 glimpse(df2_train)</code></pre>
 <pre><code>## Observations: 280
 ## Variables: 11
-## $ Sales       &lt;dbl&gt; 9.62, 5.27, 7.52, 4.10, 13.36, 4.69, 7.37, 2.99, 7.7…
-## $ CompPrice   &lt;dbl&gt; 151, 98, 123, 130, 103, 132, 130, 103, 144, 131, 131…
-## $ Income      &lt;dbl&gt; 28, 118, 39, 28, 73, 113, 94, 74, 25, 47, 25, 77, 93…
-## $ Advertising &lt;dbl&gt; 8, 0, 5, 6, 3, 0, 8, 0, 3, 7, 10, 15, 4, 0, 0, 4, 13…
-## $ Population  &lt;dbl&gt; 499, 19, 499, 410, 276, 131, 137, 359, 70, 90, 183, …
-## $ Price       &lt;dbl&gt; 135, 107, 98, 133, 72, 124, 128, 97, 116, 118, 104, …
-## $ ShelveLoc   &lt;fct&gt; Medium, Medium, Medium, Bad, Medium, Medium, Medium,…
-## $ Age         &lt;dbl&gt; 48, 64, 34, 72, 34, 76, 64, 55, 77, 47, 56, 48, 66, …
-## $ Education   &lt;dbl&gt; 10, 17, 15, 16, 15, 17, 12, 11, 18, 12, 15, 18, 11, …
-## $ Urban       &lt;fct&gt; Yes, Yes, Yes, Yes, Yes, No, Yes, Yes, Yes, Yes, No,…
-## $ US          &lt;fct&gt; Yes, No, No, Yes, Yes, Yes, Yes, Yes, Yes, Yes, Yes,…</code></pre>
+## $ Sales       &lt;dbl&gt; 4.15, 6.53, 3.89, 9.32, 8.54, 6.87, 6.20, 8.19, 12.8…
+## $ CompPrice   &lt;dbl&gt; 141, 154, 123, 141, 139, 128, 128, 127, 123, 124, 13…
+## $ Income      &lt;dbl&gt; 64, 30, 105, 34, 35, 105, 93, 103, 37, 25, 61, 42, 5…
+## $ Advertising &lt;dbl&gt; 3, 0, 0, 16, 0, 11, 0, 0, 15, 13, 0, 4, 0, 10, 15, 1…
+## $ Population  &lt;dbl&gt; 340, 122, 149, 361, 95, 249, 89, 125, 348, 87, 263, …
+## $ Price       &lt;dbl&gt; 128, 162, 118, 108, 129, 131, 118, 155, 112, 110, 12…
+## $ ShelveLoc   &lt;fct&gt; Bad, Medium, Bad, Medium, Medium, Medium, Medium, Go…
+## $ Age         &lt;dbl&gt; 38, 57, 62, 69, 42, 63, 34, 29, 28, 57, 41, 54, 58, …
+## $ Education   &lt;dbl&gt; 13, 17, 16, 10, 13, 13, 18, 15, 12, 10, 12, 15, 16, …
+## $ Urban       &lt;fct&gt; Yes, No, Yes, Yes, Yes, Yes, Yes, No, Yes, Yes, No, …
+## $ US          &lt;fct&gt; No, No, Yes, Yes, No, Yes, No, Yes, Yes, Yes, No, Ye…</code></pre>
 <pre class="r"><code># Fit a model with a catergorical variable
 model7 &lt;- lm(data = df2_train, formula = Sales ~ ShelveLoc)
 summary(model7)</code></pre>
@@ -829,19 +839,19 @@ summary(model7)</code></pre>
 ## 
 ## Residuals:
 ##     Min      1Q  Median      3Q     Max 
-## -7.1073 -1.6849 -0.1323  1.6136  6.2527 
+## -7.2257 -1.6761  0.0587  1.4668  6.0926 
 ## 
 ## Coefficients:
 ##                 Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)       5.5652     0.2916   19.08  &lt; 2e-16 ***
-## ShelveLocGood     4.6086     0.4243   10.86  &lt; 2e-16 ***
-## ShelveLocMedium   1.5420     0.3497    4.41 1.48e-05 ***
+## (Intercept)       5.5774     0.2913  19.145  &lt; 2e-16 ***
+## ShelveLocGood     4.8596     0.4223  11.506  &lt; 2e-16 ***
+## ShelveLocMedium   1.8083     0.3467   5.215  3.6e-07 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 2.387 on 277 degrees of freedom
-## Multiple R-squared:  0.3074, Adjusted R-squared:  0.3023 
-## F-statistic: 61.46 on 2 and 277 DF,  p-value: &lt; 2.2e-16</code></pre>
+## Residual standard error: 2.349 on 277 degrees of freedom
+## Multiple R-squared:  0.3286, Adjusted R-squared:  0.3238 
+## F-statistic: 67.79 on 2 and 277 DF,  p-value: &lt; 2.2e-16</code></pre>
 <pre class="r"><code># What are ShelveLocGood and ShelveLocMedium 
 contrasts(df2$ShelveLoc)</code></pre>
 <pre><code>##        Good Medium
@@ -960,6 +970,318 @@ Corr(X,Y) = \frac{(\sum_i x_iy_i)}{\sqrt{\sum_i x_i^2}\sqrt{\sum_i y_i^2}}
 </ul>
 <p>Answer:</p>
 <p>If the data is perfectly linearly separable (meaning that you can draw a hyperplane such that all datapoints of either class are on different sides of it). Then the MLE solution to logistic regression does not exist. What this would mean when you are estimating coefficients is that as you train your model the estimates are going to diverge to infinity as your logistic regression is trying to approximate a step function. A good description of this can be found <a href="https://stats.stackexchange.com/a/254266">here</a></p>
+</div>
+</div>
+<div id="tutorial-5" class="section level1">
+<h1>Tutorial 5</h1>
+<div id="lab-4-islr" class="section level2">
+<h2>Lab 4 ISLR</h2>
+<pre class="r"><code># Load the data
+data_orig &lt;- ISLR::Smarket
+df &lt;- data_orig
+
+df_train &lt;- df %&gt;% sample_n(size = 0.7*1250)
+df_test &lt;- setdiff(df, df_train)</code></pre>
+<p>Some simple data exploration</p>
+<pre class="r"><code># Tidyverse way of subsetting data and computing correlations
+corrs &lt;- df %&gt;%
+  dplyr::select(-Direction) %&gt;%
+  cor()
+corrs</code></pre>
+<pre><code>##              Year         Lag1         Lag2         Lag3         Lag4
+## Year   1.00000000  0.029699649  0.030596422  0.033194581  0.035688718
+## Lag1   0.02969965  1.000000000 -0.026294328 -0.010803402 -0.002985911
+## Lag2   0.03059642 -0.026294328  1.000000000 -0.025896670 -0.010853533
+## Lag3   0.03319458 -0.010803402 -0.025896670  1.000000000 -0.024051036
+## Lag4   0.03568872 -0.002985911 -0.010853533 -0.024051036  1.000000000
+## Lag5   0.02978799 -0.005674606 -0.003557949 -0.018808338 -0.027083641
+## Volume 0.53900647  0.040909908 -0.043383215 -0.041823686 -0.048414246
+## Today  0.03009523 -0.026155045 -0.010250033 -0.002447647 -0.006899527
+##                Lag5      Volume        Today
+## Year    0.029787995  0.53900647  0.030095229
+## Lag1   -0.005674606  0.04090991 -0.026155045
+## Lag2   -0.003557949 -0.04338321 -0.010250033
+## Lag3   -0.018808338 -0.04182369 -0.002447647
+## Lag4   -0.027083641 -0.04841425 -0.006899527
+## Lag5    1.000000000 -0.02200231 -0.034860083
+## Volume -0.022002315  1.00000000  0.014591823
+## Today  -0.034860083  0.01459182  1.000000000</code></pre>
+<pre class="r"><code># Easy way to visualize correlations
+corrplot(corrs, method = &quot;color&quot;, type = &quot;lower&quot;)</code></pre>
+<p><img src="STA314F19_files/figure-html/Lab%204%20correlations-1.png" width="576" /></p>
+<p>Pretty much no correlations between our predictors</p>
+<p>Below is the “hacky” way to do correlations for variables that are not numerical. You should always stop and think whether what you are doing makes sense.</p>
+<pre class="r"><code>corrs &lt;- df %&gt;%
+  mutate(Direction = if_else(Direction == &quot;Up&quot;, 1, 0)) %&gt;% # Convert the string to a number
+  cor()
+
+corrplot(corrs, method = &quot;color&quot;, type = &quot;lower&quot;)</code></pre>
+<p><img src="STA314F19_files/figure-html/Hacky%20way%20to%20do%20correlations-1.png" width="576" /></p>
+<p>Our response is only correlated with Today. This means that we probably won’t see much statistical significance. (Note that this is not really a very rigorous approach but it’s a good benchmark to see which variables have the highest potential)</p>
+<p>Fit a Logistic Regression using all the lag variables and volume.</p>
+<pre class="r"><code>log_reg &lt;- glm(Direction ~ . - Today ,data = df_train , family = binomial)
+summary(log_reg)</code></pre>
+<pre><code>## 
+## Call:
+## glm(formula = Direction ~ . - Today, family = binomial, data = df_train)
+## 
+## Deviance Residuals: 
+##    Min      1Q  Median      3Q     Max  
+## -1.396  -1.189   1.005   1.134   1.369  
+## 
+## Coefficients:
+##               Estimate Std. Error z value Pr(&gt;|z|)  
+## (Intercept) -2.434e+02  1.151e+02  -2.115   0.0344 *
+## Year         1.215e-01  5.754e-02   2.112   0.0347 *
+## Lag1        -4.318e-02  5.843e-02  -0.739   0.4598  
+## Lag2        -8.235e-03  6.028e-02  -0.137   0.8913  
+## Lag3         8.761e-03  6.065e-02   0.144   0.8851  
+## Lag4         6.095e-02  5.949e-02   1.025   0.3056  
+## Lag5         2.999e-02  6.082e-02   0.493   0.6220  
+## Volume       7.085e-02  2.237e-01   0.317   0.7515  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 1211.9  on 874  degrees of freedom
+## Residual deviance: 1202.1  on 867  degrees of freedom
+## AIC: 1218.1
+## 
+## Number of Fisher Scoring iterations: 4</code></pre>
+<p>We can either make prediction on just the movement direction (by higher probability) or we can return a vector of probaabilities for each case. In the binary case it is enough to specify one. Specifying type = “response” makes sure that instead of returning the log odds, we get the probabilites directly.</p>
+<pre class="r"><code>probabilities = predict(log_reg, type = &quot;response&quot;, newdata = df_test) # Extract the probabilites
+glimpse(probabilities)</code></pre>
+<pre><code>##  Named num [1:375] 0.424 0.469 0.465 0.46 0.476 ...
+##  - attr(*, &quot;names&quot;)= chr [1:375] &quot;1&quot; &quot;2&quot; &quot;3&quot; &quot;4&quot; ...</code></pre>
+<pre class="r"><code>contrasts(data_orig$Direction) # Which way is Up?</code></pre>
+<pre><code>##      Up
+## Down  0
+## Up    1</code></pre>
+<pre class="r"><code># Set Threshold
+threshold &lt;- 0.5
+
+# Pick predictions above the threshold
+predictions &lt;- rep(&quot;Down&quot;,length(df_test$Year)) #initialize a vector of all predicitons to be Down
+predictions[probabilities &gt; 0.5] &lt;- &quot;Up&quot; # Change those with probabilities higher
+# than threshold to be Up
+
+# Actual values
+actual &lt;- df_test$Direction
+
+# Generate a truth table for our predictions
+table(predictions, actual)</code></pre>
+<pre><code>##            actual
+## predictions Down  Up
+##        Down   55  55
+##        Up    125 140</code></pre>
+<p>This means we missed 113 + 66 out of the total of 375 on our test set. We separate them because cost of making an error in one way may be higher than the other.</p>
+<p>Now let’s train an LDA model on the same variables (this is not the same as in the lab)</p>
+<pre class="r"><code># Train the model
+lda_model &lt;- MASS::lda(Direction~. - Today, data = df_train)
+# Print out the model summary.
+lda_model</code></pre>
+<pre><code>## Call:
+## lda(Direction ~ . - Today, data = df_train)
+## 
+## Prior probabilities of groups:
+##      Down        Up 
+## 0.4822857 0.5177143 
+## 
+## Group means:
+##          Year        Lag1         Lag2        Lag3        Lag4        Lag5
+## Down 2002.825  0.03877251 -0.006336493 -0.02943128 -0.07300000 -0.04856635
+## Up   2003.095 -0.01965784 -0.009161148 -0.01168653  0.01851656 -0.01085651
+##        Volume
+## Down 1.451423
+## Up   1.491795
+## 
+## Coefficients of linear discriminants:
+##                LD1
+## Year    0.57370134
+## Lag1   -0.20293029
+## Lag2   -0.03902997
+## Lag3    0.04112472
+## Lag4    0.28662321
+## Lag5    0.14095625
+## Volume  0.32790504</code></pre>
+<pre class="r"><code># If you work with the object explorer in R you can get these formulas for how 
+# to extract predictions classes and probabilities
+predictions &lt;- predict(lda_model, data = data_orig, newdata = df_test)[[&quot;class&quot;]]
+probabilities &lt;- predict(lda_model, data = data_orig, newdata = df_test)[[&quot;posterior&quot;]]
+# Use Base R to find probabilities for Up
+probabilities &lt;- probabilities[,2]
+
+predictions &lt;- rep(&quot;Down&quot;,length(df_test$Year)) #initialize a vector of all predicitons to be Down
+predictions[probabilities &gt; 0.5] &lt;- &quot;Up&quot; # Change those with probabilities higher
+
+table(predictions, actual)</code></pre>
+<pre><code>##            actual
+## predictions Down  Up
+##        Down   55  55
+##        Up    125 140</code></pre>
+<p>In the similar way we can do QDA:</p>
+<pre class="r"><code># Train the model
+qda_model &lt;- MASS::qda(Direction~. - Today, data = df_train)
+# Print out the model summary.
+qda_model</code></pre>
+<pre><code>## Call:
+## qda(Direction ~ . - Today, data = df_train)
+## 
+## Prior probabilities of groups:
+##      Down        Up 
+## 0.4822857 0.5177143 
+## 
+## Group means:
+##          Year        Lag1         Lag2        Lag3        Lag4        Lag5
+## Down 2002.825  0.03877251 -0.006336493 -0.02943128 -0.07300000 -0.04856635
+## Up   2003.095 -0.01965784 -0.009161148 -0.01168653  0.01851656 -0.01085651
+##        Volume
+## Down 1.451423
+## Up   1.491795</code></pre>
+<pre class="r"><code># If you work with the object explorer in R you can get these formulas for how 
+# to extract predictions classes and probabilities
+predictions &lt;- predict(qda_model, data = data_orig, newdata = df_test)[[&quot;class&quot;]]
+probabilities &lt;- predict(qda_model, data = data_orig, newdata = df_test)[[&quot;posterior&quot;]]
+# Use Base R to find probabilities for Up
+probabilities &lt;- probabilities[,2]
+
+predictions &lt;- rep(&quot;Down&quot;,length(df_test$Year)) #initialize a vector of all predicitons to be Down
+predictions[probabilities &gt; 0.5] &lt;- &quot;Up&quot; # Change those with probabilities higher
+
+table(predictions, actual)</code></pre>
+<pre><code>##            actual
+## predictions Down  Up
+##        Down   46  68
+##        Up    134 127</code></pre>
+<p>Finally , we will look at the K-nearest neighbourghs algorithm (KNN). It is inceredibly simple and used a lot in practice for a number of tasks. Not so much just simple classification but nevertheless it’s an extremely important algorithm for you to know.</p>
+<p>Because it uses euclidean distance you need to standardize all of your variables.</p>
+<pre class="r"><code># Create the scaling function cause the regular one outputs a matrix instead 
+# of a vector
+scale2 &lt;- function(x, na.rm = FALSE) (x - mean(x, na.rm = na.rm)) / sd(x, na.rm)
+
+
+df_train_std &lt;- df_train %&gt;%
+  dplyr::select(-Direction , -Today) %&gt;% # Remove the variables we are not considering and response
+  mutate_all(.funs = scale2) # I apply the scale2() function to all other variables.
+df_test_std &lt;- df_test %&gt;%
+  dplyr::select(-Direction , -Today) %&gt;% # Remove the variables we are not considering and response
+  mutate_all(.funs = scale2) # I apply the scale2() function to all other variables.</code></pre>
+<p>Now I will use the KNN function from “class” library. To fit a knn model. It requires a training and testing dataset which is what we should have been using this entire tutorial.</p>
+<pre class="r"><code>predictions &lt;- knn(train = df_train_std, # Training Set
+                   test = df_test_std, # Test Set
+                   cl = df_train$Direction, # Labels for Training
+                   k = 3) # 3 nearest Neighbours
+table(predictions, actual)</code></pre>
+<pre><code>##            actual
+## predictions Down  Up
+##        Down   88  91
+##        Up     92 104</code></pre>
+<p>It’s not a model you train that has parameters so there is no summary, no coefficients, no p-values. How do you pick k? Looking at a validation set seems like a reasonable approach.</p>
+<pre class="r"><code>val_indices &lt;- sample.int(n = 0.7*nrow(df_train), replace = FALSE)
+
+df_train_std_v &lt;- df_train_std[val_indices,]
+df_val_std &lt;- df_train_std[-val_indices,]
+train_v_labels &lt;- df_train[val_indices,] %&gt;% pull(Direction)
+val_labels &lt;- df_train[-val_indices,] %&gt;% pull(Direction)
+
+for (k in 1:10) {
+  predictions &lt;- knn(train = df_train_std_v, # Training Set
+                   test = df_val_std, # Test Set
+                   cl = train_v_labels, # Labels for Training
+                   k = k,# 3 nearest Neighbours
+                   use.all = TRUE) # if there is a Tie use all that tied.
+  
+cat(&quot;k is&quot;, k, &quot;\n&quot;)
+# Accuracy
+print(mean(predictions == val_labels))
+# Truth Tables
+print(table(predictions, val_labels))
+}</code></pre>
+<pre><code>## k is 1 
+## [1] 0.4562738
+##            val_labels
+## predictions Down Up
+##        Down   50 58
+##        Up     85 70
+## k is 2 
+## [1] 0.4942966
+##            val_labels
+## predictions Down Up
+##        Down   56 54
+##        Up     79 74
+## k is 3 
+## [1] 0.4296578
+##            val_labels
+## predictions Down Up
+##        Down   44 59
+##        Up     91 69
+## k is 4 
+## [1] 0.4410646
+##            val_labels
+## predictions Down Up
+##        Down   46 58
+##        Up     89 70
+## k is 5 
+## [1] 0.4980989
+##            val_labels
+## predictions Down Up
+##        Down   52 49
+##        Up     83 79
+## k is 6 
+## [1] 0.5057034
+##            val_labels
+## predictions Down Up
+##        Down   57 52
+##        Up     78 76
+## k is 7 
+## [1] 0.486692
+##            val_labels
+## predictions Down Up
+##        Down   48 48
+##        Up     87 80
+## k is 8 
+## [1] 0.5285171
+##            val_labels
+## predictions Down Up
+##        Down   55 44
+##        Up     80 84
+## k is 9 
+## [1] 0.4980989
+##            val_labels
+## predictions Down Up
+##        Down   47 44
+##        Up     88 84
+## k is 10 
+## [1] 0.4942966
+##            val_labels
+## predictions Down Up
+##        Down   51 49
+##        Up     84 79</code></pre>
+<p>k vary a lot between runs so I would probably pick something around 4-5.</p>
+</div>
+</div>
+<div id="tutorial-6" class="section level1">
+<h1>Tutorial 6</h1>
+<div id="agenda" class="section level2">
+<h2>Agenda:</h2>
+<ul>
+<li><p>Review of logistic regression etc. (now with tidymodels)</p></li>
+<li><p>ROC and AUC</p></li>
+</ul>
+</div>
+<div id="tidymodels" class="section level2">
+<h2>Tidymodels</h2>
+<p>This will be a tiny bit slower than usual as I am new to tidymodels.</p>
+<p>Goals:</p>
+<ul>
+<li><p>Prepare data (recipes)</p></li>
+<li><p>Split data (rsample)</p></li>
+<li><p>Fit models</p></li>
+<li><p>Analyze models (broom)</p></li>
+<li><p>Tune models via Cross Validation (rsample)</p></li>
+<li><p>Show ROC and AUC metrics (yardstick)</p></li>
+</ul>
 </div>
 </div>
 
