@@ -535,12 +535,12 @@ div.tocify {
 <div id="preliminaries-and-r-setup" class="section level1">
 <h1>Preliminaries and R setup</h1>
 <pre class="r"><code>library(tidyverse)</code></pre>
-<pre><code>## ── Attaching packages ──────────────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──</code></pre>
+<pre><code>## ── Attaching packages ─────────────────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──</code></pre>
 <pre><code>## ✔ ggplot2 3.2.1     ✔ purrr   0.3.3
 ## ✔ tibble  2.1.3     ✔ dplyr   0.8.3
 ## ✔ tidyr   0.8.3     ✔ stringr 1.4.0
 ## ✔ readr   1.3.1     ✔ forcats 0.4.0</code></pre>
-<pre><code>## ── Conflicts ─────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+<pre><code>## ── Conflicts ────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()</code></pre>
 <pre class="r"><code>library(MASS)</code></pre>
@@ -564,12 +564,12 @@ library(tidymodels)</code></pre>
 <pre><code>## Registered S3 method overwritten by &#39;xts&#39;:
 ##   method     from
 ##   as.zoo.xts zoo</code></pre>
-<pre><code>## ── Attaching packages ─────────────────────────────────────────────────────────────────────────── tidymodels 0.0.3 ──</code></pre>
+<pre><code>## ── Attaching packages ────────────────────────────────────────────────────────────────────────────── tidymodels 0.0.3 ──</code></pre>
 <pre><code>## ✔ broom     0.5.2          ✔ recipes   0.1.7     
 ## ✔ dials     0.0.3          ✔ rsample   0.0.5     
 ## ✔ infer     0.5.0          ✔ yardstick 0.0.4.9000
 ## ✔ parsnip   0.0.3.1</code></pre>
-<pre><code>## ── Conflicts ────────────────────────────────────────────────────────────────────────────── tidymodels_conflicts() ──
+<pre><code>## ── Conflicts ───────────────────────────────────────────────────────────────────────────────── tidymodels_conflicts() ──
 ## ✖ scales::discard() masks purrr::discard()
 ## ✖ dplyr::filter()   masks stats::filter()
 ## ✖ recipes::fixed()  masks stringr::fixed()
@@ -1126,8 +1126,8 @@ lda_model</code></pre>
 ## Volume  0.621508949</code></pre>
 <pre class="r"><code># If you work with the object explorer in R you can get these formulas for how 
 # to extract predictions classes and probabilities
-predictions &lt;- predict(lda_model, data = data_orig, newdata = df_test)[[&quot;class&quot;]]
-probabilities &lt;- predict(lda_model, data = data_orig, newdata = df_test)[[&quot;posterior&quot;]]
+predictions &lt;- predict(lda_model, newdata = df_test)[[&quot;class&quot;]]
+probabilities &lt;- predict(lda_model, newdata = df_test)[[&quot;posterior&quot;]]
 # Use Base R to find probabilities for Up
 probabilities &lt;- probabilities[,2]
 
@@ -1160,8 +1160,8 @@ qda_model</code></pre>
 ## Up   -0.01636795 1.486261</code></pre>
 <pre class="r"><code># If you work with the object explorer in R you can get these formulas for how 
 # to extract predictions classes and probabilities
-predictions &lt;- predict(qda_model, data = data_orig, newdata = df_test)[[&quot;class&quot;]]
-probabilities &lt;- predict(qda_model, data = data_orig, newdata = df_test)[[&quot;posterior&quot;]]
+predictions &lt;- predict(qda_model, newdata = df_test)[[&quot;class&quot;]]
+probabilities &lt;- predict(qda_model, newdata = df_test)[[&quot;posterior&quot;]]
 # Use Base R to find probabilities for Up
 probabilities &lt;- probabilities[,2]
 
@@ -1448,6 +1448,9 @@ df_recipe</code></pre>
 df_test &lt;- df_recipe %&gt;% bake(testing(df_split))
 # Create the training data set
 df_train &lt;- juice(df_recipe)</code></pre>
+</div>
+<div id="prepare-the-model" class="section level2">
+<h2>Prepare the model</h2>
 <p>Now that we have prepared our training and testing datasets we should prepare our models. We will be using the parsnip library which unifies the calls to models. So you no longer will have to remember that for a glm you have to specify type = “response”, and for LDA you don’t. The way we define models will come in handy when we do multiple flavours of the same model with different regularizations.</p>
 <pre class="r"><code># We start with logistic regression
 dir_model_logreg &lt;- logistic_reg() # Specify what kind of model we are building
@@ -1477,6 +1480,9 @@ tidy(logreg_fit)</code></pre>
 ## 6 Lag4        -0.0142     0.0691   -0.205   0.837 
 ## 7 Lag5         0.0217     0.0684    0.317   0.752 
 ## 8 Volume      -0.133      0.0814   -1.63    0.103</code></pre>
+</div>
+<div id="make-predictions" class="section level2">
+<h2>Make Predictions</h2>
 <p>Now we would like to make predictions and evaluate them.</p>
 <pre class="r"><code># We can combine everything into one pipe!
 logreg_results &lt;- df_test %&gt;%
@@ -1523,6 +1529,9 @@ predict(logreg_fit, new_data = df_test) # See what the predictions look like</co
 ## $ Direction     &lt;fct&gt; Up, Up, Up, Down, Up, Down, Up, Down, Down, Down, …
 ## $ log_reg_class &lt;fct&gt; Down, Down, Down, Down, Down, Down, Down, Down, Up…
 ## $ log_reg_prob  &lt;dbl&gt; 0.4643367, 0.4402919, 0.4291951, 0.4772689, 0.4756…</code></pre>
+</div>
+<div id="evaluate-performance" class="section level2">
+<h2>Evaluate performance</h2>
 <p>Now we would like to see how well we did. For this we can use another package from tidymodels - yardstick.</p>
 <pre class="r"><code># AUC 
 logreg_results %&gt;% roc_auc(truth = Direction, log_reg_prob)</code></pre>
@@ -1567,6 +1576,240 @@ roc_curve(logreg_results, truth = Direction, log_reg_prob,
 <p>You can notice that our ROC curve dips below the reference line for a moment. That means it is worse than random guessing in that region! Overall our model is very bad. We can run a hedge fund now.</p>
 <p>Another way to think about ROC curves is in terms of True positive rate and False positive rate (since those are the same as the axes). For each threshold you can choose you will receive a single point in the space of (TPR, FPR). Plotting those points for all unique values of threshold and connecting results in the ROC curve.</p>
 <pre class="r"><code>rm(list = ls())</code></pre>
+</div>
+</div>
+<div id="tutorial-7" class="section level1">
+<h1>Tutorial 7</h1>
+<div id="writing-functions" class="section level2">
+<h2>Writing functions</h2>
+<ul>
+<li>Arguments (Default arguments, unnamed arguments)</li>
+</ul>
+<pre class="r"><code>first_function &lt;- function(argument1, argument2) {
+  result &lt;- argument1 + argument2
+  
+  #return this
+  result
+}
+
+first_function(1, 2)</code></pre>
+<pre><code>## [1] 3</code></pre>
+<pre class="r"><code>second_function &lt;- function(argument1=1, argument2=1){
+  argument1 + argument2
+}
+
+second_function(2)</code></pre>
+<pre><code>## [1] 3</code></pre>
+<pre class="r"><code>third_function &lt;- function(val1, val2){
+  val1 / val2
+}
+
+third_function(2, 1)</code></pre>
+<pre><code>## [1] 2</code></pre>
+<pre class="r"><code>third_function(val2 = 2, val1 = 1)</code></pre>
+<pre><code>## [1] 0.5</code></pre>
+<p>You can also let the call to the function include unnamed arguments that are then (potentially) passed on to other functions</p>
+<pre class="r"><code>red_plot &lt;- function(x, y, ...){
+  plot(x, y, col = &quot;red&quot;, ...)
+}
+
+red_plot(1:10, 1:10, xlab = &quot;X axis name&quot;, ylab = &quot;Y axis name&quot;)</code></pre>
+<p><img src="STA314F19_files/figure-html/Additional%20Inputs-1.png" width="576" /></p>
+<pre class="r"><code># eval=FALSE means don&#39;t evaluate this chunk
+# include = TRUE means show it in the file
+# echo = FALSE means it will show just the output and not the code but runs the
+# code
+
+params &lt;- list(sample = 10, repetitions = 100, lr = 0.05)
+
+model_function &lt;- function(params){
+  for (i in c(1:params$repetitions)) {
+    do sth
+  }
+}</code></pre>
+<ul>
+<li>Returns</li>
+</ul>
+<pre class="r"><code>f4 &lt;- function(x, y) {
+  sum &lt;- x + y
+  difference &lt;- x - y
+  results &lt;- list(sum = sum, difference = difference)
+  
+  return(results)
+}
+
+a &lt;- f4(1,2)</code></pre>
+<p>If I have a file containing the functions I would like to use (In this case it is the function_utils.R file) you can load in the functions using the source() command.</p>
+<ul>
+<li>Sourcing</li>
+</ul>
+<pre class="r"><code>source(file = &quot;function_utils.R&quot;)
+my_function(args = list(a = 1, b = 2))</code></pre>
+<pre><code>## [1] 3</code></pre>
+</div>
+<div id="for-loops" class="section level2">
+<h2>For Loops</h2>
+<ul>
+<li>Basic For loop</li>
+</ul>
+<pre class="r"><code>samples &lt;- runif(10)
+
+for (sample in samples) {
+  print(sample + 5)
+}</code></pre>
+<pre><code>## [1] 5.456576
+## [1] 5.494118
+## [1] 5.609299
+## [1] 5.024747
+## [1] 5.815657
+## [1] 5.682413
+## [1] 5.034818
+## [1] 5.134886
+## [1] 5.100857
+## [1] 5.532696</code></pre>
+<ul>
+<li>Don’t override vectors with vectors: vec &lt;- c(vec, num)</li>
+</ul>
+<p>Say we would like to look at the variance of the expected mean of some distribution as we take random samples of varying size.</p>
+<pre class="r"><code>samp_means &lt;- c()
+
+reps &lt;- 1000
+size &lt;- 1000
+
+# Don&#39;t do this
+for (i in 1:reps) {
+  samp_means &lt;- c(samp_means, mean(rnorm(n = size)))
+}
+
+var(samp_means)</code></pre>
+<pre><code>## [1] 0.0009922266</code></pre>
+<p>This results in us having to allocate new memory to the vector samp_means at every iteration which results in incredibly slow code. Instead if we know the length of the output we are expecting to get, we begin by creating an empty vector of that length and overwriting the values within it. This makes sure that we don’t have to move the vector in memory and doesn’t slow us down at all.</p>
+<pre class="r"><code># Do this instead
+reps &lt;- 1000
+size &lt;- 1000
+
+samples &lt;- rep(NA, reps)
+
+for (i in c(1:reps)) {
+  samp_means[i] &lt;- mean(rnorm(n = size))
+}
+
+var(samp_means)</code></pre>
+<pre><code>## [1] 0.0009273014</code></pre>
+<ul>
+<li>for (i in 1:length(a)) allows us to interact with elements of a in an iterative way while keeping just an index instead of extracting the inside of the vector.</li>
+</ul>
+<pre class="r"><code>a &lt;- runif(100)
+
+# Change all but the last 2 elements to something 
+for (i in (1:(length(a) - 2))) {
+  a[i] &lt;- NA
+}
+
+a</code></pre>
+<pre><code>##   [1]        NA        NA        NA        NA        NA        NA        NA
+##   [8]        NA        NA        NA        NA        NA        NA        NA
+##  [15]        NA        NA        NA        NA        NA        NA        NA
+##  [22]        NA        NA        NA        NA        NA        NA        NA
+##  [29]        NA        NA        NA        NA        NA        NA        NA
+##  [36]        NA        NA        NA        NA        NA        NA        NA
+##  [43]        NA        NA        NA        NA        NA        NA        NA
+##  [50]        NA        NA        NA        NA        NA        NA        NA
+##  [57]        NA        NA        NA        NA        NA        NA        NA
+##  [64]        NA        NA        NA        NA        NA        NA        NA
+##  [71]        NA        NA        NA        NA        NA        NA        NA
+##  [78]        NA        NA        NA        NA        NA        NA        NA
+##  [85]        NA        NA        NA        NA        NA        NA        NA
+##  [92]        NA        NA        NA        NA        NA        NA        NA
+##  [99] 0.8062991 0.8434484</code></pre>
+<ul>
+<li>for (i in vec) allows us to iterate over things inside of a vector.</li>
+</ul>
+<pre class="r"><code>vec &lt;- c(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;)
+
+for (string in vec) {
+  print(string)
+}</code></pre>
+<pre><code>## [1] &quot;a&quot;
+## [1] &quot;b&quot;
+## [1] &quot;c&quot;</code></pre>
+<ul>
+<li>for (i in list) allows us to iterate over lists (named or not) and therefore interact with multiple types in the same loop. This requires very rigorous type checking to work properly.</li>
+</ul>
+<pre class="r"><code>params &lt;- list(a = &quot;a&quot;, lr = 0.05)
+
+for (param in params) {
+  print(param)
+}</code></pre>
+<pre><code>## [1] &quot;a&quot;
+## [1] 0.05</code></pre>
+<ul>
+<li>over matrices</li>
+</ul>
+<pre class="r"><code>matrix &lt;- matrix(1:24, nrow = 3)
+
+for (i in 1:nrow(matrix)) {
+  for (j in 1:ncol(matrix)) {
+    print(matrix[i,j])
+  }
+}</code></pre>
+<pre><code>## [1] 1
+## [1] 4
+## [1] 7
+## [1] 10
+## [1] 13
+## [1] 16
+## [1] 19
+## [1] 22
+## [1] 2
+## [1] 5
+## [1] 8
+## [1] 11
+## [1] 14
+## [1] 17
+## [1] 20
+## [1] 23
+## [1] 3
+## [1] 6
+## [1] 9
+## [1] 12
+## [1] 15
+## [1] 18
+## [1] 21
+## [1] 24</code></pre>
+<ul>
+<li>over columns in tidyverse (don’t). Columns in tidyverse can contain pretty much any other object (including data tables) as observations. Iterating over the columns by themselves is not a good idea unless you really know what to expect.</li>
+</ul>
+<pre class="r"><code>df &lt;- as_tibble(MASS::Boston)
+
+df %&gt;% pull(age) -&gt; vector
+
+
+# Prints about the first 1/25 of the observations in Boston$age
+
+for (i in (1:floor(length(vector)/25))) {
+  print(vector[i])
+}</code></pre>
+<pre><code>## [1] 65.2
+## [1] 78.9
+## [1] 61.1
+## [1] 45.8
+## [1] 54.2
+## [1] 58.7
+## [1] 66.6
+## [1] 96.1
+## [1] 100
+## [1] 85.9
+## [1] 94.3
+## [1] 82.9
+## [1] 39
+## [1] 61.8
+## [1] 84.5
+## [1] 56.5
+## [1] 29.3
+## [1] 81.7
+## [1] 36.6
+## [1] 69.5</code></pre>
 </div>
 </div>
 
