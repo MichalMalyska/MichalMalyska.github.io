@@ -539,19 +539,22 @@ div.tocify {
 <div id="tutorial-2---data-wrangling-and-r" class="section level1">
 <h1>Tutorial 2 - Data Wrangling and R</h1>
 <pre class="r"><code>library(tidyverse)</code></pre>
-<pre><code>## ── Attaching packages ──────────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──</code></pre>
-<pre><code>## ✔ ggplot2 3.2.0     ✔ purrr   0.3.2
+<pre><code>## ── Attaching packages ─────────────────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──</code></pre>
+<pre><code>## ✔ ggplot2 3.2.1     ✔ purrr   0.3.3
 ## ✔ tibble  2.1.3     ✔ dplyr   0.8.3
 ## ✔ tidyr   0.8.3     ✔ stringr 1.4.0
 ## ✔ readr   1.3.1     ✔ forcats 0.4.0</code></pre>
-<pre><code>## ── Conflicts ─────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+<pre><code>## ── Conflicts ────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()</code></pre>
 <pre class="r"><code>library(forcats)
 
 # For data
 library(VGAMdata)
-library(insuranceData)</code></pre>
+library(insuranceData)
+
+# For reproducibility
+set.seed(1337)</code></pre>
 <div id="agenda-for-today" class="section level2">
 <h2>Agenda for today:</h2>
 <ul>
@@ -1004,7 +1007,7 @@ run_simulation(10000)</code></pre>
 ## # A tibble: 1 x 1
 ##   p_value
 ##     &lt;dbl&gt;
-## 1  0.0642</code></pre>
+## 1  0.0624</code></pre>
 <pre class="r"><code>run_simulation(10)</code></pre>
 <pre><code>## [[1]]</code></pre>
 <p><img src="STA130F19_files/figure-html/Q1%20Experiment-2.png" width="576" /></p>
@@ -1013,7 +1016,7 @@ run_simulation(10000)</code></pre>
 ## # A tibble: 1 x 1
 ##   p_value
 ##     &lt;dbl&gt;
-## 1       0</code></pre>
+## 1     0.1</code></pre>
 </div>
 <div id="question-1e-discussion" class="section level3">
 <h3>Question 1e Discussion</h3>
@@ -1053,7 +1056,7 @@ ggplot(sim, aes(p_correct)) +
 <pre><code>## # A tibble: 1 x 1
 ##   p_value
 ##     &lt;dbl&gt;
-## 1  0.0045</code></pre>
+## 1  0.0053</code></pre>
 <p><strong>QUESTION</strong> A local newspaper has asked you to provide a brief summary of the research you did on this Scottish woman’s amazing abilities (Question 2b)! Remember to include a sentence to state the purpose of your research, a brief explanation of your methods, your key findings, and a concluding sentence that their average reader will understand. You may also want to mention some of the limitations of your research – how confident can we be in these findings? <strong>SUBMIT ON QUERCUS</strong></p>
 </div>
 <div id="additional-resources-for-coding" class="section level2">
@@ -1354,6 +1357,147 @@ results</code></pre>
 <li><p>Provide a summary of your results for practice problem 4, based on the hypothesis that there are an equal number of non-flying superheroes as superheroes who can fly and a significance level of 5%.</p></li>
 <li><p>Based on practice problem 4, how would your conclusion change based on your chosen significance level (i.e., 2.5% versus 5%)? What type of errors (type 1/2) could you have made?</p></li>
 </ol>
+</div>
+</div>
+<div id="tutorial-7" class="section level1">
+<h1>Tutorial 7</h1>
+<div id="agenda-3" class="section level2">
+<h2>Agenda</h2>
+<ul>
+<li><p>Midterm Reminder</p></li>
+<li><p>Vocab and Ticket out the door review</p></li>
+<li><p>Group Discussions</p></li>
+<li><p>Poster Project Planning</p></li>
+<li><p>Writing Activitiy</p></li>
+</ul>
+</div>
+<div id="midterm-reminder-and-info" class="section level2">
+<h2>Midterm Reminder and Info</h2>
+<ul>
+<li><p>Your midterm is <strong>next week</strong> on <strong>Friday</strong> during <strong>tutorial time</strong>. I will be there as well.</p></li>
+<li><p>You <strong>MUST</strong> attend the correct section’s test.</p></li>
+<li><p>You <strong>MUST</strong> sit in the correct room</p></li>
+<li><p>No calculators</p></li>
+<li><p>See Quercus for more details</p></li>
+</ul>
+</div>
+<div id="vocab-3" class="section level2">
+<h2>Vocab</h2>
+<ul>
+<li>Confidence Intervals:</li>
+</ul>
+<p>The definition of Confidence intervals is subtle and not at all intuitive. The intuitive definition you probably have in mind is actually for something that is called a <em>Credible Interval</em> that comes from a different part of statistics.</p>
+<p>Definition:</p>
+<p>Purpose: Obtain an estimate the parameter that reflects sampling variability.</p>
+<p>Check that they make sense - If you are looking at CI for probability make sure it is inside the <span class="math inline">\([0,1]\)</span> interval.</p>
+<ul>
+<li>Bootstrap</li>
+</ul>
+<p>The purpose of bootstrapping is to estimate the sampling distribution and extract some insight from it, for example confidence intervals for a parameter of choice.</p>
+<p>There are many different versions of bootstrapping. We are using <em>percentile</em> <em>bootstrapping</em> which works best for large samples and when the underlying distribution is symmetric and continuous.</p>
+<p>You will see other versions of bootstrapping in upper year statistics classes.</p>
+</div>
+<div id="ticket-out-the-door-1" class="section level2">
+<h2>Ticket out the Door</h2>
+<div id="course-related" class="section level3">
+<h3>Course Related</h3>
+<ul>
+<li>Can you talk about identifying when a tibble is tidy ? (I am not 100% sure this was the question)</li>
+</ul>
+<p>All you need to make sure of is that there is exactly one observation per row and one variable per column.</p>
+<ul>
+<li>What is the difference between test statistic and p-value ?</li>
+</ul>
+<p>Test statistic is the value you observed in your study. For example this would be the woman identifying 11/12 parkinsons people correctly. Your test statistic is then 11/12. Your p-value is the probability of seeing a test statistic as extreme or more under the null hypothesis.</p>
+<ul>
+<li>What is the most difficult concept that we have learned so far that will trip up the students ?</li>
+</ul>
+<p>P-values, Confidence intervals, pretty much anything with a very precise definition. Also the difference between sampling and data distributions.</p>
+</div>
+<div id="organization-1" class="section level3">
+<h3>Organization</h3>
+<ul>
+<li>What can I improve if the lectures feel overwhelming? Too much information in too little time.</li>
+</ul>
+<p>You should attempt to make as good notes as possible, and then review them a lot. Make sure you note down all things you did not understand and make a lsit with definitions later sort of like I do here on the website.</p>
+<ul>
+<li>What is the format of the midterm?</li>
+</ul>
+<p>Multiple choice questions, Filling in blanks, Short written questions.</p>
+<p>Filling in the blanks is most likely going to be code.</p>
+<ul>
+<li>How to do well on the midterm?</li>
+</ul>
+<p>Review important concepts. Make sure you are very comfortable with the definitions, do a basic review of how we do things. How do we estimate p-values? How do we define hypotheses? Also do past midterms if you have access to them.</p>
+<ul>
+<li>Will we have a review package?</li>
+</ul>
+<p>Not to my knowledge. Making a review package is probably the best method of studying for courses.</p>
+<ul>
+<li>I heard Dr White’s class avg was 68% last year and Dr Moon’s was 75%, is this real?</li>
+</ul>
+<p>Nope.</p>
+<ul>
+<li>Will writing R code be on the exam?</li>
+</ul>
+<p>You will not be expected to write perfect quality code on the exam. You might be asked to fill in some blanks or write simple code but we don’t expect you to memorize the syntax of functions.</p>
+<ul>
+<li>Can you go over more midterm stuff in tutorial?</li>
+</ul>
+<p>I can try but I have to adhere to the plan with discussions and your written activity.</p>
+</div>
+<div id="non-course-1" class="section level3">
+<h3>Non-Course</h3>
+<ul>
+<li>Is it true that CS students make more money that STA students.</li>
+</ul>
+<p>Short answer: On average, yes.</p>
+<p>Long answer: Until this year Statistics program did not have any requirements to enter so students that did not make it into computer science became stats majors. We also have a significantly larger number of people that graduate and go to work in government positions (Stats Canada) which pay less. If you want to make a lot of money stats is just as good of a choice as CS in my opinion.</p>
+<ul>
+<li>What is the difference between a stats major and data science specialist?</li>
+</ul>
+<p>Stats major / specialist programs will be focusing more on the theory side with a smaller applied component, but also allows you to take pretty much any course you want. Data Science is more structured, has a better name in terms of employment, but has less freedom. It’s also a lot harder to get in to.</p>
+</div>
+</div>
+<div id="group-discussions-2" class="section level2">
+<h2>Group Discussions</h2>
+<ul>
+<li><p>Are the use of p-values and confidence intervals mutually exclusive? What do the two have in common? How do they differ? Think about under which circumstances you may want to use each of these.</p></li>
+<li><p>If you and your partner both applied the same bootstrap sampling method to the same data, do you expect that you both arrive at the same estimate and CI? What are some factors that you would need to consider (and hold constant) to ensure that you both arrived at the same answer?</p></li>
+<li><p>Discuss question 1d from the practice problem set. Indicate whether or not each of the following statements is a correct interpretation of the confidence interval constructed in 1c) and justify your answers.</p>
+<ol style="list-style-type: lower-roman">
+<li><p>We are 95% confident that between 56% and 73% of kissing couples in this sample tilt their head to the right when they kiss.</p></li>
+<li><p>We are 95% confident that between 56% and 73% of all kissing couples in the population tilt their head to the right when they kiss.</p></li>
+<li><p>There is a 95% chance that between 56% and 73% of all kissing couples in the population tilt their head to the right when they kiss.</p></li>
+<li><p>If we considered many random samples of 124 couples, and calculated 95% confidence intervals for each sample, 95% of these confidence intervals will include the true proportion of kissing couples in the population who tilt their heads to the right when they kiss.</p></li>
+</ol></li>
+</ul>
+</div>
+<div id="poster-project" class="section level2">
+<h2>Poster Project</h2>
+<p>Now it’s time for you guys to start planning what you will do in for your poster project. Things you should talk about:</p>
+<ul>
+<li>The research question(s) they are interested in investigating.</li>
+</ul>
+<p>What is something that the Toronto Police might be interested in knowing?</p>
+<ul>
+<li><p>Any interesting visualizations. Remember, these should be interesting and useful for the audience. They should also be appropriately labelled and should stand alone (explain what stand alone means so all students are on the same page; e.g. information title, axes, and a brief sentence or two explaining the main take away messages)</p></li>
+<li><p>Think about whether they will need to join datasets to answer their research question. They are able to use additional sources of data, if they like – and if relevant to their research question. (This would be considered in the WOW factor category!)</p></li>
+<li><p>What will each group member be responsible for?</p></li>
+<li><p>How often will you meet?</p></li>
+</ul>
+<p>NOTE: You are not committed to this plan and it can change as you learn new methods. This activity is to get you thinking about the project early on. If you wait until after reading week you will be very rushed to complete the project and it will likely end up not being very good.</p>
+<p>Aspects to consider in your research plan:</p>
+<ul>
+<li><p>The research question(s)</p></li>
+<li><p>The hypotheses</p></li>
+<li><p>Aims/objectives</p></li>
+<li><p>Research design: data, methods, visualizations, etc.</p></li>
+</ul>
+</div>
+<div id="written-activity" class="section level2">
+<h2>Written Activity</h2>
+<p>Please individually write-up your research plan, based on what you discussed with your group. You should consider formatting it to include the above sections.</p>
 </div>
 </div>
 
