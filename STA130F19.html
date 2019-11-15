@@ -1500,6 +1500,107 @@ results</code></pre>
 <p>Please individually write-up your research plan, based on what you discussed with your group. You should consider formatting it to include the above sections.</p>
 </div>
 </div>
+<div id="tutorial-8" class="section level1">
+<h1>Tutorial 8</h1>
+<div id="agenda-4" class="section level2">
+<h2>Agenda:</h2>
+<ul>
+<li><p>Vocab List (~ 20 mins)</p></li>
+<li><p>Group Discussions (~ 20 mins)</p></li>
+<li><p>Organizational Stuff (~ 5 mins)</p></li>
+<li><p>Group work (~ 30 mins)</p></li>
+<li><p>Presentations (~ 30 mins)</p></li>
+</ul>
+</div>
+<div id="vocab-4" class="section level2">
+<h2>Vocab:</h2>
+<ul>
+<li><p>Confusion Matrices - TP, FP, TN, FN</p>
+<ul>
+<li><p>TP - True positive = Predicted to be A and is A</p></li>
+<li><p>FP - False positive = Predicted to be A but is B</p></li>
+<li><p>TN - True Negative = Predicted to be B and is B</p></li>
+<li><p>FN - False Negative = Predicted to be B but is A</p></li>
+</ul></li>
+<li><p>Overall there are two parts:</p>
+<ul>
+<li><p>(True / False) = Was the prediction correct?</p></li>
+<li><p>(Positive / Negative) = What was the prediction?</p></li>
+</ul></li>
+<li><p>There are a lot of derivative terms coming from the 4 entries to the confusion matrix. The main ones are :</p>
+<ul>
+<li><p>TPR - True Positive Rate, in other words what proportion of all positives are the true positives. This is also called Sensitivity and Recall. (Yes, you should know all 3 names)</p></li>
+<li><p>FPR - False Positive Rate, same as above except False positives.</p></li>
+<li><p>TNR - True Negative Rate, i.e. what proportion of all predicted as negative are actually negative. This is also called Specificity. (Yes, you should know both names)</p></li>
+<li><p>Accuracy - What proportion of things was predicted correctly</p></li>
+<li><p>PPV - positive predictive value. It’s the number of true positives divided by the number of predicted positives. This is usually called Precision.</p></li>
+</ul></li>
+<li><p>Prediction</p></li>
+<li><p>Classification - One of broadly speaking two types of main tasks in prediction we try to assign a group belonging to each datapoint / object.</p></li>
+<li><p>ROC - Receiver Operating Characteristic curve is the curve that shows a tradeoff for your model between Sensitivity (TPR) and Specificity (TNR). Because we usually give the class prediction in terms of “probability” we can design a cut off at different thresholds. I.e. we only predict positive if the model is 50% or more confident it is positive (and 100% - 50% = 50% or less confident it is negative). As we vary that threshold the TPR and TNR will change resulting in a curve.</p></li>
+<li><p>Train/Test/Validation Split</p></li>
+</ul>
+</div>
+<div id="group-discussions-3" class="section level2">
+<h2>Group Discussions</h2>
+<p>Warmup question to everyone:</p>
+<ul>
+<li>Can you think of any real-life examples where you may want to develop a classification tree?</li>
+</ul>
+<p>In Groups:</p>
+<p><em>Question 1:</em></p>
+<p>Suppose you developed a classification tree to diagnosis whether or not somebody has Disease X, which is a very serious and life-threatening illness if left untreated. The overall accuracy of your tree was 77%; false-positive rate was 32%; and false-negative rate: 7.9%. Suppose that your colleague also created a classifier for the same purpose. Its overall accuracy is 81%; false-positive rate is 6.4%; and false-negative rate is 39%. Explain which of these two classifiers you would prefer to use to diagnosis Disease X.</p>
+<p><em>Question 2:</em></p>
+<p>Suppose you developed a classification tree only to later discover that the values for one of your covariates is missing for a number of observations. Can you use the classification tree you built to make a prediction for these individuals? Explain.</p>
+<p><em>Question 3:</em></p>
+<p>Imagine you were interested in making a classifier to predict what movie somebody would be most interested in. To do this, you first gathered data from a sample of your closest friends. You validated and tested your classifier using different subsets of this data. Now you wish you use your classifier to predict which movie Dr. Moon/ White, your TA, your parents, etc. would like. How well do you think your classifier will perform in each of these cases?</p>
+</div>
+<div id="presentations" class="section level2">
+<h2>Presentations:</h2>
+<p>Things to keep inmind:</p>
+<p><em>Content:</em></p>
+<ol style="list-style-type: decimal">
+<li><p>What is the main message you want to get across?</p></li>
+<li><p>Create an (organized) outline of your presentation</p></li>
+<li><p>Define terms early</p></li>
+<li><p>Make clear transitions between parts of your presentation</p></li>
+<li><p>Make your data/ figures meaningful</p></li>
+<li><p>Summarize</p></li>
+</ol>
+<p><em>Delivery:</em></p>
+<ol style="list-style-type: decimal">
+<li><p>Be confident, make eye contact and avoid reading</p></li>
+<li><p>Avoid filler words – “ummm”, “like”, “you know”</p></li>
+<li><p>Speak slowly and it’s ok to pause (and breathe!)</p></li>
+<li><p>Remember to enunciate all the parts of each word</p></li>
+<li><p>Practice! Practice! Practice!</p></li>
+</ol>
+<p><em>Presentation Topics:</em></p>
+<p><em>Topic 1:</em></p>
+<p>Explain how to make a ROC curve and the type of information it provides.</p>
+<ul>
+<li><p>Based on the ROC curves you created for Practice Problem 4c, describe the accuracy of each of the two trees.</p></li>
+<li><p>Does this fit your expectations based on the description of each classifier?</p></li>
+<li><p>Which ROC curve would you prefer to classify your spam mail?</p></li>
+</ul>
+<p><em>Topic 2:</em></p>
+<ul>
+<li><p>Explain what a confusion matrix is and how each cell is calculated.</p></li>
+<li><p>Using the confusion matrix you calculated in question 1d to answer the followingquestions: What percentage of countries with “good life expectancy” that were classifiedas having such actually had “good” life expectancy according to the majority rules cutpoint (i.e., 50%) based on each of the two classifiers?</p></li>
+<li><p>What are other terms used to describe the percentages you calculated above?</p></li>
+<li><p>How do the two classifiers compare? Does this fit your expectations based on the description of each classifier?</p></li>
+</ul>
+<p><em>Topic 3:</em></p>
+<ul>
+<li><p>Summarize the classification tree from Practice Problem 1b. Make sure to include at least the following points: how the splits on each variable were selected, how a new observation would be predicted by this classification tree.</p></li>
+<li><p>In part c, you considered more factors. Do you think there may be other important factors to consider? Explain how including these might impact the accuracy of your tree.</p></li>
+</ul>
+</div>
+<div id="organization-2" class="section level2">
+<h2>Organization</h2>
+<p>I will walk around and get your poster groups into a table.</p>
+</div>
+</div>
 
 
 
