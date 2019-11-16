@@ -535,12 +535,12 @@ div.tocify {
 <div id="preliminaries-and-r-setup" class="section level1">
 <h1>Preliminaries and R setup</h1>
 <pre class="r"><code>library(tidyverse)</code></pre>
-<pre><code>## ── Attaching packages ─────────────────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──</code></pre>
+<pre><code>## ── Attaching packages ───────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──</code></pre>
 <pre><code>## ✔ ggplot2 3.2.1     ✔ purrr   0.3.3
 ## ✔ tibble  2.1.3     ✔ dplyr   0.8.3
 ## ✔ tidyr   0.8.3     ✔ stringr 1.4.0
 ## ✔ readr   1.3.1     ✔ forcats 0.4.0</code></pre>
-<pre><code>## ── Conflicts ────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+<pre><code>## ── Conflicts ──────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()</code></pre>
 <pre class="r"><code>library(MASS)</code></pre>
@@ -564,12 +564,12 @@ library(tidymodels)</code></pre>
 <pre><code>## Registered S3 method overwritten by &#39;xts&#39;:
 ##   method     from
 ##   as.zoo.xts zoo</code></pre>
-<pre><code>## ── Attaching packages ────────────────────────────────────────────────────────────────────────────── tidymodels 0.0.3 ──</code></pre>
+<pre><code>## ── Attaching packages ──────────────────────────────────────────────────────────────── tidymodels 0.0.3 ──</code></pre>
 <pre><code>## ✔ broom     0.5.2          ✔ recipes   0.1.7     
 ## ✔ dials     0.0.3          ✔ rsample   0.0.5     
 ## ✔ infer     0.5.0          ✔ yardstick 0.0.4.9000
 ## ✔ parsnip   0.0.3.1</code></pre>
-<pre><code>## ── Conflicts ───────────────────────────────────────────────────────────────────────────────── tidymodels_conflicts() ──
+<pre><code>## ── Conflicts ─────────────────────────────────────────────────────────────────── tidymodels_conflicts() ──
 ## ✖ scales::discard() masks purrr::discard()
 ## ✖ dplyr::filter()   masks stats::filter()
 ## ✖ recipes::fixed()  masks stringr::fixed()
@@ -580,7 +580,8 @@ library(tidymodels)</code></pre>
 ## ✖ yardstick::spec() masks readr::spec()
 ## ✖ recipes::step()   masks stats::step()</code></pre>
 <pre class="r"><code>library(yardstick)
-library(parsnip)</code></pre>
+library(parsnip)
+library(leaps)</code></pre>
 <div id="r-setup" class="section level2">
 <h2>R Setup</h2>
 <p>If you need help setting up R and Rstudio, I host a guide on my <a href="https://michalmalyska.github.io/RResources.html">resources page</a></p>
@@ -1810,7 +1811,351 @@ for (i in (1:floor(length(vector)/25))) {
 ## [1] 81.7
 ## [1] 36.6
 ## [1] 69.5</code></pre>
+<pre class="r"><code>rm(list = ls())</code></pre>
 </div>
+</div>
+<div id="tutorial-8" class="section level1">
+<h1>Tutorial 8</h1>
+<p><em>Pick up your midterms at the start of tutorial!</em></p>
+<p>We are covering the 6.5 Lab 1 - Subset Selection Methods from ISLR.</p>
+<pre class="r"><code>df_orig &lt;- ISLR::Hitters # original data 
+
+df &lt;- df_orig #Working copy</code></pre>
+<p>First, we would like to figure out if there are any missing observations:</p>
+<pre class="r"><code>df %&gt;% summarize_all(funs(sum(is.na(.)))) %&gt;% t()</code></pre>
+<pre><code>## Warning: funs() is soft deprecated as of dplyr 0.8.0
+## Please use a list of either functions or lambdas: 
+## 
+##   # Simple named list: 
+##   list(mean = mean, median = median)
+## 
+##   # Auto named with `tibble::lst()`: 
+##   tibble::lst(mean, median)
+## 
+##   # Using lambdas
+##   list(~ mean(., trim = .2), ~ median(., na.rm = TRUE))
+## This warning is displayed once per session.</code></pre>
+<pre><code>##           [,1]
+## AtBat        0
+## Hits         0
+## HmRun        0
+## Runs         0
+## RBI          0
+## Walks        0
+## Years        0
+## CAtBat       0
+## CHits        0
+## CHmRun       0
+## CRuns        0
+## CRBI         0
+## CWalks       0
+## League       0
+## Division     0
+## PutOuts      0
+## Assists      0
+## Errors       0
+## Salary      59
+## NewLeague    0</code></pre>
+<p>We can see that there are 59 observations that are missing the Salary value and nothing else. This is quite a large proportion at 0.1832298 which is just a bit less than <span class="math inline">\(\frac{1}{5}\)</span>. We could try to fill those observations in (this is called imputation and has a ton of different options), but for now we can just filter them out. Here we will be using salary as the target so we cannot fill it in beforehand.</p>
+<pre class="r"><code>df &lt;- df %&gt;% filter_all(all_vars(!is.na(.)))</code></pre>
+<p>We can use the library leaps to perform the best subset selection using lowest RSS. Let’s use it to see which model performs “best”. By default it includes up to 8 variables. The summary lists models in order of increasing number of variables only including the best model for each given number.</p>
+<pre class="r"><code>regfit_full = regsubsets(Salary~., data = df)
+summary(regfit_full)</code></pre>
+<pre><code>## Subset selection object
+## Call: regsubsets.formula(Salary ~ ., data = df)
+## 19 Variables  (and intercept)
+##            Forced in Forced out
+## AtBat          FALSE      FALSE
+## Hits           FALSE      FALSE
+## HmRun          FALSE      FALSE
+## Runs           FALSE      FALSE
+## RBI            FALSE      FALSE
+## Walks          FALSE      FALSE
+## Years          FALSE      FALSE
+## CAtBat         FALSE      FALSE
+## CHits          FALSE      FALSE
+## CHmRun         FALSE      FALSE
+## CRuns          FALSE      FALSE
+## CRBI           FALSE      FALSE
+## CWalks         FALSE      FALSE
+## LeagueN        FALSE      FALSE
+## DivisionW      FALSE      FALSE
+## PutOuts        FALSE      FALSE
+## Assists        FALSE      FALSE
+## Errors         FALSE      FALSE
+## NewLeagueN     FALSE      FALSE
+## 1 subsets of each size up to 8
+## Selection Algorithm: exhaustive
+##          AtBat Hits HmRun Runs RBI Walks Years CAtBat CHits CHmRun CRuns
+## 1  ( 1 ) &quot; &quot;   &quot; &quot;  &quot; &quot;   &quot; &quot;  &quot; &quot; &quot; &quot;   &quot; &quot;   &quot; &quot;    &quot; &quot;   &quot; &quot;    &quot; &quot;  
+## 2  ( 1 ) &quot; &quot;   &quot;*&quot;  &quot; &quot;   &quot; &quot;  &quot; &quot; &quot; &quot;   &quot; &quot;   &quot; &quot;    &quot; &quot;   &quot; &quot;    &quot; &quot;  
+## 3  ( 1 ) &quot; &quot;   &quot;*&quot;  &quot; &quot;   &quot; &quot;  &quot; &quot; &quot; &quot;   &quot; &quot;   &quot; &quot;    &quot; &quot;   &quot; &quot;    &quot; &quot;  
+## 4  ( 1 ) &quot; &quot;   &quot;*&quot;  &quot; &quot;   &quot; &quot;  &quot; &quot; &quot; &quot;   &quot; &quot;   &quot; &quot;    &quot; &quot;   &quot; &quot;    &quot; &quot;  
+## 5  ( 1 ) &quot;*&quot;   &quot;*&quot;  &quot; &quot;   &quot; &quot;  &quot; &quot; &quot; &quot;   &quot; &quot;   &quot; &quot;    &quot; &quot;   &quot; &quot;    &quot; &quot;  
+## 6  ( 1 ) &quot;*&quot;   &quot;*&quot;  &quot; &quot;   &quot; &quot;  &quot; &quot; &quot;*&quot;   &quot; &quot;   &quot; &quot;    &quot; &quot;   &quot; &quot;    &quot; &quot;  
+## 7  ( 1 ) &quot; &quot;   &quot;*&quot;  &quot; &quot;   &quot; &quot;  &quot; &quot; &quot;*&quot;   &quot; &quot;   &quot;*&quot;    &quot;*&quot;   &quot;*&quot;    &quot; &quot;  
+## 8  ( 1 ) &quot;*&quot;   &quot;*&quot;  &quot; &quot;   &quot; &quot;  &quot; &quot; &quot;*&quot;   &quot; &quot;   &quot; &quot;    &quot; &quot;   &quot;*&quot;    &quot;*&quot;  
+##          CRBI CWalks LeagueN DivisionW PutOuts Assists Errors NewLeagueN
+## 1  ( 1 ) &quot;*&quot;  &quot; &quot;    &quot; &quot;     &quot; &quot;       &quot; &quot;     &quot; &quot;     &quot; &quot;    &quot; &quot;       
+## 2  ( 1 ) &quot;*&quot;  &quot; &quot;    &quot; &quot;     &quot; &quot;       &quot; &quot;     &quot; &quot;     &quot; &quot;    &quot; &quot;       
+## 3  ( 1 ) &quot;*&quot;  &quot; &quot;    &quot; &quot;     &quot; &quot;       &quot;*&quot;     &quot; &quot;     &quot; &quot;    &quot; &quot;       
+## 4  ( 1 ) &quot;*&quot;  &quot; &quot;    &quot; &quot;     &quot;*&quot;       &quot;*&quot;     &quot; &quot;     &quot; &quot;    &quot; &quot;       
+## 5  ( 1 ) &quot;*&quot;  &quot; &quot;    &quot; &quot;     &quot;*&quot;       &quot;*&quot;     &quot; &quot;     &quot; &quot;    &quot; &quot;       
+## 6  ( 1 ) &quot;*&quot;  &quot; &quot;    &quot; &quot;     &quot;*&quot;       &quot;*&quot;     &quot; &quot;     &quot; &quot;    &quot; &quot;       
+## 7  ( 1 ) &quot; &quot;  &quot; &quot;    &quot; &quot;     &quot;*&quot;       &quot;*&quot;     &quot; &quot;     &quot; &quot;    &quot; &quot;       
+## 8  ( 1 ) &quot; &quot;  &quot;*&quot;    &quot; &quot;     &quot;*&quot;       &quot;*&quot;     &quot; &quot;     &quot; &quot;    &quot; &quot;</code></pre>
+<p>So we can see that the best one variable model uses CRBI and two variable uses CRBI and Hits.</p>
+<p>Now let’s use more than 8 variables.</p>
+<pre class="r"><code>regfit_full &lt;- leaps::regsubsets(Salary~., data = df, nvmax = 19)
+summary(regfit_full)</code></pre>
+<pre><code>## Subset selection object
+## Call: regsubsets.formula(Salary ~ ., data = df, nvmax = 19)
+## 19 Variables  (and intercept)
+##            Forced in Forced out
+## AtBat          FALSE      FALSE
+## Hits           FALSE      FALSE
+## HmRun          FALSE      FALSE
+## Runs           FALSE      FALSE
+## RBI            FALSE      FALSE
+## Walks          FALSE      FALSE
+## Years          FALSE      FALSE
+## CAtBat         FALSE      FALSE
+## CHits          FALSE      FALSE
+## CHmRun         FALSE      FALSE
+## CRuns          FALSE      FALSE
+## CRBI           FALSE      FALSE
+## CWalks         FALSE      FALSE
+## LeagueN        FALSE      FALSE
+## DivisionW      FALSE      FALSE
+## PutOuts        FALSE      FALSE
+## Assists        FALSE      FALSE
+## Errors         FALSE      FALSE
+## NewLeagueN     FALSE      FALSE
+## 1 subsets of each size up to 19
+## Selection Algorithm: exhaustive
+##           AtBat Hits HmRun Runs RBI Walks Years CAtBat CHits CHmRun CRuns
+## 1  ( 1 )  &quot; &quot;   &quot; &quot;  &quot; &quot;   &quot; &quot;  &quot; &quot; &quot; &quot;   &quot; &quot;   &quot; &quot;    &quot; &quot;   &quot; &quot;    &quot; &quot;  
+## 2  ( 1 )  &quot; &quot;   &quot;*&quot;  &quot; &quot;   &quot; &quot;  &quot; &quot; &quot; &quot;   &quot; &quot;   &quot; &quot;    &quot; &quot;   &quot; &quot;    &quot; &quot;  
+## 3  ( 1 )  &quot; &quot;   &quot;*&quot;  &quot; &quot;   &quot; &quot;  &quot; &quot; &quot; &quot;   &quot; &quot;   &quot; &quot;    &quot; &quot;   &quot; &quot;    &quot; &quot;  
+## 4  ( 1 )  &quot; &quot;   &quot;*&quot;  &quot; &quot;   &quot; &quot;  &quot; &quot; &quot; &quot;   &quot; &quot;   &quot; &quot;    &quot; &quot;   &quot; &quot;    &quot; &quot;  
+## 5  ( 1 )  &quot;*&quot;   &quot;*&quot;  &quot; &quot;   &quot; &quot;  &quot; &quot; &quot; &quot;   &quot; &quot;   &quot; &quot;    &quot; &quot;   &quot; &quot;    &quot; &quot;  
+## 6  ( 1 )  &quot;*&quot;   &quot;*&quot;  &quot; &quot;   &quot; &quot;  &quot; &quot; &quot;*&quot;   &quot; &quot;   &quot; &quot;    &quot; &quot;   &quot; &quot;    &quot; &quot;  
+## 7  ( 1 )  &quot; &quot;   &quot;*&quot;  &quot; &quot;   &quot; &quot;  &quot; &quot; &quot;*&quot;   &quot; &quot;   &quot;*&quot;    &quot;*&quot;   &quot;*&quot;    &quot; &quot;  
+## 8  ( 1 )  &quot;*&quot;   &quot;*&quot;  &quot; &quot;   &quot; &quot;  &quot; &quot; &quot;*&quot;   &quot; &quot;   &quot; &quot;    &quot; &quot;   &quot;*&quot;    &quot;*&quot;  
+## 9  ( 1 )  &quot;*&quot;   &quot;*&quot;  &quot; &quot;   &quot; &quot;  &quot; &quot; &quot;*&quot;   &quot; &quot;   &quot;*&quot;    &quot; &quot;   &quot; &quot;    &quot;*&quot;  
+## 10  ( 1 ) &quot;*&quot;   &quot;*&quot;  &quot; &quot;   &quot; &quot;  &quot; &quot; &quot;*&quot;   &quot; &quot;   &quot;*&quot;    &quot; &quot;   &quot; &quot;    &quot;*&quot;  
+## 11  ( 1 ) &quot;*&quot;   &quot;*&quot;  &quot; &quot;   &quot; &quot;  &quot; &quot; &quot;*&quot;   &quot; &quot;   &quot;*&quot;    &quot; &quot;   &quot; &quot;    &quot;*&quot;  
+## 12  ( 1 ) &quot;*&quot;   &quot;*&quot;  &quot; &quot;   &quot;*&quot;  &quot; &quot; &quot;*&quot;   &quot; &quot;   &quot;*&quot;    &quot; &quot;   &quot; &quot;    &quot;*&quot;  
+## 13  ( 1 ) &quot;*&quot;   &quot;*&quot;  &quot; &quot;   &quot;*&quot;  &quot; &quot; &quot;*&quot;   &quot; &quot;   &quot;*&quot;    &quot; &quot;   &quot; &quot;    &quot;*&quot;  
+## 14  ( 1 ) &quot;*&quot;   &quot;*&quot;  &quot;*&quot;   &quot;*&quot;  &quot; &quot; &quot;*&quot;   &quot; &quot;   &quot;*&quot;    &quot; &quot;   &quot; &quot;    &quot;*&quot;  
+## 15  ( 1 ) &quot;*&quot;   &quot;*&quot;  &quot;*&quot;   &quot;*&quot;  &quot; &quot; &quot;*&quot;   &quot; &quot;   &quot;*&quot;    &quot;*&quot;   &quot; &quot;    &quot;*&quot;  
+## 16  ( 1 ) &quot;*&quot;   &quot;*&quot;  &quot;*&quot;   &quot;*&quot;  &quot;*&quot; &quot;*&quot;   &quot; &quot;   &quot;*&quot;    &quot;*&quot;   &quot; &quot;    &quot;*&quot;  
+## 17  ( 1 ) &quot;*&quot;   &quot;*&quot;  &quot;*&quot;   &quot;*&quot;  &quot;*&quot; &quot;*&quot;   &quot; &quot;   &quot;*&quot;    &quot;*&quot;   &quot; &quot;    &quot;*&quot;  
+## 18  ( 1 ) &quot;*&quot;   &quot;*&quot;  &quot;*&quot;   &quot;*&quot;  &quot;*&quot; &quot;*&quot;   &quot;*&quot;   &quot;*&quot;    &quot;*&quot;   &quot; &quot;    &quot;*&quot;  
+## 19  ( 1 ) &quot;*&quot;   &quot;*&quot;  &quot;*&quot;   &quot;*&quot;  &quot;*&quot; &quot;*&quot;   &quot;*&quot;   &quot;*&quot;    &quot;*&quot;   &quot;*&quot;    &quot;*&quot;  
+##           CRBI CWalks LeagueN DivisionW PutOuts Assists Errors NewLeagueN
+## 1  ( 1 )  &quot;*&quot;  &quot; &quot;    &quot; &quot;     &quot; &quot;       &quot; &quot;     &quot; &quot;     &quot; &quot;    &quot; &quot;       
+## 2  ( 1 )  &quot;*&quot;  &quot; &quot;    &quot; &quot;     &quot; &quot;       &quot; &quot;     &quot; &quot;     &quot; &quot;    &quot; &quot;       
+## 3  ( 1 )  &quot;*&quot;  &quot; &quot;    &quot; &quot;     &quot; &quot;       &quot;*&quot;     &quot; &quot;     &quot; &quot;    &quot; &quot;       
+## 4  ( 1 )  &quot;*&quot;  &quot; &quot;    &quot; &quot;     &quot;*&quot;       &quot;*&quot;     &quot; &quot;     &quot; &quot;    &quot; &quot;       
+## 5  ( 1 )  &quot;*&quot;  &quot; &quot;    &quot; &quot;     &quot;*&quot;       &quot;*&quot;     &quot; &quot;     &quot; &quot;    &quot; &quot;       
+## 6  ( 1 )  &quot;*&quot;  &quot; &quot;    &quot; &quot;     &quot;*&quot;       &quot;*&quot;     &quot; &quot;     &quot; &quot;    &quot; &quot;       
+## 7  ( 1 )  &quot; &quot;  &quot; &quot;    &quot; &quot;     &quot;*&quot;       &quot;*&quot;     &quot; &quot;     &quot; &quot;    &quot; &quot;       
+## 8  ( 1 )  &quot; &quot;  &quot;*&quot;    &quot; &quot;     &quot;*&quot;       &quot;*&quot;     &quot; &quot;     &quot; &quot;    &quot; &quot;       
+## 9  ( 1 )  &quot;*&quot;  &quot;*&quot;    &quot; &quot;     &quot;*&quot;       &quot;*&quot;     &quot; &quot;     &quot; &quot;    &quot; &quot;       
+## 10  ( 1 ) &quot;*&quot;  &quot;*&quot;    &quot; &quot;     &quot;*&quot;       &quot;*&quot;     &quot;*&quot;     &quot; &quot;    &quot; &quot;       
+## 11  ( 1 ) &quot;*&quot;  &quot;*&quot;    &quot;*&quot;     &quot;*&quot;       &quot;*&quot;     &quot;*&quot;     &quot; &quot;    &quot; &quot;       
+## 12  ( 1 ) &quot;*&quot;  &quot;*&quot;    &quot;*&quot;     &quot;*&quot;       &quot;*&quot;     &quot;*&quot;     &quot; &quot;    &quot; &quot;       
+## 13  ( 1 ) &quot;*&quot;  &quot;*&quot;    &quot;*&quot;     &quot;*&quot;       &quot;*&quot;     &quot;*&quot;     &quot;*&quot;    &quot; &quot;       
+## 14  ( 1 ) &quot;*&quot;  &quot;*&quot;    &quot;*&quot;     &quot;*&quot;       &quot;*&quot;     &quot;*&quot;     &quot;*&quot;    &quot; &quot;       
+## 15  ( 1 ) &quot;*&quot;  &quot;*&quot;    &quot;*&quot;     &quot;*&quot;       &quot;*&quot;     &quot;*&quot;     &quot;*&quot;    &quot; &quot;       
+## 16  ( 1 ) &quot;*&quot;  &quot;*&quot;    &quot;*&quot;     &quot;*&quot;       &quot;*&quot;     &quot;*&quot;     &quot;*&quot;    &quot; &quot;       
+## 17  ( 1 ) &quot;*&quot;  &quot;*&quot;    &quot;*&quot;     &quot;*&quot;       &quot;*&quot;     &quot;*&quot;     &quot;*&quot;    &quot;*&quot;       
+## 18  ( 1 ) &quot;*&quot;  &quot;*&quot;    &quot;*&quot;     &quot;*&quot;       &quot;*&quot;     &quot;*&quot;     &quot;*&quot;    &quot;*&quot;       
+## 19  ( 1 ) &quot;*&quot;  &quot;*&quot;    &quot;*&quot;     &quot;*&quot;       &quot;*&quot;     &quot;*&quot;     &quot;*&quot;    &quot;*&quot;</code></pre>
+<p>The summary actually contains more stuff that is not displayed so let’s explore that:</p>
+<pre class="r"><code>regfit_summary &lt;- summary(regfit_full)
+names(regfit_summary)</code></pre>
+<pre><code>## [1] &quot;which&quot;  &quot;rsq&quot;    &quot;rss&quot;    &quot;adjr2&quot;  &quot;cp&quot;     &quot;bic&quot;    &quot;outmat&quot; &quot;obj&quot;</code></pre>
+<pre class="r"><code># We can look at the RSS of the models as we increase the number of variables:
+regfit_summary$rss</code></pre>
+<pre><code>##  [1] 36179679 30646560 29249297 27970852 27149899 26194904 25906548
+##  [8] 25136930 24814051 24500402 24387345 24333232 24289148 24248660
+## [15] 24235177 24219377 24209447 24201837 24200700</code></pre>
+<pre class="r"><code># Even plot it (on a log scale)
+qplot(x = 1:19, y = log(regfit_summary$rss))</code></pre>
+<p><img src="STA314F19_files/figure-html/summary%20of%20bss%20part%201-1.png" width="576" /></p>
+<pre class="r"><code># Or R squared
+qplot(x = 1:19, y = regfit_summary$adjr2)</code></pre>
+<p><img src="STA314F19_files/figure-html/summary%20of%20bss%20part%201-2.png" width="576" /></p>
+<p>We can see that adding more predictors beyond 10 gives very little lift to our model. We can also see that the highest we can get is around 0.55 <span class="math inline">\(R^2\)</span> and around 0.5225706 for adjusted <span class="math inline">\(R^2\)</span></p>
+<p>The regsubsets function has a built in plot capability that we will now explore:</p>
+<pre class="r"><code>plot(regfit_full, scale = &quot;adjr2&quot;)</code></pre>
+<p><img src="STA314F19_files/figure-html/plotting%20bss-1.png" width="576" /></p>
+<p>We can also access the coefficients of the model using the coef() function. Let’s look at the 5 variable model.</p>
+<pre class="r"><code>coef(regfit_full, 5)</code></pre>
+<pre><code>##  (Intercept)        AtBat         Hits         CRBI    DivisionW 
+##   97.7684116   -1.4401428    7.1753197    0.6882079 -129.7319386 
+##      PutOuts 
+##    0.2905164</code></pre>
+<p>How does it choose the best subsets of variables?</p>
+<pre class="r"><code>?regsubsets</code></pre>
+<p>Both Forward and Backwards selections are greedy algorithms.</p>
+<p>How to do optim:</p>
+<pre class="r"><code># Define some initial parameters. Don&#39;t name them just &quot;beta&quot; it will lead 
+# to errors. Parameters need to be a VECTOR
+
+beta_1 &lt;- 0
+beta_2 &lt;- 2
+
+par &lt;- c(beta_1, beta_2)
+
+# Define our function in terms of parameters
+xsquared &lt;- function(par) {
+    result &lt;- sum(-(as.double(par[1]^2) - as.double(c(1:10)^2)))
+  return(abs(result))
+}
+
+
+xsquared(par) # initial value</code></pre>
+<pre><code>## [1] 385</code></pre>
+<pre class="r"><code># Simple plots ( we can&#39;t do this for more than 1 variable easily!)
+inputs = seq(from = 0, to = 10, by = 0.1)
+outputs = sapply(inputs, xsquared)
+qplot(inputs, outputs)</code></pre>
+<p><img src="STA314F19_files/figure-html/Optim%20function-1.png" width="576" /></p>
+<pre class="r"><code># Optimize
+optim(par, xsquared, hessian = TRUE)</code></pre>
+<pre><code>## $par
+## [1]  6.2048368 -0.3770086
+## 
+## $value
+## [1] 2.763466e-06
+## 
+## $counts
+## function gradient 
+##       85       NA 
+## 
+## $convergence
+## [1] 0
+## 
+## $message
+## NULL
+## 
+## $hessian
+##          [,1] [,2]
+## [1,] 124095.4    0
+## [2,]      0.0    0</code></pre>
+<p>Even though the second parameter is not used we make changes to it due to the method we are employing for optmization.</p>
+<p>Below is an implementation of k-fold cross validation which I covered on the board in tutorial. I use the same KNN algorithm and dataset as in Tutorial 5.</p>
+<pre class="r"><code># Load data
+
+data_orig &lt;- ISLR::Smarket
+df &lt;- data_orig
+
+df_train &lt;- df %&gt;% sample_n(size = 0.7*1250)
+df_test &lt;- setdiff(df, df_train)
+
+# Prep for KNN
+scale2 &lt;- function(x, na.rm = FALSE) (x - mean(x, na.rm = na.rm)) / sd(x, na.rm)
+
+df_train_std &lt;- df_train %&gt;%
+  dplyr::select(-Direction ,-Today) %&gt;% # Remove the variables we are not considering and response
+  mutate_all(.funs = scale2) # I apply the scale2() function to all other variables.
+df_test_std &lt;- df_test %&gt;%
+  dplyr::select(-Direction ,-Today) %&gt;% # Remove the variables we are not considering and response
+  mutate_all(.funs = scale2) # I apply the scale2() function to all other variables.
+
+df_train_std$Direction &lt;- df_train$Direction
+df_test_std$Direction &lt;- df_test$Direction
+
+# Actual values
+actual &lt;- df_test$Direction
+
+# Fit the inital KNN
+
+predictions &lt;- knn(train = df_train_std %&gt;% dplyr::select(-Direction), # Training Set
+                   test = df_test_std %&gt;% dplyr::select(-Direction), # Test Set
+                   cl = df_train$Direction, # Labels for Training
+                   k = 3) # 3 nearest Neighbours
+
+table(predictions, actual)</code></pre>
+<pre><code>##            actual
+## predictions Down  Up
+##        Down   85  78
+##        Up    103 109</code></pre>
+<pre class="r"><code># Do k-fold CV on KNN. Note that the k in k-fold is not the same as the k in KNN.
+# I will call it m-fold CV just to avoid confusion.
+
+m &lt;- 5 # use 5 folds.
+
+# We can create the training folds by adding a new variable to our training data
+
+df_train_std$fold &lt;- sample(1:5, size = nrow(df_train_std), replace = TRUE)
+
+# Create a matrix to store our errors for different values of k we want to try.
+
+possible_k &lt;- 1:10
+
+cv_errors = matrix(NA, m, length(possible_k),
+                   dimnames = list(NULL, paste(1:length(possible_k))))
+
+# loop over folds and report 
+
+for (cv_fold in 1:m) {
+  for (k in possible_k) {
+    
+    # make the train fold
+    train_fold &lt;- df_train_std %&gt;% filter(fold != cv_fold)
+    
+    # make the test fold
+    test_fold &lt;- df_train_std %&gt;% filter(fold == cv_fold)
+    
+    # make the labels for each
+    train_labs &lt;- train_fold %&gt;% pull(Direction)
+    test_labs &lt;- test_fold %&gt;% pull(Direction)
+    
+    # Update the train and test folds to exclude direction
+    train_fold &lt;- train_fold %&gt;% dplyr::select(-Direction)
+    test_fold &lt;- test_fold  %&gt;% dplyr::select(-Direction)
+
+    # fit the model
+    knn_preds &lt;- knn(train = train_fold,
+                     test = test_fold,
+                     cl = train_labs,
+                     k = k,
+                     use.all = TRUE)
+    # Evaluate the result
+    table_result &lt;- table(knn_preds, test_labs)
+    table_result
+    accuracy &lt;- sum(diag(table_result)) / sum(table_result)
+    # Store result
+    cv_errors[cv_fold, k] &lt;- accuracy
+  }
+}
+cv_errors</code></pre>
+<pre><code>##              1         2         3         4         5         6         7
+## [1,] 0.5864198 0.5740741 0.5864198 0.5555556 0.5617284 0.5617284 0.5432099
+## [2,] 0.4638554 0.5120482 0.5783133 0.5602410 0.5903614 0.5662651 0.5783133
+## [3,] 0.4624277 0.5086705 0.5086705 0.5086705 0.5606936 0.5317919 0.5144509
+## [4,] 0.4851485 0.4900990 0.4405941 0.4306931 0.4603960 0.4455446 0.4257426
+## [5,] 0.5290698 0.4825581 0.4941860 0.5465116 0.4767442 0.4941860 0.4476744
+##              8         9        10
+## [1,] 0.5246914 0.5802469 0.5617284
+## [2,] 0.5481928 0.6024096 0.5963855
+## [3,] 0.5722543 0.5202312 0.4971098
+## [4,] 0.4356436 0.4158416 0.4405941
+## [5,] 0.4534884 0.4941860 0.5000000</code></pre>
+<pre class="r"><code># Average Errors across different k&#39;s for KNN:
+
+average_accuracy &lt;- apply(cv_errors, 2, mean)
+average_accuracy</code></pre>
+<pre><code>##         1         2         3         4         5         6         7 
+## 0.5053842 0.5134900 0.5216367 0.5203343 0.5299847 0.5199032 0.5018782 
+##         8         9        10 
+## 0.5068541 0.5225831 0.5191636</code></pre>
+<p>So the optimal choice is 5 according to 5-fold CV. Please note that this code is very much hacked together and not at all efficient.</p>
+<p>For those of you who have not picked up their midterms: they were returned to the professor, you can contact her to arrange for a pick-up during office hours.</p>
 </div>
 
 
