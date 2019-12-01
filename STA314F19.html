@@ -534,15 +534,46 @@ div.tocify {
 
 <div id="preliminaries-and-r-setup" class="section level1">
 <h1>Preliminaries and R setup</h1>
-<pre class="r"><code>library(tidyverse)</code></pre>
-<pre><code>## ── Attaching packages ───────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──</code></pre>
+<pre class="r"><code>library(gridExtra)
+library(car)</code></pre>
+<pre><code>## Loading required package: carData</code></pre>
+<pre class="r"><code>library(gapminder)
+library(ggdendro)
+library(dendextend)</code></pre>
+<pre><code>## 
+## ---------------------
+## Welcome to dendextend version 1.12.0
+## Type citation(&#39;dendextend&#39;) for how to cite the package.
+## 
+## Type browseVignettes(package = &#39;dendextend&#39;) for the package vignette.
+## The github page is: https://github.com/talgalili/dendextend/
+## 
+## Suggestions and bug-reports can be submitted at: https://github.com/talgalili/dendextend/issues
+## Or contact: &lt;tal.galili@gmail.com&gt;
+## 
+##  To suppress this message use:  suppressPackageStartupMessages(library(dendextend))
+## ---------------------</code></pre>
+<pre><code>## 
+## Attaching package: &#39;dendextend&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:ggdendro&#39;:
+## 
+##     theme_dendro</code></pre>
+<pre><code>## The following object is masked from &#39;package:stats&#39;:
+## 
+##     cutree</code></pre>
+<pre class="r"><code>library(e1071)
+library(tidyverse)</code></pre>
+<pre><code>## ── Attaching packages ───────────────────────────────────────────────────────────────────────── tidyverse 1.3.0 ──</code></pre>
 <pre><code>## ✔ ggplot2 3.2.1     ✔ purrr   0.3.3
 ## ✔ tibble  2.1.3     ✔ dplyr   0.8.3
-## ✔ tidyr   0.8.3     ✔ stringr 1.4.0
+## ✔ tidyr   1.0.0     ✔ stringr 1.4.0
 ## ✔ readr   1.3.1     ✔ forcats 0.4.0</code></pre>
-<pre><code>## ── Conflicts ──────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
-## ✖ dplyr::filter() masks stats::filter()
-## ✖ dplyr::lag()    masks stats::lag()</code></pre>
+<pre><code>## ── Conflicts ──────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::combine() masks gridExtra::combine()
+## ✖ dplyr::filter()  masks stats::filter()
+## ✖ dplyr::lag()     masks stats::lag()
+## ✖ dplyr::recode()  masks car::recode()
+## ✖ purrr::some()    masks car::some()</code></pre>
 <pre class="r"><code>library(MASS)</code></pre>
 <pre><code>## 
 ## Attaching package: &#39;MASS&#39;</code></pre>
@@ -564,24 +595,54 @@ library(tidymodels)</code></pre>
 <pre><code>## Registered S3 method overwritten by &#39;xts&#39;:
 ##   method     from
 ##   as.zoo.xts zoo</code></pre>
-<pre><code>## ── Attaching packages ──────────────────────────────────────────────────────────────── tidymodels 0.0.3 ──</code></pre>
+<pre><code>## Registered S3 methods overwritten by &#39;lme4&#39;:
+##   method                          from
+##   cooks.distance.influence.merMod car 
+##   influence.merMod                car 
+##   dfbeta.influence.merMod         car 
+##   dfbetas.influence.merMod        car</code></pre>
+<pre><code>## ── Attaching packages ──────────────────────────────────────────────────────────────────────── tidymodels 0.0.3 ──</code></pre>
 <pre><code>## ✔ broom     0.5.2          ✔ recipes   0.1.7     
 ## ✔ dials     0.0.3          ✔ rsample   0.0.5     
 ## ✔ infer     0.5.0          ✔ yardstick 0.0.4.9000
 ## ✔ parsnip   0.0.3.1</code></pre>
-<pre><code>## ── Conflicts ─────────────────────────────────────────────────────────────────── tidymodels_conflicts() ──
+<pre><code>## ── Conflicts ─────────────────────────────────────────────────────────────────────────── tidymodels_conflicts() ──
+## ✖ dplyr::combine()  masks gridExtra::combine()
 ## ✖ scales::discard() masks purrr::discard()
 ## ✖ dplyr::filter()   masks stats::filter()
 ## ✖ recipes::fixed()  masks stringr::fixed()
 ## ✖ dplyr::lag()      masks stats::lag()
 ## ✖ dials::margin()   masks ggplot2::margin()
 ## ✖ dials::offset()   masks stats::offset()
+## ✖ dials::prune()    masks dendextend::prune()
+## ✖ dplyr::recode()   masks car::recode()
 ## ✖ MASS::select()    masks dplyr::select()
+## ✖ purrr::some()     masks car::some()
 ## ✖ yardstick::spec() masks readr::spec()
 ## ✖ recipes::step()   masks stats::step()</code></pre>
 <pre class="r"><code>library(yardstick)
 library(parsnip)
-library(leaps)</code></pre>
+library(leaps)
+library(glmnet)</code></pre>
+<pre><code>## Loading required package: Matrix</code></pre>
+<pre><code>## 
+## Attaching package: &#39;Matrix&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:tidyr&#39;:
+## 
+##     expand, pack, unpack</code></pre>
+<pre><code>## Loading required package: foreach</code></pre>
+<pre><code>## 
+## Attaching package: &#39;foreach&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:purrr&#39;:
+## 
+##     accumulate, when</code></pre>
+<pre><code>## Loaded glmnet 2.0-18</code></pre>
+<pre><code>## 
+## Attaching package: &#39;glmnet&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:pROC&#39;:
+## 
+##     auc</code></pre>
+<pre class="r"><code>library(splines)</code></pre>
 <div id="r-setup" class="section level2">
 <h2>R Setup</h2>
 <p>If you need help setting up R and Rstudio, I host a guide on my <a href="https://michalmalyska.github.io/RResources.html">resources page</a></p>
@@ -590,12 +651,6 @@ library(leaps)</code></pre>
 <h2>Loading Data</h2>
 <p>You can find a fully commented guide on how to load in tabular data using the faster, tidyverse function read_csv() <a href="https://michalmalyska.github.io/RResources.html">here</a></p>
 </div>
-</div>
-<div id="tutorial-1" class="section level1">
-<h1>Tutorial 1</h1>
-</div>
-<div id="tutorial-2" class="section level1">
-<h1>Tutorial 2</h1>
 </div>
 <div id="tutorial-3" class="section level1">
 <h1>Tutorial 3</h1>
@@ -2156,6 +2211,600 @@ average_accuracy</code></pre>
 ## 0.5068541 0.5225831 0.5191636</code></pre>
 <p>So the optimal choice is 5 according to 5-fold CV. Please note that this code is very much hacked together and not at all efficient.</p>
 <p>For those of you who have not picked up their midterms: they were returned to the professor, you can contact her to arrange for a pick-up during office hours.</p>
+</div>
+<div id="tutorial-9" class="section level1">
+<h1>Tutorial 9</h1>
+<p>We will go through the ISLR lab for regularization which I have already covered a bit a few tutorials ago. We will be using the glmnet package.</p>
+<pre class="r"><code>df_orig &lt;- Hitters
+df &lt;- df_orig</code></pre>
+<pre class="r"><code>x = model.matrix(Salary~.,Hitters)[,-1]
+y &lt;- Hitters$Salary[!is.na(Hitters$Salary)]</code></pre>
+<pre class="r"><code># Lasso 
+model_lasso &lt;- glmnet(x, y, family = &quot;gaussian&quot;, alpha = 1)
+
+
+# Ridge
+grid &lt;- 10^seq(from = 10, to = -2,length = 100)
+
+model_ridge &lt;- glmnet(x, y, family = &quot;gaussian&quot;, alpha = 0, lambda = grid)
+coef(model_ridge)[,100]</code></pre>
+<pre><code>##   (Intercept)         AtBat          Hits         HmRun          Runs 
+##  164.11321606   -1.97386151    7.37772270    3.93660219   -2.19873625 
+##           RBI         Walks         Years        CAtBat         CHits 
+##   -0.91623008    6.20037718   -3.71403424   -0.17510063    0.21132772 
+##        CHmRun         CRuns          CRBI        CWalks       LeagueN 
+##    0.05629004    1.36605490    0.70965516   -0.79582173   63.40493257 
+##     DivisionW       PutOuts       Assists        Errors    NewLeagueN 
+## -117.08243713    0.28202541    0.37318482   -3.42400281  -25.99081928</code></pre>
+</div>
+<div id="tutorial-10" class="section level1">
+<h1>Tutorial 10</h1>
+<p>A very good resource that uses a different package to fit splines is the lecture notes from James H Steiger from Vanderblit university which can be found <a href="http://www.statpower.net/Content/313/Lecture%20Notes/Splines.pdf">here</a></p>
+<div id="polynomial-regression" class="section level2">
+<h2>Polynomial Regression</h2>
+<pre class="r"><code>rm(list = ls())
+# The usual
+df_orig &lt;- ISLR::Wage
+df &lt;- df_orig</code></pre>
+<p>Let’s fit a polynomial regression. The raw = TRUE parameter causes it to behave exactly like the stacked I() statements in the second model. Removing that results in it fitting orthogonal polynomials that include all lower levels as we discussed in tutorial.</p>
+<pre class="r"><code>lm_1 &lt;- lm(wage~poly(age, degree = 4, raw = TRUE), data = df)
+summary(lm_1)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = wage ~ poly(age, degree = 4, raw = TRUE), data = df)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -98.707 -24.626  -4.993  15.217 203.693 
+## 
+## Coefficients:
+##                                      Estimate Std. Error t value Pr(&gt;|t|)
+## (Intercept)                        -1.842e+02  6.004e+01  -3.067 0.002180
+## poly(age, degree = 4, raw = TRUE)1  2.125e+01  5.887e+00   3.609 0.000312
+## poly(age, degree = 4, raw = TRUE)2 -5.639e-01  2.061e-01  -2.736 0.006261
+## poly(age, degree = 4, raw = TRUE)3  6.811e-03  3.066e-03   2.221 0.026398
+## poly(age, degree = 4, raw = TRUE)4 -3.204e-05  1.641e-05  -1.952 0.051039
+##                                       
+## (Intercept)                        ** 
+## poly(age, degree = 4, raw = TRUE)1 ***
+## poly(age, degree = 4, raw = TRUE)2 ** 
+## poly(age, degree = 4, raw = TRUE)3 *  
+## poly(age, degree = 4, raw = TRUE)4 .  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 39.91 on 2995 degrees of freedom
+## Multiple R-squared:  0.08626,    Adjusted R-squared:  0.08504 
+## F-statistic: 70.69 on 4 and 2995 DF,  p-value: &lt; 2.2e-16</code></pre>
+<pre class="r"><code>lm_2 &lt;- lm(wage~age + I(age^2) + I(age^3) +I(age^4), data = df)
+summary(lm_2)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = wage ~ age + I(age^2) + I(age^3) + I(age^4), data = df)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -98.707 -24.626  -4.993  15.217 203.693 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) -1.842e+02  6.004e+01  -3.067 0.002180 ** 
+## age          2.125e+01  5.887e+00   3.609 0.000312 ***
+## I(age^2)    -5.639e-01  2.061e-01  -2.736 0.006261 ** 
+## I(age^3)     6.811e-03  3.066e-03   2.221 0.026398 *  
+## I(age^4)    -3.204e-05  1.641e-05  -1.952 0.051039 .  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 39.91 on 2995 degrees of freedom
+## Multiple R-squared:  0.08626,    Adjusted R-squared:  0.08504 
+## F-statistic: 70.69 on 4 and 2995 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>We can use anova to compare nested models. The resulting p-value is for a hypothesis test of the two models being the same / different. It is very useful for comparing nested models with large differences in number of parameters. If you want to learn more take STA303 next term.</p>
+<pre class="r"><code>lm_3 &lt;- lm(wage ~ age + I(age^2), data = df)
+
+anova(lm_3, lm_2)</code></pre>
+<pre><code>## Analysis of Variance Table
+## 
+## Model 1: wage ~ age + I(age^2)
+## Model 2: wage ~ age + I(age^2) + I(age^3) + I(age^4)
+##   Res.Df     RSS Df Sum of Sq      F   Pr(&gt;F)   
+## 1   2997 4793430                                
+## 2   2995 4771604  2     21826 6.8497 0.001076 **
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>We can see how our polynomial has fit using the base R code from ISLR</p>
+<pre class="r"><code>agelims = range(df$age)
+age.grid = seq(from = agelims[1], to = agelims[2])
+preds = predict(lm_2, newdata = list(age = age.grid), se = TRUE)
+se.bands = cbind(preds$fit + 2 * preds$se.fit, preds$fit - 2 * preds$se.fit)
+
+par(
+  mar = c(4.5, 4.5, 1, 1) ,
+  oma = c(0, 0, 4, 0)
+)
+plot(df$age,
+     df$wage,
+     xlim = agelims ,
+     cex = .5,
+     col = &quot;darkgrey&quot;)
+title(&quot;Degree -4Polynomial&quot;, outer = T)
+lines(age.grid, preds$fit, lwd = 2, col = &quot;blue&quot;)
+matlines(age.grid,
+         se.bands,
+         lwd = 1,
+         col = &quot;blue&quot;,
+         lty = 3)</code></pre>
+<p><img src="STA314F19_files/figure-html/Plot%204%20degree%20polynomial-1.png" width="576" /></p>
+<p>or just by using ggplot with a lot less hassle (note that this is NOT using any of the objects created before):</p>
+<pre class="r"><code>df %&gt;%
+  ggplot(aes(x = age, y = wage)) +
+  geom_point(color = &quot;gray&quot;, alpha = 0.5) +
+  geom_smooth(method = &quot;lm&quot;, formula = y~poly(x, 4)) +
+  theme_minimal() +
+  labs(title = &quot;Degree 4 Polynomial&quot;)</code></pre>
+<p><img src="STA314F19_files/figure-html/GGplot%204%20degree%20polynomial-1.png" width="576" /></p>
+<p>Now onto splines.</p>
+</div>
+<div id="splines" class="section level2">
+<h2>Splines</h2>
+<pre class="r"><code># we can fit a default spline
+lm_spline &lt;- lm(wage ~ splines::bs(age), data = df)
+summary(lm_spline)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = wage ~ splines::bs(age), data = df)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -99.693 -24.562  -5.222  15.096 206.119 
+## 
+## Coefficients:
+##                   Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)         58.689      4.013  14.625  &lt; 2e-16 ***
+## splines::bs(age)1  102.644     11.449   8.965  &lt; 2e-16 ***
+## splines::bs(age)2   48.762      8.625   5.654 1.72e-08 ***
+## splines::bs(age)3   40.803     12.109   3.370 0.000762 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 39.93 on 2996 degrees of freedom
+## Multiple R-squared:  0.0851, Adjusted R-squared:  0.08419 
+## F-statistic: 92.89 on 3 and 2996 DF,  p-value: &lt; 2.2e-16</code></pre>
+<pre class="r"><code># We can add our own knots and make sure it adds the intercept.
+splines &lt;- bs(df$age, knots = c(37, 48 , 55), intercept = TRUE)
+attr(splines, &quot;knots&quot;)</code></pre>
+<pre><code>## [1] 37 48 55</code></pre>
+<p>Since we already have made a spline dataset with an intercept, we should remove the intercept from our lm.</p>
+<pre class="r"><code>lm_spline_manual &lt;- lm(wage ~ splines - 1, data = df)
+summary(lm_spline_manual)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = wage ~ splines - 1, data = df)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -98.819 -24.374  -5.171  15.638 202.348 
+## 
+## Coefficients:
+##          Estimate Std. Error t value Pr(&gt;|t|)    
+## splines1   58.784      6.527   9.006  &lt; 2e-16 ***
+## splines2   85.291      5.936  14.370  &lt; 2e-16 ***
+## splines3  124.415      4.881  25.492  &lt; 2e-16 ***
+## splines4  116.918      2.983  39.192  &lt; 2e-16 ***
+## splines5  121.133      6.050  20.021  &lt; 2e-16 ***
+## splines6  111.423     13.179   8.455  &lt; 2e-16 ***
+## splines7   77.806     16.091   4.835  1.4e-06 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 39.91 on 2993 degrees of freedom
+## Multiple R-squared:  0.8883, Adjusted R-squared:  0.888 
+## F-statistic:  3399 on 7 and 2993 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>Let’s see what the splines look like:</p>
+<pre class="r"><code>df %&gt;%
+  ggplot(aes(x = age, y = wage)) +
+  geom_point(color = &quot;gray&quot;, alpha = 0.5) +
+  geom_smooth(method = &quot;lm&quot;, formula = y ~ bs(x, knots = c(37,48, 55))) +
+  geom_vline(xintercept = c(37, 48, 55)) +
+  theme_minimal() +
+  labs(title = &quot;Regression with splines&quot;)</code></pre>
+<p><img src="STA314F19_files/figure-html/Visualization%20for%20splines-1.png" width="576" /></p>
+<p>Another good resource on understanding what the fitted splines equations look like is <a href="http://people.stat.sfu.ca/~cschwarz/Consulting/Trinity/Phase2/TrinityWorkshop/Workshop-handouts/TW-04-Intro-splines.pdf">this slide deck</a> from Carl Schwarz from SFU.</p>
+</div>
+</div>
+<div id="additional-things" class="section level1">
+<h1>Additional Things</h1>
+<div id="pca" class="section level2">
+<h2>PCA</h2>
+<p><strong>With thanks to Alex Stringer for teaching me this properly in STA414</strong></p>
+<div id="motivation" class="section level3">
+<h3>Motivation:</h3>
+<p>Sometimes we are given a dataset containing a much larger number of features than what we like for analysis. (We will see this specifically in lab 3). <em>Principal Component Analysis</em> is one way of reducing the number of features while maintaining as much information about the original data as possible.</p>
+</div>
+<div id="procedure" class="section level3">
+<h3>Procedure:</h3>
+<p>Given a <span class="math inline">\(n\)</span> datapoints with <span class="math inline">\(p\)</span> features each, PCA tries to find a low-dimensional <span class="math inline">\(d &lt; p\)</span> factorization of the data matrix <span class="math inline">\(X\)</span> that preserves the maximum possible variance.</p>
+<p><span class="math display">\[ X = UZ \]</span> <span class="math display">\[ X \in \mathbb{R}^{n \times p} \]</span> <span class="math display">\[ Z \in \mathbb{R}^{d \times p} \]</span> <span class="math display">\[ U \in \mathbb{R}^{n \times d} \]</span></p>
+<p>We estimate <span class="math inline">\(U\)</span> from the data, and call the associated <span class="math inline">\(Z\)</span> the principal components of <span class="math inline">\(X\)</span>.</p>
+<p>PCA is thus states as follows:</p>
+<center>
+<p>for <span class="math inline">\(j = 1, ..., d\)</span></p>
+</center>
+<p><span class="math display">\[ \mathbf{u}_j = argmax(Var(\mathbf{u}^T\mathbf{x})) = argmax(\mathbf{u}^T\mathbf{Su}) \]</span></p>
+<center>
+<p>subject to:</p>
+</center>
+<p><span class="math display">\[ \mathbf{u}^T\mathbf{u} = 1 ,~~ \text{and } ~ \mathbf{u} \perp \mathbf{u}_k ~~ \text{for} ~~ k &lt; j \]</span></p>
+<p>Where S is the sample covariance matrix: <span class="math display">\[ \mathbf{S} = \frac{1}{n}\sum_{i = 1}^{n}{(\mathbf{x_i} - \mathbf{\bar{x}})(\mathbf{x_i} - \mathbf{\bar{x}}) ^T} \]</span></p>
+<p>Using lagrange multipliers we see the solution to the above problem must satisfy:</p>
+<p><span class="math display">\[ \mathbf{S}\mathbf{u}_1 = \lambda \mathbf{u}_1 \]</span> Which means that <span class="math inline">\(\mathbf{u}_1\)</span> is an eigenvector of S with the eigenvalue <span class="math inline">\(\lambda\)</span>.</p>
+<p>By definition of the problem <span class="math inline">\(\lambda\)</span> must be the largest eigenvalue. This is since it doesn’t the second constraint (as there is no previously selected vectors)</p>
+<p>Solving this constrained optimization problem gives us an orthonormal basis where the basis vectors point in the directions of the principal axes of the sample covariance matrix, in decreasing order of length.</p>
+<p>It’s equivalent to the rotation in the original input space!</p>
+<p>We then proceed to “chop off” the <span class="math inline">\(d-p\)</span> dimensions with least variance. And call this the basis for our <span class="math inline">\(d\)</span> dimensional space.</p>
+<p>So, the solution to the PCA problem is:</p>
+<ol style="list-style-type: decimal">
+<li><p>Choose <span class="math inline">\(\mathbf{u}_j\)</span> to be normalized eigenvector of <span class="math inline">\(\mathbf{S}\)</span> corresponding to the <span class="math inline">\(j\)</span>-th highest eigenvalue.</p></li>
+<li><p>Choose <span class="math inline">\(\mathbf{U}\)</span> to be the matrix of orthonormal eigenvectors of S, so that <span class="math inline">\(\mathbf{U}^T\mathbf{U} = \mathbf{I}\)</span></p></li>
+<li><p>Then <span class="math inline">\(\mathbf{Z} = \mathbf{XU}^T\)</span>.</p></li>
+<li><p>Keep only the first d columns of <span class="math inline">\(\mathbf{Z}\)</span> and the corresponding <span class="math inline">\(d \times d\)</span> submatrix of <span class="math inline">\(\mathbf{U}\)</span></p></li>
+<li><p>Reconstruct the data as <span class="math inline">\(\mathbf{X}^* = \mathbf{Z}^*\mathbf{U}^*\)</span></p></li>
+</ol>
+</div>
+</div>
+<div id="lab-1-pca" class="section level2">
+<h2>Lab 1: PCA</h2>
+<pre class="r"><code># See variable names
+colnames(USArrests)</code></pre>
+<pre><code>## [1] &quot;Murder&quot;   &quot;Assault&quot;  &quot;UrbanPop&quot; &quot;Rape&quot;</code></pre>
+<pre class="r"><code># Display means of each row
+USArrests %&gt;% summarize_all(funs(mean))</code></pre>
+<pre><code>##   Murder Assault UrbanPop   Rape
+## 1  7.788  170.76    65.54 21.232</code></pre>
+<pre class="r"><code># Display means and variances of each row
+USArrests %&gt;% summarize_all(.funs = c(Mean = mean, Variance = var))</code></pre>
+<pre><code>##   Murder_Mean Assault_Mean UrbanPop_Mean Rape_Mean Murder_Variance
+## 1       7.788       170.76         65.54    21.232        18.97047
+##   Assault_Variance UrbanPop_Variance Rape_Variance
+## 1         6945.166          209.5188      87.72916</code></pre>
+<p>There is a built-in function in R to do the principal component analysis:</p>
+<p>It automatically scales the data to have the mean of 0</p>
+<p>There is an added parameter <em>scale</em> which will also scale the standard deviation to 1.</p>
+<p>In general there are at most <span class="math inline">\(min(n-1,p)\)</span> informative principal components.</p>
+<pre class="r"><code># compute the PCA
+pca_out = prcomp(USArrests , scale = TRUE)
+# output the rotation matrix
+pca_out$rotation</code></pre>
+<pre><code>##                 PC1        PC2        PC3         PC4
+## Murder   -0.5358995  0.4181809 -0.3412327  0.64922780
+## Assault  -0.5831836  0.1879856 -0.2681484 -0.74340748
+## UrbanPop -0.2781909 -0.8728062 -0.3780158  0.13387773
+## Rape     -0.5434321 -0.1673186  0.8177779  0.08902432</code></pre>
+<pre class="r"><code># output the reconstructed data in the new coordinates:
+pca_out$x</code></pre>
+<pre><code>##                        PC1         PC2         PC3          PC4
+## Alabama        -0.97566045  1.12200121 -0.43980366  0.154696581
+## Alaska         -1.93053788  1.06242692  2.01950027 -0.434175454
+## Arizona        -1.74544285 -0.73845954  0.05423025 -0.826264240
+## Arkansas        0.13999894  1.10854226  0.11342217 -0.180973554
+## California     -2.49861285 -1.52742672  0.59254100 -0.338559240
+## Colorado       -1.49934074 -0.97762966  1.08400162  0.001450164
+## Connecticut     1.34499236 -1.07798362 -0.63679250 -0.117278736
+## Delaware       -0.04722981 -0.32208890 -0.71141032 -0.873113315
+## Florida        -2.98275967  0.03883425 -0.57103206 -0.095317042
+## Georgia        -1.62280742  1.26608838 -0.33901818  1.065974459
+## Hawaii          0.90348448 -1.55467609  0.05027151  0.893733198
+## Idaho           1.62331903  0.20885253  0.25719021 -0.494087852
+## Illinois       -1.36505197 -0.67498834 -0.67068647 -0.120794916
+## Indiana         0.50038122 -0.15003926  0.22576277  0.420397595
+## Iowa            2.23099579 -0.10300828  0.16291036  0.017379470
+## Kansas          0.78887206 -0.26744941  0.02529648  0.204421034
+## Kentucky        0.74331256  0.94880748 -0.02808429  0.663817237
+## Louisiana      -1.54909076  0.86230011 -0.77560598  0.450157791
+## Maine           2.37274014  0.37260865 -0.06502225 -0.327138529
+## Maryland       -1.74564663  0.42335704 -0.15566968 -0.553450589
+## Massachusetts   0.48128007 -1.45967706 -0.60337172 -0.177793902
+## Michigan       -2.08725025 -0.15383500  0.38100046  0.101343128
+## Minnesota       1.67566951 -0.62590670  0.15153200  0.066640316
+## Mississippi    -0.98647919  2.36973712 -0.73336290  0.213342049
+## Missouri       -0.68978426 -0.26070794  0.37365033  0.223554811
+## Montana         1.17353751  0.53147851  0.24440796  0.122498555
+## Nebraska        1.25291625 -0.19200440  0.17380930  0.015733156
+## Nevada         -2.84550542 -0.76780502  1.15168793  0.311354436
+## New Hampshire   2.35995585 -0.01790055  0.03648498 -0.032804291
+## New Jersey     -0.17974128 -1.43493745 -0.75677041  0.240936580
+## New Mexico     -1.96012351  0.14141308  0.18184598 -0.336121113
+## New York       -1.66566662 -0.81491072 -0.63661186 -0.013348844
+## North Carolina -1.11208808  2.20561081 -0.85489245 -0.944789648
+## North Dakota    2.96215223  0.59309738  0.29824930 -0.251434626
+## Ohio            0.22369436 -0.73477837 -0.03082616  0.469152817
+## Oklahoma        0.30864928 -0.28496113 -0.01515592  0.010228476
+## Oregon         -0.05852787 -0.53596999  0.93038718 -0.235390872
+## Pennsylvania    0.87948680 -0.56536050 -0.39660218  0.355452378
+## Rhode Island    0.85509072 -1.47698328 -1.35617705 -0.607402746
+## South Carolina -1.30744986  1.91397297 -0.29751723 -0.130145378
+## South Dakota    1.96779669  0.81506822  0.38538073 -0.108470512
+## Tennessee      -0.98969377  0.85160534  0.18619262  0.646302674
+## Texas          -1.34151838 -0.40833518 -0.48712332  0.636731051
+## Utah            0.54503180 -1.45671524  0.29077592 -0.081486749
+## Vermont         2.77325613  1.38819435  0.83280797 -0.143433697
+## Virginia        0.09536670  0.19772785  0.01159482  0.209246429
+## Washington      0.21472339 -0.96037394  0.61859067 -0.218628161
+## West Virginia   2.08739306  1.41052627  0.10372163  0.130583080
+## Wisconsin       2.05881199 -0.60512507 -0.13746933  0.182253407
+## Wyoming         0.62310061  0.31778662 -0.23824049 -0.164976866</code></pre>
+<pre class="r"><code># To get the variance explained by each of the prinicpal components we take the 
+# square of the std deviation:
+pca_var &lt;- pca_out$sdev^2
+pca_var</code></pre>
+<pre><code>## [1] 2.4802416 0.9897652 0.3565632 0.1734301</code></pre>
+<pre class="r"><code># To get the proportion of variance explained we just need to divide by the sum:
+pca_varprop &lt;- pca_var / sum(pca_var)
+pca_varprop</code></pre>
+<pre><code>## [1] 0.62006039 0.24744129 0.08914080 0.04335752</code></pre>
+<pre class="r"><code># Plots using base R:
+plot(pca_varprop , xlab = &quot; Principal Component &quot;,
+     ylab = &quot;Proportion of Variance Explained &quot;,
+     ylim = c(0,1), type = &quot;b&quot;)</code></pre>
+<p><img src="STA314F19_files/figure-html/PCA%20Plots%201-1.png" width="576" /></p>
+<pre class="r"><code>plot(cumsum(pca_varprop), xlab = &quot;Principal Component &quot;,
+     ylab = &quot;Cumulative Proportion of Variance Explained&quot;,
+     ylim = c(0,1), type = &quot;b&quot;)</code></pre>
+<p><img src="STA314F19_files/figure-html/PCA%20Plots%201-2.png" width="576" /></p>
+<pre class="r"><code># Plots using ggplot:
+## Create the combined dataset:
+df &lt;- tibble(PCA = 1:4, VarianceProportion = pca_varprop)
+
+ggplot(data = df, aes(x = PCA, y = VarianceProportion)) +
+    geom_line() +
+    geom_point() +
+    labs(x = &quot;Principal Component&quot;, y = &quot;Proportion of Variance Explained&quot;) +
+    geom_text(aes(label = round(VarianceProportion,2)), vjust = -1) +
+    scale_y_continuous(limits = c(0, 1))</code></pre>
+<p><img src="STA314F19_files/figure-html/PCA%20Plots%201-3.png" width="576" /></p>
+<pre class="r"><code>ggplot(data = df, aes(x = PCA, y = cumsum(VarianceProportion))) +
+    geom_line() +
+    geom_point() +
+    labs(x = &quot;Principal Component&quot;, y = &quot;Cumulative Proportion of Variance Explained&quot;) +
+    geom_text(aes(label = round(cumsum(VarianceProportion),2)), vjust = 2) +
+    scale_y_continuous(limits = c(0, 1))</code></pre>
+<p><img src="STA314F19_files/figure-html/PCA%20Plots%201-4.png" width="576" /></p>
+<pre class="r"><code># standardize all the variables
+USArrests_std &lt;- USArrests %&gt;% mutate_all(.funs = (scale))
+
+varcov_matrix &lt;- cor(USArrests_std)
+varcov_matrix</code></pre>
+<pre><code>##              Murder   Assault   UrbanPop      Rape
+## Murder   1.00000000 0.8018733 0.06957262 0.5635788
+## Assault  0.80187331 1.0000000 0.25887170 0.6652412
+## UrbanPop 0.06957262 0.2588717 1.00000000 0.4113412
+## Rape     0.56357883 0.6652412 0.41134124 1.0000000</code></pre>
+<pre class="r"><code># look at the eigenvectors and eigenvalues of the var cov matrix
+e &lt;- eigen(varcov_matrix)
+e</code></pre>
+<pre><code>## eigen() decomposition
+## $values
+## [1] 2.4802416 0.9897652 0.3565632 0.1734301
+## 
+## $vectors
+##            [,1]       [,2]       [,3]        [,4]
+## [1,] -0.5358995  0.4181809 -0.3412327  0.64922780
+## [2,] -0.5831836  0.1879856 -0.2681484 -0.74340748
+## [3,] -0.2781909 -0.8728062 -0.3780158  0.13387773
+## [4,] -0.5434321 -0.1673186  0.8177779  0.08902432</code></pre>
+<pre class="r"><code># Compute the eigenvector transformation
+
+for (i in 1:length(names(USArrests_std))) {
+    assign(paste0(&quot;PC&quot;, i), 
+    as.vector(USArrests_std$Murder * e$vectors[1,i] +
+    USArrests_std$Assault * e$vectors[2,i] + 
+    USArrests_std$UrbanPop * e$vectors[3,i] +
+    USArrests_std$Rape * e$vectors[4,i]))
+}
+
+manual_PCA &lt;- tibble(PC1 = PC1, PC2 = PC2, PC3 = PC3, PC4 = PC4)
+auto_PCA &lt;- as.tibble(pca_out$x)</code></pre>
+<pre><code>## Warning: `as.tibble()` is deprecated, use `as_tibble()` (but mind the new semantics).
+## This warning is displayed once per session.</code></pre>
+<pre class="r"><code>difference = manual_PCA - auto_PCA
+difference</code></pre>
+<pre><code>##              PC1           PC2           PC3           PC4
+## 1  -5.551115e-16 -8.881784e-16 -3.330669e-16 -9.992007e-16
+## 2   6.661338e-16 -8.881784e-16  4.440892e-16  1.942890e-15
+## 3   1.110223e-15 -1.998401e-15  1.554312e-15  6.661338e-16
+## 4  -8.326673e-16  2.220446e-16 -1.110223e-16 -3.885781e-16
+## 5   2.220446e-15 -2.442491e-15  1.332268e-15  1.665335e-15
+## 6   1.776357e-15 -1.110223e-15  2.220446e-16  1.859624e-15
+## 7   0.000000e+00  8.881784e-16  2.220446e-16 -1.526557e-16
+## 8   1.665335e-16 -4.996004e-16  1.110223e-15 -5.551115e-16
+## 9   1.332268e-15 -3.080869e-15  8.881784e-16 -3.469447e-16
+## 10 -2.220446e-16 -1.332268e-15 -1.110223e-15 -6.661338e-16
+## 11  6.661338e-16  6.661338e-16 -8.326673e-16  6.661338e-16
+## 12 -8.881784e-16  1.637579e-15  2.220446e-16  5.551115e-17
+## 13  6.661338e-16 -1.665335e-15  6.661338e-16 -3.608225e-16
+## 14 -2.220446e-16  6.106227e-16 -5.551115e-16  3.330669e-16
+## 15 -4.440892e-16  2.137179e-15 -6.661338e-16  9.714451e-17
+## 16 -2.220446e-16  7.771561e-16 -3.885781e-16  8.326673e-17
+## 17 -1.110223e-15  9.992007e-16 -1.110223e-15 -5.551115e-16
+## 18  0.000000e+00 -1.554312e-15 -4.440892e-16 -1.110223e-15
+## 19 -8.881784e-16  2.442491e-15 -2.220446e-16 -4.440892e-16
+## 20  4.440892e-16 -1.776357e-15  8.881784e-16 -4.440892e-16
+## 21  5.551115e-16  2.220446e-16  4.440892e-16  0.000000e+00
+## 22  4.440892e-16 -1.915135e-15  3.330669e-16  6.938894e-16
+## 23  0.000000e+00  1.665335e-15 -3.330669e-16  2.914335e-16
+## 24 -1.554312e-15 -8.881784e-16 -6.661338e-16 -1.887379e-15
+## 25  5.551115e-16 -4.996004e-16 -5.551115e-17  6.106227e-16
+## 26 -8.881784e-16  1.332268e-15 -4.440892e-16 -9.714451e-17
+## 27 -2.220446e-16  1.304512e-15 -1.110223e-16  2.428613e-16
+## 28  1.776357e-15 -2.442491e-15  2.220446e-16  1.776357e-15
+## 29 -8.881784e-16  2.525757e-15 -4.440892e-16 -1.110223e-16
+## 30  8.881784e-16 -6.661338e-16  2.220446e-16 -1.665335e-16
+## 31  8.881784e-16 -1.915135e-15  7.771561e-16  3.885781e-16
+## 32  1.554312e-15 -1.998401e-15  6.661338e-16 -2.289835e-16
+## 33 -1.554312e-15 -1.332268e-15  9.992007e-16 -1.887379e-15
+## 34 -1.776357e-15  2.997602e-15 -4.440892e-16 -2.220446e-16
+## 35  3.608225e-16  0.000000e+00 -4.163336e-16  2.220446e-16
+## 36  1.665335e-16  2.775558e-16 -2.775558e-17  1.110223e-16
+## 37  6.106227e-16  1.110223e-16  3.330669e-16  1.387779e-15
+## 38 -2.220446e-16  7.771561e-16 -4.440892e-16 -3.330669e-16
+## 39  4.440892e-16  2.220446e-16  1.110223e-15 -8.881784e-16
+## 40 -8.881784e-16 -8.881784e-16  5.551115e-17 -1.082467e-15
+## 41 -1.110223e-15  2.220446e-15 -4.440892e-16 -5.551115e-17
+## 42 -2.220446e-16 -5.551115e-16 -7.771561e-16 -1.110223e-16
+## 43  6.661338e-16 -1.443290e-15 -3.330669e-16 -3.330669e-16
+## 44  8.881784e-16  4.440892e-16  2.220446e-16  9.020562e-16
+## 45 -2.220446e-15  3.108624e-15 -8.881784e-16  3.053113e-16
+## 46 -2.081668e-16  1.665335e-16 -2.983724e-16 -8.326673e-17
+## 47  8.326673e-16  2.220446e-16  3.330669e-16  1.110223e-15
+## 48 -1.776357e-15  1.998401e-15 -8.881784e-16 -7.216450e-16
+## 49 -4.440892e-16  1.776357e-15 -5.551115e-16 -5.551115e-17
+## 50 -5.551115e-16  4.996004e-16  0.000000e+00 -4.718448e-16</code></pre>
+</div>
+<div id="lab-3-pca-and-clustering" class="section level2">
+<h2>Lab 3: PCA and Clustering</h2>
+<pre class="r"><code># Data Load
+nci_labs &lt;- NCI60$labs
+nci_data &lt;- NCI60$data
+
+# Combine
+nci &lt;- as.tibble(nci_data)
+nci$labels &lt;- nci_labs
+
+# It&#39;s a large dataset! 
+dim(nci)</code></pre>
+<pre><code>## [1]   64 6831</code></pre>
+<pre class="r"><code># Let&#39;s see what are the possible labels
+unique(nci$labels)</code></pre>
+<pre><code>##  [1] &quot;CNS&quot;         &quot;RENAL&quot;       &quot;BREAST&quot;      &quot;NSCLC&quot;       &quot;UNKNOWN&quot;    
+##  [6] &quot;OVARIAN&quot;     &quot;MELANOMA&quot;    &quot;PROSTATE&quot;    &quot;LEUKEMIA&quot;    &quot;K562B-repro&quot;
+## [11] &quot;K562A-repro&quot; &quot;COLON&quot;       &quot;MCF7A-repro&quot; &quot;MCF7D-repro&quot;</code></pre>
+<pre class="r"><code># Let&#39;s see how many of each label:
+nci %&gt;% group_by(labels) %&gt;% summarize(n())</code></pre>
+<pre><code>## # A tibble: 14 x 2
+##    labels      `n()`
+##    &lt;chr&gt;       &lt;int&gt;
+##  1 BREAST          7
+##  2 CNS             5
+##  3 COLON           7
+##  4 K562A-repro     1
+##  5 K562B-repro     1
+##  6 LEUKEMIA        6
+##  7 MCF7A-repro     1
+##  8 MCF7D-repro     1
+##  9 MELANOMA        8
+## 10 NSCLC           9
+## 11 OVARIAN         6
+## 12 PROSTATE        2
+## 13 RENAL           9
+## 14 UNKNOWN         1</code></pre>
+<pre class="r"><code># Not very many data points, with a lot of features!</code></pre>
+<p>Are all of those features really necessary? Let’s try doing PCA and seeing what proportion of variance can be explained by taking just a few:</p>
+<pre class="r"><code># I don&#39;t want to rescale the labels (which are not numerical in the first place!)
+nci_pca &lt;- nci_data %&gt;% prcomp(scale = TRUE)
+
+# Since we will be plotting this data, we would like a function that assigns 
+# a color based on the value of the label to each of the datapoints:
+
+Colors = function(vec) {
+    colors = rainbow(length(unique(vec)))
+    return(colors[as.numeric(as.factor(vec))])
+}
+
+# Now let&#39;s plot the PCs 
+par(mfrow = c(1,2))
+
+# plot the first and second PC
+plot(nci_pca$x[,1:2], col = Colors(nci_labs), pch = 19, xlab = &quot;PC1&quot;,ylab = &quot;PC2&quot;)
+# plot the first and third PC
+plot(nci_pca$x[,c(1,3)], col = Colors(nci_labs), pch = 19, xlab = &quot;PC1&quot;, ylab = &quot;PC3&quot;)</code></pre>
+<p><img src="STA314F19_files/figure-html/NCI60%20PCA-1.png" width="576" /></p>
+<pre class="r"><code># Get back to regular plotting:
+par(mfrow = c(1,1))</code></pre>
+<p>Now if we want to plot without having to write a function to assign colors each time, we can use ggplot:</p>
+<pre class="r"><code># Save as tibble for convenience (you could probably get away with not doing this)
+nci_pca_tb &lt;- as.tibble(nci_pca$x)
+# Add back the labels 
+nci_pca_tb$labels &lt;- nci$labels
+
+# Plot (I&#39;m dropping the argument names beyond this point)
+ggplot(nci_pca_tb, aes(x = PC1, y = PC2, color = labels)) +
+    geom_point()</code></pre>
+<p><img src="STA314F19_files/figure-html/Plotting%20PCA%20with%20ggplot-1.png" width="576" /></p>
+<pre class="r"><code># Doesn&#39;t this look 100 times simpler to do ?
+ggplot(nci_pca_tb, aes(x = PC1, y = PC3, color = labels)) +
+    geom_point()</code></pre>
+<p><img src="STA314F19_files/figure-html/Plotting%20PCA%20with%20ggplot-2.png" width="576" /></p>
+<p>For this reason, beyond this point, I will be rewriting all of visualizations from the labs into tidyverse code and omit the base R code.</p>
+<pre class="r"><code># Extract the variances
+df &lt;- tibble(PCA = 1:length(nci_pca$sdev), VarianceProportion = nci_pca$sdev^2 / sum(nci_pca$sdev^2))
+
+# Plot just the variance explanation proportions
+ggplot(data = df, aes(x = PCA, y = VarianceProportion)) +
+    geom_line() +
+    geom_point() +
+    labs(x = &quot;Principal Component&quot;, y = &quot;Proportion of Variance Explained&quot;) +
+    scale_y_continuous(limits = c(0, 1))</code></pre>
+<p><img src="STA314F19_files/figure-html/NCI60%20PCA%20proportion%20of%20variance-1.png" width="576" /></p>
+<pre class="r"><code># Plot the cumulative variance explanation proportions 
+ggplot(data = df, aes(x = PCA, y = cumsum(VarianceProportion))) +
+    geom_line(color = if_else(cumsum(df$VarianceProportion) &gt; 0.9, &quot;red&quot;, &quot;green&quot;)) +
+    geom_point(color = if_else(cumsum(df$VarianceProportion) &gt; 0.9, &quot;red&quot;, &quot;green&quot;)) +
+    labs(x = &quot;Principal Component&quot;, y = &quot;Cumulative Proportion of Variance Explained&quot;) +
+    scale_y_continuous(limits = c(0, 1)) +
+    geom_line(y = 0.9)</code></pre>
+<p><img src="STA314F19_files/figure-html/NCI60%20PCA%20proportion%20of%20variance-2.png" width="576" /></p>
+<p>The line on the second plot shows at which point you can cut out to keep <span class="math inline">\(90\)</span>% of variance (<span class="math inline">\(90\)</span>% of information about data), which looks to be about 20 features.</p>
+<p>Note that this is an improvent of an improvements since by just doing the PCA we have decreased the number of features from 6830 to 64 which is a 99.06% decrease, without losing much information!</p>
+<p>Now let’s do some clustering to review what we were doing 2 weeks ago:</p>
+<p>Again for simplicity of visualization I will be using the ggdendro package.</p>
+<pre class="r"><code># Create a vector of types of Hierarchical clustering we covered
+clustering_types &lt;- c(&quot;complete&quot;, &quot;average&quot;, &quot;single&quot;)
+
+# Perform HC in a loop and plotting
+for (method in clustering_types) {
+    # Good example of why %&gt;% is a great operator and method chaining is important
+    nci_data %&gt;% # Take the data
+    scale %&gt;% # Rescale it
+    dist %&gt;%  # Create a distance matrix 
+    hclust(method = method) %&gt;% # Perform HC
+    as.dendrogram %&gt;% # Change type to dendrogram
+    set(&quot;labels&quot;, nci_labs) %&gt;% # Add the labels from the original data
+    set(&quot;branches_k_color&quot;, k = 4) %&gt;% # Split the tree into 4 classes and color
+    set(&quot;labels_cex&quot;, 0.5) %&gt;%
+    plot(main = paste0(method,&quot; linkage&quot;))
+}</code></pre>
+<p><img src="STA314F19_files/figure-html/NCI60%20Hierarichical%20Clustering-1.png" width="576" /><img src="STA314F19_files/figure-html/NCI60%20Hierarichical%20Clustering-2.png" width="576" /><img src="STA314F19_files/figure-html/NCI60%20Hierarichical%20Clustering-3.png" width="576" /></p>
+<p>This illustrates just how different results can be for the types of HC we learned. Complete and average linkages usually result in similarily sized clusters, while Single linkage usually results in a single large cluster that has single leaves added to it at each step. Now let’s compare Complete Linkage with K-Means clustering</p>
+<pre class="r"><code># Create the complete linkage clustering
+cl_clusters &lt;- nci_data %&gt;% # Take the data
+    scale %&gt;% # Rescale it
+    dist %&gt;%  # Create a distance matrix 
+    hclust(method = &quot;complete&quot;) %&gt;% # Perform HC
+    cutree(k = 4) # cut 4 clusters
+
+# Create the kmeans clustering
+kmeans_clusters &lt;- nci_data %&gt;% # Take the data
+    scale %&gt;%
+    kmeans(centers = 4, nstart = 20) # Perform K-Means for 4 clusters 20 times
+    
+# Create a comparison Table:
+table(kmeans_clusters$cluster, cl_clusters)</code></pre>
+<pre><code>##    cl_clusters
+##      1  2  3  4
+##   1  9  0  0  0
+##   2 20  7  0  0
+##   3  0  0  8  0
+##   4 11  0  0  9</code></pre>
+<p>From this table we can see that cluster 4 in k-means is the same as cluster 3 in complete linkage, but the other clusters are a mixture. For example cluster 3 in k-means is a combination of 11 elements from cluster 1 in CL and 9 elements of cluster 4 in CL.</p>
+</div>
+<div id="tree-methods" class="section level2">
+<h2>Tree Methods</h2>
+<p>If you are reading this and would like me to put some stuff on tree models that can’t already be found in my last years materials, let me know what is missing and I will try to put it up before the final exam.</p>
+</div>
+</div>
+<div id="final-tutorial" class="section level1">
+<h1>Final Tutorial</h1>
+<p>I have been infomed that this indeed was our last tutorial. Thank you all! I talked to David about what you guys will need and the main thing you should all do over the winter break is get comfortable with basic python and numpy, or you could learn julia. If you are worried about the content, check out the first two weeks of STA414 from last year <a href="https://duvenaud.github.io/sta414/">here</a></p>
 </div>
 
 
