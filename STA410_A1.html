@@ -292,6 +292,13 @@ $(document).ready(function () {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="STA130W20.html">
+        <span class="fa fa-book"></span>
+         
+        STA130 - Intro to Data Science Spring 2020
+      </a>
+    </li>
+    <li>
       <a href="STA130F19.html">
         <span class="fa fa-book"></span>
          
@@ -471,7 +478,7 @@ $(document).ready(function () {
 <div id="setup" class="section level1">
 <h1>Setup</h1>
 <pre class="r"><code>set.seed(2718)
-
+knitr::opts_chunk$set(cache = TRUE)
 # Libraries
 library(tidyverse)
 

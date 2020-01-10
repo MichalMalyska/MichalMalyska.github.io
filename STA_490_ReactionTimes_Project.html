@@ -292,6 +292,13 @@ $(document).ready(function () {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="STA130W20.html">
+        <span class="fa fa-book"></span>
+         
+        STA130 - Intro to Data Science Spring 2020
+      </a>
+    </li>
+    <li>
       <a href="STA130F19.html">
         <span class="fa fa-book"></span>
          
@@ -475,6 +482,7 @@ library(tidyverse)
 # Set options 
 options(scipen = 999)
 set.seed(271828)
+knitr::opts_chunk$set(cache = TRUE)
 
 # Read the data
 df &lt;- read_csv(&quot;~/Desktop/University/Undergrad/Statistics/STA490/Reaction Time Project/clean_data.csv&quot;)

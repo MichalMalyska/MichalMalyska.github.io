@@ -7,6 +7,7 @@
 <meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 <meta name="author" content="Michal Malyska" />
@@ -16,7 +17,7 @@
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
@@ -108,33 +109,33 @@ summary {
 <style type="text/css">
 /* padding for bootstrap navbar */
 body {
-  padding-top: 60px;
+  padding-top: 51px;
   padding-bottom: 40px;
 }
 /* offset scroll position for anchor links (for fixed navbar)  */
 .section h1 {
-  padding-top: 65px;
-  margin-top: -65px;
+  padding-top: 56px;
+  margin-top: -56px;
 }
 .section h2 {
-  padding-top: 65px;
-  margin-top: -65px;
+  padding-top: 56px;
+  margin-top: -56px;
 }
 .section h3 {
-  padding-top: 65px;
-  margin-top: -65px;
+  padding-top: 56px;
+  margin-top: -56px;
 }
 .section h4 {
-  padding-top: 65px;
-  margin-top: -65px;
+  padding-top: 56px;
+  margin-top: -56px;
 }
 .section h5 {
-  padding-top: 65px;
-  margin-top: -65px;
+  padding-top: 56px;
+  margin-top: -56px;
 }
 .section h6 {
-  padding-top: 65px;
-  margin-top: -65px;
+  padding-top: 56px;
+  margin-top: -56px;
 }
 .dropdown-submenu {
   position: relative;
@@ -249,18 +250,6 @@ $(document).ready(function () {
 }
 </style>
 
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-
-$(document).ready(function () {
-  $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
-  });
-});
-</script>
-
 <!-- code folding -->
 
 
@@ -305,17 +294,38 @@ $(document).ready(function () {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="STA130W20.html">
+        <span class="fa fa-book"></span>
+         
+        STA130 - Intro to Data Science Spring 2020
+      </a>
+    </li>
+    <li>
+      <a href="STA130F19.html">
+        <span class="fa fa-book"></span>
+         
+        STA130 - Intro to Data Science Fall 2019
+      </a>
+    </li>
+    <li>
+      <a href="STA314F19.html">
+        <span class="fa fa-book"></span>
+         
+        STA314 - Machine Learning I Fall 2019
+      </a>
+    </li>
+    <li>
       <a href="STA220.html">
         <span class="fa fa-book"></span>
          
-        STA220 - The Practice of Statistics I
+        STA220 - The Practice of Statistics I Summer 2019
       </a>
     </li>
     <li>
       <a href="STA314.html">
         <span class="fa fa-book"></span>
          
-        STA314 - Machine Learning I
+        STA314 - Machine Learning I Fall 2018
       </a>
     </li>
   </ul>
@@ -401,6 +411,31 @@ $(document).ready(function () {
         <span class="fa fa-code"></span>
          
         Kaggle Competitions
+      </a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-code"></span>
+     
+    Resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="RResources.html">
+        <span class="fa fa-book"></span>
+         
+        RStudio / R resources
+      </a>
+    </li>
+    <li>
+      <a href="StatsResources.html">
+        <span class="fa fa-book"></span>
+         
+        General Statistics resources
       </a>
     </li>
   </ul>
@@ -730,6 +765,23 @@ $(document).ready(function () {
 
 
 </script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

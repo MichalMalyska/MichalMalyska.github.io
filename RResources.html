@@ -362,6 +362,13 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="STA130W20.html">
+        <span class="fa fa-book"></span>
+         
+        STA130 - Intro to Data Science Spring 2020
+      </a>
+    </li>
+    <li>
       <a href="STA130F19.html">
         <span class="fa fa-book"></span>
          
@@ -612,7 +619,8 @@ div.tocify {
 <div id="packages" class="section level2">
 <h2>Packages</h2>
 <p>At the start of each file you should also load ALL the packages you will be using. Please don’t scatter library calls throughout your file.</p>
-<pre class="r"><code>library(gridExtra)
+<pre class="r"><code>knitr::opts_chunk$set(cache = TRUE)
+library(gridExtra)
 #library(summarytools) ### There is a problem with summarytools on the current R version
 library(tidyverse)
 library(forcats)

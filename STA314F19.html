@@ -362,6 +362,13 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="STA130W20.html">
+        <span class="fa fa-book"></span>
+         
+        STA130 - Intro to Data Science Spring 2020
+      </a>
+    </li>
+    <li>
       <a href="STA130F19.html">
         <span class="fa fa-book"></span>
          
@@ -2734,7 +2741,6 @@ ggplot(nci_pca_tb, aes(x = PC1, y = PC2, color = labels)) +
 ggplot(nci_pca_tb, aes(x = PC1, y = PC3, color = labels)) +
     geom_point()</code></pre>
 <p><img src="STA314F19_files/figure-html/Plotting%20PCA%20with%20ggplot-2.png" width="576" /></p>
-<p>For this reason, beyond this point, I will be rewriting all of visualizations from the labs into tidyverse code and omit the base R code.</p>
 <pre class="r"><code># Extract the variances
 df &lt;- tibble(PCA = 1:length(nci_pca$sdev), VarianceProportion = nci_pca$sdev^2 / sum(nci_pca$sdev^2))
 
@@ -2755,47 +2761,6 @@ ggplot(data = df, aes(x = PCA, y = cumsum(VarianceProportion))) +
 <p><img src="STA314F19_files/figure-html/NCI60%20PCA%20proportion%20of%20variance-2.png" width="576" /></p>
 <p>The line on the second plot shows at which point you can cut out to keep <span class="math inline">\(90\)</span>% of variance (<span class="math inline">\(90\)</span>% of information about data), which looks to be about 20 features.</p>
 <p>Note that this is an improvent of an improvements since by just doing the PCA we have decreased the number of features from 6830 to 64 which is a 99.06% decrease, without losing much information!</p>
-<p>Now let’s do some clustering to review what we were doing 2 weeks ago:</p>
-<p>Again for simplicity of visualization I will be using the ggdendro package.</p>
-<pre class="r"><code># Create a vector of types of Hierarchical clustering we covered
-clustering_types &lt;- c(&quot;complete&quot;, &quot;average&quot;, &quot;single&quot;)
-
-# Perform HC in a loop and plotting
-for (method in clustering_types) {
-    # Good example of why %&gt;% is a great operator and method chaining is important
-    nci_data %&gt;% # Take the data
-    scale %&gt;% # Rescale it
-    dist %&gt;%  # Create a distance matrix 
-    hclust(method = method) %&gt;% # Perform HC
-    as.dendrogram %&gt;% # Change type to dendrogram
-    set(&quot;labels&quot;, nci_labs) %&gt;% # Add the labels from the original data
-    set(&quot;branches_k_color&quot;, k = 4) %&gt;% # Split the tree into 4 classes and color
-    set(&quot;labels_cex&quot;, 0.5) %&gt;%
-    plot(main = paste0(method,&quot; linkage&quot;))
-}</code></pre>
-<p><img src="STA314F19_files/figure-html/NCI60%20Hierarichical%20Clustering-1.png" width="576" /><img src="STA314F19_files/figure-html/NCI60%20Hierarichical%20Clustering-2.png" width="576" /><img src="STA314F19_files/figure-html/NCI60%20Hierarichical%20Clustering-3.png" width="576" /></p>
-<p>This illustrates just how different results can be for the types of HC we learned. Complete and average linkages usually result in similarily sized clusters, while Single linkage usually results in a single large cluster that has single leaves added to it at each step. Now let’s compare Complete Linkage with K-Means clustering</p>
-<pre class="r"><code># Create the complete linkage clustering
-cl_clusters &lt;- nci_data %&gt;% # Take the data
-    scale %&gt;% # Rescale it
-    dist %&gt;%  # Create a distance matrix 
-    hclust(method = &quot;complete&quot;) %&gt;% # Perform HC
-    cutree(k = 4) # cut 4 clusters
-
-# Create the kmeans clustering
-kmeans_clusters &lt;- nci_data %&gt;% # Take the data
-    scale %&gt;%
-    kmeans(centers = 4, nstart = 20) # Perform K-Means for 4 clusters 20 times
-    
-# Create a comparison Table:
-table(kmeans_clusters$cluster, cl_clusters)</code></pre>
-<pre><code>##    cl_clusters
-##      1  2  3  4
-##   1  9  0  0  0
-##   2 20  7  0  0
-##   3  0  0  8  0
-##   4 11  0  0  9</code></pre>
-<p>From this table we can see that cluster 4 in k-means is the same as cluster 3 in complete linkage, but the other clusters are a mixture. For example cluster 3 in k-means is a combination of 11 elements from cluster 1 in CL and 9 elements of cluster 4 in CL.</p>
 </div>
 <div id="tree-methods" class="section level2">
 <h2>Tree Methods</h2>

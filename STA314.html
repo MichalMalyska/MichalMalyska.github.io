@@ -366,6 +366,13 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="STA130W20.html">
+        <span class="fa fa-book"></span>
+         
+        STA130 - Intro to Data Science Spring 2020
+      </a>
+    </li>
+    <li>
       <a href="STA130F19.html">
         <span class="fa fa-book"></span>
          
@@ -572,7 +579,9 @@ library(pROC)
 
 # tidyverse goes last so that nothing overwrites the functions
 library(tidyverse)
-set.seed(217828)</code></pre>
+set.seed(217828)
+knitr::opts_chunk$set(cache = TRUE)
+ggplot2::theme_set(theme_minimal())</code></pre>
 </div>
 </div>
 <div id="week-1" class="section level1">
@@ -673,7 +682,7 @@ return(list(cluster = cluster, cost = cost))
 <div id="task-use-this-algorithm-to-make-a-4-clustering-of-the-data-set-in-question2.rdata.-comment-on-the-clustering." class="section level3">
 <h3>Task : Use this algorithm to make a 4 clustering of the data set in question2.RData. Comment on the clustering.</h3>
 <pre class="r"><code># Load the data from a data file 
-load(&quot;~/Desktop/University/Undergrad/Statistics/TA-ing/STA314/T2/question2.RData&quot;)
+load(&quot;~/Desktop/University/Undergrad/Statistics/TA-ing/STA314F18/T2/question2.RData&quot;)
 
 # Load the data from a csv file
 #data_q2 &lt;- read_csv(&quot;Question2_data.csv&quot;)
@@ -1140,18 +1149,19 @@ by_country &lt;- gapminder %&gt;%
 # View the data:
 by_country</code></pre>
 <pre><code>## # A tibble: 142 x 3
-##    country     continent data             
-##    &lt;fct&gt;       &lt;fct&gt;     &lt;list&gt;           
-##  1 Afghanistan Asia      &lt;tibble [12 × 4]&gt;
-##  2 Albania     Europe    &lt;tibble [12 × 4]&gt;
-##  3 Algeria     Africa    &lt;tibble [12 × 4]&gt;
-##  4 Angola      Africa    &lt;tibble [12 × 4]&gt;
-##  5 Argentina   Americas  &lt;tibble [12 × 4]&gt;
-##  6 Australia   Oceania   &lt;tibble [12 × 4]&gt;
-##  7 Austria     Europe    &lt;tibble [12 × 4]&gt;
-##  8 Bahrain     Asia      &lt;tibble [12 × 4]&gt;
-##  9 Bangladesh  Asia      &lt;tibble [12 × 4]&gt;
-## 10 Belgium     Europe    &lt;tibble [12 × 4]&gt;
+## # Groups:   country, continent [710]
+##    country     continent           data
+##    &lt;fct&gt;       &lt;fct&gt;     &lt;list&lt;df[,4]&gt;&gt;
+##  1 Afghanistan Asia            [12 × 4]
+##  2 Albania     Europe          [12 × 4]
+##  3 Algeria     Africa          [12 × 4]
+##  4 Angola      Africa          [12 × 4]
+##  5 Argentina   Americas        [12 × 4]
+##  6 Australia   Oceania         [12 × 4]
+##  7 Austria     Europe          [12 × 4]
+##  8 Bahrain     Asia            [12 × 4]
+##  9 Bangladesh  Asia            [12 × 4]
+## 10 Belgium     Europe          [12 × 4]
 ## # … with 132 more rows</code></pre>
 <p>In this dataset each row is the complete dataset for a country, instead of being just one of the observations.</p>
 <p>Now we want to fit a separate model for each of those rows:</p>
@@ -1168,18 +1178,19 @@ by_country &lt;- by_country %&gt;%
 # Now the column &quot;model&quot; in the by_country tibble contains all of the linear models we just fit!
 by_country</code></pre>
 <pre><code>## # A tibble: 142 x 4
-##    country     continent data              model 
-##    &lt;fct&gt;       &lt;fct&gt;     &lt;list&gt;            &lt;list&gt;
-##  1 Afghanistan Asia      &lt;tibble [12 × 4]&gt; &lt;lm&gt;  
-##  2 Albania     Europe    &lt;tibble [12 × 4]&gt; &lt;lm&gt;  
-##  3 Algeria     Africa    &lt;tibble [12 × 4]&gt; &lt;lm&gt;  
-##  4 Angola      Africa    &lt;tibble [12 × 4]&gt; &lt;lm&gt;  
-##  5 Argentina   Americas  &lt;tibble [12 × 4]&gt; &lt;lm&gt;  
-##  6 Australia   Oceania   &lt;tibble [12 × 4]&gt; &lt;lm&gt;  
-##  7 Austria     Europe    &lt;tibble [12 × 4]&gt; &lt;lm&gt;  
-##  8 Bahrain     Asia      &lt;tibble [12 × 4]&gt; &lt;lm&gt;  
-##  9 Bangladesh  Asia      &lt;tibble [12 × 4]&gt; &lt;lm&gt;  
-## 10 Belgium     Europe    &lt;tibble [12 × 4]&gt; &lt;lm&gt;  
+## # Groups:   country, continent [710]
+##    country     continent           data model 
+##    &lt;fct&gt;       &lt;fct&gt;     &lt;list&lt;df[,4]&gt;&gt; &lt;list&gt;
+##  1 Afghanistan Asia            [12 × 4] &lt;lm&gt;  
+##  2 Albania     Europe          [12 × 4] &lt;lm&gt;  
+##  3 Algeria     Africa          [12 × 4] &lt;lm&gt;  
+##  4 Angola      Africa          [12 × 4] &lt;lm&gt;  
+##  5 Argentina   Americas        [12 × 4] &lt;lm&gt;  
+##  6 Australia   Oceania         [12 × 4] &lt;lm&gt;  
+##  7 Austria     Europe          [12 × 4] &lt;lm&gt;  
+##  8 Bahrain     Asia            [12 × 4] &lt;lm&gt;  
+##  9 Bangladesh  Asia            [12 × 4] &lt;lm&gt;  
+## 10 Belgium     Europe          [12 × 4] &lt;lm&gt;  
 ## # … with 132 more rows</code></pre>
 <p>Now we want to look at the residuals, acessing models stored within tibbles is a hassle, so we can unnest the models:</p>
 <pre class="r"><code>by_country &lt;- by_country %&gt;% 
@@ -1252,6 +1263,18 @@ colnames(USArrests)</code></pre>
 <pre><code>## [1] &quot;Murder&quot;   &quot;Assault&quot;  &quot;UrbanPop&quot; &quot;Rape&quot;</code></pre>
 <pre class="r"><code># Display means of each row
 USArrests %&gt;% summarize_all(funs(mean))</code></pre>
+<pre><code>## Warning: funs() is soft deprecated as of dplyr 0.8.0
+## Please use a list of either functions or lambdas: 
+## 
+##   # Simple named list: 
+##   list(mean = mean, median = median)
+## 
+##   # Auto named with `tibble::lst()`: 
+##   tibble::lst(mean, median)
+## 
+##   # Using lambdas
+##   list(~ mean(., trim = .2), ~ median(., na.rm = TRUE))
+## This warning is displayed once per session.</code></pre>
 <pre><code>##   Murder Assault UrbanPop   Rape
 ## 1  7.788  170.76    65.54 21.232</code></pre>
 <pre class="r"><code># Display means and variances of each row

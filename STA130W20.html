@@ -10,9 +10,10 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
+<meta name="author" content="Michal Malyska" />
 
 
-<title>Kaggle Competitions</title>
+<title>STA130 Spring 2020 - T0206</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -20,6 +21,9 @@
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
@@ -251,6 +255,63 @@ $(document).ready(function () {
 
 
 
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
 
 </head>
 
@@ -258,6 +319,16 @@ $(document).ready(function () {
 
 
 <div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -462,23 +533,156 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Kaggle Competitions</h1>
+<h1 class="title toc-ignore">STA130 Spring 2020 - T0206</h1>
+<h4 class="author">Michal Malyska</h4>
 
 </div>
 
 
-<p>The competitions I participated in:</p>
+<div id="tutorial-1" class="section level1">
+<h1>Tutorial 1</h1>
+<div id="agenda" class="section level2">
+<h2>Agenda:</h2>
 <ul>
-<li><a href="https://www.kaggle.com/c/home-credit-default-risk">Home Credit Default Risk</a></li>
+<li><p>Intro (10 mins)</p></li>
+<li><p>Visualization (20 mins)</p></li>
+<li><p>Group Discussions (35 mins)</p></li>
+<li><p>Written Evaluation (30 mins)</p></li>
 </ul>
-<p>I worked in a team of 3 with 2 of my coworkers from Deloite. Harrison Jones (HJ) and Guillame Bertrand (GB), each working on our own scripts, and ensembling our models for the final set of predictions. We scored in the 86th percentile, below one of the public collaboration solutions.</p>
-<p>There are two main kernels that were used, one for <a href="https://www.kaggle.com/michalmalyska/testing-script-v3">prediction</a>, and one for <a href="https://www.kaggle.com/michalmalyska/bayesian-optimization-for-testing-script">Bayesian parameter optimization</a>.</p>
-<p>It was a very interesting problem, as the classes of data were very unbalanced, about 13/1 in favour of the non-default category. The solution we found that worked best was to upsample the default class by a factor of 2 or 3. While there are more advanced methods out there (randomly creating points in the convex subsets of the default cluster, and adding them to the class), due to computation constraints (6h), and RAM of the Kaggle server, we kept it simple.</p>
-<p>Together with GB, we created additonal features, beyond what was already in the kernel to further improve on the solution.</p>
-<p>The model we used is an <a href="https://lightgbm.readthedocs.io/en/latest/#">LGBM</a> (Light Gradient Boosted Machine). Which is an implementation of tree based algorithms, we in particular used gradient boosted decision trees.</p>
+</div>
+<div id="intro" class="section level2">
+<h2>Intro</h2>
+<p>Tutorials for this class are <em>mandatory</em> - Total tutorial marks make up 20 % of your grade! Each week, you have the opportunity to gain 6 points: 1 point attendance, 1 point practice problem, and 4 points for the writing/presentation exercise.</p>
+</div>
+<div id="attendance" class="section level2">
+<h2>Attendance</h2>
+<p>Attendance is important - not only do you get marks for showing up on time (and only if you show up on time). People who come to tutorials tend to do better on the midterm and poster presentations.</p>
+<pre class="r"><code>attendance_df %&gt;% ggplot(aes(x = attendance, y = midterm_marks)) +
+    geom_point() +
+    theme_minimal() +
+    geom_smooth(method = &quot;lm&quot;) +
+    scale_x_continuous(name = &quot;Attendance(%)&quot;) +
+    scale_y_continuous(name = &quot;Midterm Mark(%)&quot;) +
+    labs(title = &quot;Attendance and Midterm marks&quot;)</code></pre>
+<p><img src="STA130W20_files/figure-html/Attendance%20Plot-1.png" width="384" /></p>
+</div>
+<div id="expectations" class="section level2">
+<h2>Expectations:</h2>
+<ul>
+<li><p>Have questions completed and submitted to Quercus, <em>no emailed homework will be accepted</em></p></li>
+<li><p>Tutorial is <em>NOT</em> the place for troubleshooting R code. You should be prepared to discuss your results during tutorial. Instead, go to OH or post questions to the discussion board ahead of tutorial. OH are on Tues, Wed and Thurs.</p></li>
+<li><p>We use RCloud (do not recommend anything else unless the student is an advanced R user) – all the packages they will need have already been included in the RCloud session.</p></li>
+<li><p>Respectfully participate in group work and class discussions</p></li>
+<li><p>Practice their English writing &amp; oral presentation skills, particularly for non- statistician audiences</p></li>
+<li><p>Show up on time, tutorial starts 10 past the hour and goes until the hour. If you need to miss a tutorial or leave early for a test (10 minutes early MAX), you should let me know ahead of time. Showing up late or leaving more than ten minutes early will result in an attendance score of zero.</p></li>
+</ul>
+</div>
+<div id="resources" class="section level2">
+<h2>Resources</h2>
+<p>R Studio Cloud can be slow and buggy so I usually recommend to my students setting it up locally. This is by no means necessary for this course but will be required for courses in the future, and will get you more familiar with the setup.</p>
+<p>If you are interested in setting it up on your computer you can find a full guide <a href="https://michalmalyska.github.io/RResources.html">here</a></p>
+</div>
+<div id="setup" class="section level2">
+<h2>Setup</h2>
+<pre class="r"><code>library(tidyverse)
+library(tidylog)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;tidylog&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:dplyr&#39;:
+## 
+##     add_count, add_tally, anti_join, count, distinct,
+##     distinct_all, distinct_at, distinct_if, filter, filter_all,
+##     filter_at, filter_if, full_join, group_by, group_by_all,
+##     group_by_at, group_by_if, inner_join, left_join, mutate,
+##     mutate_all, mutate_at, mutate_if, rename, rename_all,
+##     rename_at, rename_if, right_join, sample_frac, sample_n,
+##     select, select_all, select_at, select_if, semi_join, slice,
+##     summarise, summarise_all, summarise_at, summarise_if,
+##     summarize, summarize_all, summarize_at, summarize_if, tally,
+##     top_frac, top_n, transmute, transmute_all, transmute_at,
+##     transmute_if, ungroup</code></pre>
+<pre><code>## The following objects are masked from &#39;package:tidyr&#39;:
+## 
+##     drop_na, fill, gather, pivot_longer, pivot_wider, replace_na,
+##     spread, uncount</code></pre>
+<pre><code>## The following object is masked from &#39;package:stats&#39;:
+## 
+##     filter</code></pre>
+<pre class="r"><code># For data
+library(VGAMdata)
+library(insuranceData)
+
+# For reproducibility
+set.seed(1337)</code></pre>
+</div>
+<div id="visualizations" class="section level2">
+<h2>Visualizations</h2>
+<ul>
+<li><p>What are the most effective types of graphs to summarize information in categorical or quantitative variables?</p></li>
+<li><p>What does the distribution tell you about for each types of data (categorical or quantitative)?</p></li>
+<li><p>How do you describe a histogram or a scatterplot? (refer to this week’s vocabulary list at the bottom)</p></li>
+<li><p>Be mindful of how you present your findings – are you potentially misleading the audience? Is it reader friendly?</p></li>
+<li><p>Think about the source of the data – this may have important implications for your interpretations!</p></li>
+</ul>
+<p>Questions specific to your homework 1 question:</p>
+<ul>
+<li><p>What type of distribution does the number of pages have?</p></li>
+<li><p>Is there an association between number of pages and weight? Number of pages and type of cover (hard or paper)?</p></li>
+<li><p>What types of figures (that we’ve learned so far) would be appropriate for this question? Why or why not?</p></li>
+</ul>
+</div>
+<div id="group-discussion" class="section level2">
+<h2>Group Discussion</h2>
+<p>What do you notice about the number of bins a histogram has, its shape and precision?</p>
+<ul>
+<li><p>In Question 1d, you could have presented both book cover types (hard or paper) in the same plot or presented them on separate plots. What are some considerations for which presentation you may want to choose (e.g. what are the pros and cons of each one)?</p></li>
+<li><p>If presenting two plots side by side, what are some things to consider to ensure they are comparable and reader-friendly?</p></li>
+<li><p>In questions 2 and 3, you saw examples of survivor bias. What is this? How does it impact, for example, the mean survival time calculated in Question 3?</p></li>
+</ul>
+</div>
+<div id="writing-guidelines" class="section level2">
+<h2>Writing Guidelines</h2>
+<p>A possible writing template:</p>
+<ul>
+<li><p>Give context to variables you will be discussing (mention the names, what they represent, units / types of values)</p></li>
+<li><p>Describe the most striking features of the graphs and what they mean. Make a conclusion based on those features</p></li>
+<li><p>Explain how you that conclusion is supported from the grahps</p></li>
+</ul>
+<p>Good writing example:</p>
+</div>
+<div id="written-evaluation" class="section level2">
+<h2>Written Evaluation</h2>
+<p><em>HAND IN BY THE END OF TUTORIAL ON QUERCUS</em></p>
+<p>Write a short paragraph to describe coherently the graphs you produced and structure these graphs to tell an interesting “story” about the data used in Question 1. You should use at least 2 graphs or plots from question 1 to support your story.</p>
+</div>
+<div id="vocabulary" class="section level2">
+<h2>Vocabulary</h2>
+<p>Bar graphs, histograms:</p>
+<ul>
+<li><p>Where are the data centered (towards the left, right, middle)</p></li>
+<li><p>How much spread (relative to what?)</p></li>
+<li><p>Shape: symmetric, left-skewed, right-skewed</p></li>
+<li><p>The tails of the distribution (heavy-tailed or thin-tailed)</p></li>
+<li><p>Modes: where, how many, unimodal, bimodal, multimodal, uniform</p></li>
+<li><p>Outliers, extreme values</p></li>
+<li><p>Frequency (which category occurred the most or least often; data concentrated near a particular value or category)</p></li>
+</ul>
+<p>Scatterplots (bivariate or pairwise scatterplots):</p>
+<ul>
+<li><p>Strong / weak relationship</p></li>
+<li><p>Linear / nonlinear relationship</p></li>
+<li><p>Direction of association (positive or negative)</p></li>
+<li><p>Outliers (deviation from what?)</p></li>
+<li><p>Any visible clusters forming</p></li>
+<li><p>Each dot represents</p></li>
+</ul>
+</div>
+</div>
 
 
 
+</div>
+</div>
 
 </div>
 
@@ -511,6 +715,32 @@ $(document).ready(function () {
 
 <!-- code folding -->
 
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>
