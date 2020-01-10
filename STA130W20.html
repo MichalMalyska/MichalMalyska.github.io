@@ -585,30 +585,9 @@ div.tocify {
 <div id="setup" class="section level2">
 <h2>Setup</h2>
 <pre class="r"><code>library(tidyverse)
-library(tidylog)</code></pre>
-<pre><code>## 
-## Attaching package: &#39;tidylog&#39;</code></pre>
-<pre><code>## The following objects are masked from &#39;package:dplyr&#39;:
-## 
-##     add_count, add_tally, anti_join, count, distinct,
-##     distinct_all, distinct_at, distinct_if, filter, filter_all,
-##     filter_at, filter_if, full_join, group_by, group_by_all,
-##     group_by_at, group_by_if, inner_join, left_join, mutate,
-##     mutate_all, mutate_at, mutate_if, rename, rename_all,
-##     rename_at, rename_if, right_join, sample_frac, sample_n,
-##     select, select_all, select_at, select_if, semi_join, slice,
-##     summarise, summarise_all, summarise_at, summarise_if,
-##     summarize, summarize_all, summarize_at, summarize_if, tally,
-##     top_frac, top_n, transmute, transmute_all, transmute_at,
-##     transmute_if, ungroup</code></pre>
-<pre><code>## The following objects are masked from &#39;package:tidyr&#39;:
-## 
-##     drop_na, fill, gather, pivot_longer, pivot_wider, replace_na,
-##     spread, uncount</code></pre>
-<pre><code>## The following object is masked from &#39;package:stats&#39;:
-## 
-##     filter</code></pre>
-<pre class="r"><code># For data
+library(tidylog)
+
+# For data
 library(VGAMdata)
 library(insuranceData)
 
@@ -646,9 +625,10 @@ set.seed(1337)</code></pre>
 <ul>
 <li><p>Give context to variables you will be discussing (mention the names, what they represent, units / types of values)</p></li>
 <li><p>Describe the most striking features of the graphs and what they mean. Make a conclusion based on those features</p></li>
-<li><p>Explain how you that conclusion is supported from the grahps</p></li>
+<li><p>Explain how you that conclusion is supported from the graphs</p></li>
 </ul>
 <p>Good writing example:</p>
+<p><img src="figures/Writing%20Example.png" /></p>
 </div>
 <div id="written-evaluation" class="section level2">
 <h2>Written Evaluation</h2>
