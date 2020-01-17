@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
@@ -90,7 +89,6 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -239,6 +237,7 @@ $(document).ready(function () {
   border: none;
   display: inline-block;
   border-radius: 4px;
+  background-color: transparent;
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
@@ -267,6 +266,12 @@ $(document).ready(function () {
 }
 }
 
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
 
 .toc-content {
   padding-left: 30px;
@@ -365,7 +370,7 @@ div.tocify {
       <a href="STA130W20.html">
         <span class="fa fa-book"></span>
          
-        STA130 - Intro to Data Science Spring 2020
+        STA130 - Intro to Data Science Winter 2020
       </a>
     </li>
     <li>
@@ -539,6 +544,17 @@ div.tocify {
 </div>
 
 
+<div id="setup" class="section level2">
+<h2>Setup</h2>
+<pre class="r"><code>library(tidyverse)
+
+# For data
+library(VGAMdata)
+library(insuranceData)
+
+# For reproducibility
+set.seed(1337)</code></pre>
+</div>
 <div id="tutorial-1" class="section level1">
 <h1>Tutorial 1</h1>
 <div id="agenda" class="section level2">
@@ -581,18 +597,6 @@ div.tocify {
 <h2>Resources</h2>
 <p>R Studio Cloud can be slow and buggy so I usually recommend to my students setting it up locally. This is by no means necessary for this course but will be required for courses in the future, and will get you more familiar with the setup.</p>
 <p>If you are interested in setting it up on your computer you can find a full guide <a href="https://michalmalyska.github.io/RResources.html">here</a></p>
-</div>
-<div id="setup" class="section level2">
-<h2>Setup</h2>
-<pre class="r"><code>library(tidyverse)
-library(tidylog)
-
-# For data
-library(VGAMdata)
-library(insuranceData)
-
-# For reproducibility
-set.seed(1337)</code></pre>
 </div>
 <div id="visualizations" class="section level2">
 <h2>Visualizations</h2>
@@ -654,8 +658,225 @@ set.seed(1337)</code></pre>
 <li><p>Direction of association (positive or negative)</p></li>
 <li><p>Outliers (deviation from what?)</p></li>
 <li><p>Any visible clusters forming</p></li>
-<li><p>Each dot represents</p></li>
+<li><p>Each dot represents …</p></li>
 </ul>
+</div>
+</div>
+<div id="tutorial-2" class="section level1">
+<h1>Tutorial 2</h1>
+<div id="agenda-for-today" class="section level2">
+<h2>Agenda for today:</h2>
+<ul>
+<li><p>Frequent Class Questions</p></li>
+<li><p>Vocabulary Review</p></li>
+<li><p>Boxplots</p></li>
+<li><p>Group Discussion</p></li>
+<li><p>Written Evaluation (10 minutes - 3 short questions)</p></li>
+</ul>
+</div>
+<div id="frequent-class-questions" class="section level2">
+<h2>Frequent Class Questions</h2>
+<p><strong>What is this course really about?</strong></p>
+<p>The course is designed such that you are introduced to concepts on Monday and assigned homework problems to work on during the week. Doing the homework allows you to develop hands-on experience with the necessary R code and analytical issues surrounding the analysis of real-world data. After completing the homework, tutorials provide you the opportunity to discuss what you observed. For example, what types of methods did you use, why you used those methods, what you observed, whether your findings fit your expectations, any limitations to your findings, etc. Tutorials also offer a critical opportunity to practice your ability to explain your research – via writing and speaking activities. As much as many of us hate writing or are shy to speak with others, these are critical skills for everybody working in statistics, particularly since we often work in multidisciplinary teams with people who do not have advanced statistical training!</p>
+<p><strong>Can we use aids for the written evaluations?</strong></p>
+<p>You are allowed these for your writing assignments, including dictionaries, collocations dictionaries, thesauruses, and translator apps. HOWEVER, you should make VERY sparing use of these aids for the following reasons:</p>
+<ul>
+<li><p>Over-use of aids eats up too much of the 30 minutes.</p></li>
+<li><p>The writing will usually turn out better if the student uses language they already know plus the language we’re teaching them as part of the course.</p></li>
+<li><p>Thesauruses and translator apps especially often have the effect of introducing errors into the student’s writing. The apps are often poor quality.</p></li>
+<li><p>As mentioned, the purpose of the course is to strengthen your overall ability to communicate.</p></li>
+</ul>
+<p><strong>Why are we doing so much writing in a stats class?</strong></p>
+<p>Many of you have been wondering why we have been focusing so much on writing activities and R code so far in this course. Don’t worry, the entire course won’t be like this. Soon we will move on to oral presentations in tutorial. However, in order to give a great oral presentation, knowing how to first properly structure and word your presentation is key. Also, we first want to make sure you have experience with R code and critical skills, like making figures, before we dive deeper into our stats content.</p>
+<p><strong>Why do we only get 30 minutes for the written evaluation?</strong></p>
+<p>These are intended to be short exercises, no more than half a page, and are based on the homework you should have (hopefully) already completed. You’ve also discussed these concepts and questions during tutorial. Given all of this, 30 minutes is more than enough time for you to summarize your observations. Besides, writing for any longer than this would probably become boring and would mean less time for covering other important things in tutorial!</p>
+</div>
+<div id="vocabulary-review" class="section level2">
+<h2>Vocabulary Review:</h2>
+<ul>
+<li>Mean</li>
+</ul>
+<p>Mean (also called an average, simple average, or arithmetic mean) is the sum of all elements divided by the count of all the elements.</p>
+<p><span class="math display">\[ 
+\text{mean}(X) = \bar{X} = \frac{X_1 + X_2 + X_3 + \dots + X_N}{N} = \frac{1}{N} \sum_{i=1}^{N}\left( X_i \right)
+\]</span></p>
+<pre class="r"><code># Vector of integers from 1 to 100
+x &lt;- 1:100
+
+# Mean
+mean(x)</code></pre>
+<pre><code>## [1] 50.5</code></pre>
+<pre class="r"><code>sum(x) / length(x)</code></pre>
+<pre><code>## [1] 50.5</code></pre>
+<ul>
+<li>Median</li>
+</ul>
+<p>Median - Median is the special name we give to the 2nd Quartile / 0.5 Quantile. It is the number for which 50% of the data is below it. (Essentially the point that splits your data in half)</p>
+<pre class="r"><code>median(x)</code></pre>
+<pre><code>## [1] 50.5</code></pre>
+<ul>
+<li>Variance</li>
+</ul>
+<p>Variance is the average squared distance of your datapoints from the mean. It measures how much the data is spread out from the mean.</p>
+<p><span class="math display">\[ 
+\text{ (sample) }Var(X) = \frac{\sum\left( X_i - \bar{X} \right)^2}{N-1}
+\]</span></p>
+<ul>
+<li>Standard Deviation (SD)</li>
+</ul>
+<p>Standard Deviation is the average distance (deviation) of datapoints from the mean. It’s also the square root of the variance</p>
+<p><span class="math display">\[
+\text{ (sample) }SD(X) = \sqrt{\frac{\sum\left( X_i - \bar{X} \right)^2}{N-1}} =
+\sqrt{Var(X)}
+\]</span></p>
+<pre class="r"><code>sd(x)</code></pre>
+<pre><code>## [1] 29.01149</code></pre>
+<pre class="r"><code>sqrt(sum((x - mean(x))^2) / (length(x) - 1))</code></pre>
+<pre><code>## [1] 29.01149</code></pre>
+<pre class="r"><code>sqrt(var(x))</code></pre>
+<pre><code>## [1] 29.01149</code></pre>
+<ul>
+<li>Quartile</li>
+</ul>
+<p>Quartiles are a set of numbers that split our dataset into quarters (25%). So:</p>
+<p>1st Quartile is the number below which 25% of our data is located 2nd Quartile is the number below which 50% of our data is located (Median!) 3rd Quartile is the number below which 75% of our data is located</p>
+<ul>
+<li>Interquartile Range (IQR)</li>
+</ul>
+<p>Interquartile range is just the difference between the 3rd Quartile and the 1st Quartile. This means that the middle 50% of the data lies in that range.</p>
+<ul>
+<li><p>Proportion</p></li>
+<li><p>Outlier</p></li>
+</ul>
+<p>Outliers are the unusual observations. In this course we define the outlier to be an observation that lies outside of a range. (Which is quite common for large datasets)</p>
+<p><span class="math display">\[ 
+\text{Range} = [Q_1 - 1.5\text{IQR}, Q_3 + 1.5\text{IQR}] = \\
+= [Q_1 - 1.5(Q_3 - Q_1), Q_3 + 1.5(Q_3 - Q_1)]
+\]</span></p>
+<ul>
+<li>Boxplot</li>
+</ul>
+<p>Boxplot is a type of plot for numerical data. It shows the median, 1st and 3rd quartiles, the interquartile range, and outliers into a single plot.</p>
+<p>Example in the section below</p>
+<ul>
+<li><p>R object</p></li>
+<li><p>Vector</p></li>
+<li><p>Variable Types</p></li>
+<li><p>Data Frame / Tibble</p></li>
+<li><p>Summary Table</p></li>
+<li><p>Summary Statistics</p></li>
+</ul>
+</div>
+<div id="boxplots" class="section level2">
+<h2>Boxplots</h2>
+<p>When to use boxplots?</p>
+<p>When you want to summarize the distribution of a quantitative (numerical) variable. Boxplots visualize five statistics (minimum, maximum, median, 1 st quartile and 3 rd quartile), while also plotting unusual observations (outliers). You can also use a boxplot to summarize these vales according to a categorical variable of interest.</p>
+<p>Example: height of athletes, a continuous variable, can be visualized using a boxplot. You may also want to show how this distribution varies by important categorical variables, such as: sport, country of origin, sex, etc.</p>
+<p>How:</p>
+<pre class="r"><code># Load the data as tibble (not necessary)
+df &lt;- as_tibble(oly12)
+
+# Make a boxplot:
+df %&gt;% 
+    ggplot(aes(x = Sport, y = Age)) +
+    geom_boxplot() +
+    coord_flip() +
+    theme_minimal()</code></pre>
+<p><img src="STA130W20_files/figure-html/How%20to%20make%20boxplot-1.png" width="576" /></p>
+<p>Limitations: Boxplots are nothing more than visualizations of a couple of numbers which means they do not give the full picture of your data. If you would like to know about a (better in my opinion) alternative - Violin plots, read the section at the end of this tutorial (THIS IS OPTIONAL)</p>
+</div>
+<div id="group-discussion-1" class="section level2">
+<h2>Group Discussion</h2>
+<ol style="list-style-type: decimal">
+<li>For Question 1, you used both histograms and boxplots to visualize your data. Which features were easier/harder to observe from each of the visualizations? In what situations may you want to choose a boxplot over a histogram, or vice versa? Explain.</li>
+</ol>
+<pre class="r"><code>temp_df &lt;- read_csv(&quot;datafiles/temp_Jan17.csv&quot;)</code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   city_name = col_character(),
+##   temperature = col_double(),
+##   decade = col_character()
+## )</code></pre>
+<pre class="r"><code>ggplot(data = temp_df, aes(x = temperature)) +
+    geom_histogram(color = &quot;black&quot;,fill = &quot;gray&quot;, bins = 30) +
+    theme_minimal() -&gt; p1
+
+ggplot(data = temp_df, aes(x = &quot;&quot;, y = temperature)) +
+    geom_boxplot() +
+    theme_minimal() -&gt; p2
+
+gridExtra::grid.arrange(p1,p2, ncol = 2)</code></pre>
+<p><img src="STA130W20_files/figure-html/Temperature-1.png" width="576" /></p>
+<ol start="2" style="list-style-type: decimal">
+<li>Based on your plot in Question 2d, can you determine if the same number of rainfall observations were recorded each decade? Why or why not?</li>
+</ol>
+<pre class="r"><code>ggplot(data = temp_df, aes(x = city_name, y = temperature)) +
+    geom_boxplot() +
+    theme_minimal()</code></pre>
+<p><img src="STA130W20_files/figure-html/Temp%20boxplots%20by%20city-1.png" width="576" /></p>
+<ol start="3" style="list-style-type: decimal">
+<li>Why might it be useful to provide a summary table? (You made one in Question 2h)</li>
+</ol>
+<pre class="r"><code>rain_df &lt;- read_csv(&quot;datafiles/rain_Jan17.csv&quot;)</code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   city_name = col_character(),
+##   rainfall = col_double(),
+##   decade = col_character()
+## )</code></pre>
+<pre class="r"><code>ggplot(data = rain_df, aes(x = rainfall)) +
+    geom_histogram(color = &quot;black&quot;,fill = &quot;gray&quot;, bins = 30) +
+    theme_minimal() -&gt; p1
+
+ggplot(data = rain_df, aes(x = &quot;&quot;, y = rainfall)) +
+    geom_boxplot() +
+    theme_minimal() -&gt; p2
+
+gridExtra::grid.arrange(p1,p2, ncol = 2)</code></pre>
+<p><img src="STA130W20_files/figure-html/rain%20data-1.png" width="576" /></p>
+</div>
+<div id="written-example-number-2" class="section level2">
+<h2>Written Example number 2</h2>
+<p><img src="figures/Writing%20Example%202.png" /></p>
+<p>Remember that you are graded using this rubric!</p>
+<p><img src="figures/STA130WrittenEvalForm.png" /></p>
+</div>
+<div id="written-evaluation-1" class="section level2">
+<h2>Written Evaluation</h2>
+<p>Imagine you’ve been hired as a statistical consultant for CP24, a local news station. They’ve asked you to put together a short report based on your recent research regarding historical temperatures and rainfall in Australia (practice problem questions 1 and 2). Your boss has asked you to deliver a short, written summary of your most interesting research findings. They want this by the end of the day because they’d like to include them in the 6pm news report. It’s already 3:30 pm and it’s a Friday!</p>
+<p>Remember, the newsroom is a busy place. They only want the most important information and they don’t want to read more than half a page of text. Use visuals to help get key points across, if you can. The news team has only limited statistical background, so make sure everything is clear and makes sense! Remember to start with the purpose – the team is busy with so many news stores and they may have forgotten exactly what your research was about! Also make sure to include a complete, but concise, summary of the methods, key results, and a conclusion.</p>
+<p>Remember, you’re the statistics expert and the team are counting on you to summarize this research!</p>
+<p><strong>SUBMIT TO QUERCUS</strong></p>
+</div>
+<div id="additional-resources" class="section level2">
+<h2>Additional Resources</h2>
+<div id="violin-plots" class="section level3">
+<h3>Violin Plots:</h3>
+<p>In addition to plotting just the summary of data which underlies the boxplots, violin plots provide an overview of how the data is spread along that axis. A side by side comparison of the two is below.</p>
+<pre class="r"><code># Boxplot
+rain_df %&gt;% filter(city_name == &quot;Sydney&quot;) %&gt;%
+    ggplot(aes(x = city_name, y = rainfall)) +
+    geom_boxplot() +
+    theme_minimal() +
+    labs(title = &quot;Boxplot&quot;) -&gt; p1</code></pre>
+<pre><code>## filter: removed 274 rows (71%), 110 rows remaining</code></pre>
+<pre class="r"><code>rain_df %&gt;% filter(city_name == &quot;Sydney&quot;) %&gt;%
+    ggplot(aes(x = city_name, y = rainfall)) +
+    geom_violin() +
+    theme_minimal() +
+    labs(title = &quot;Violin Plot&quot; ) -&gt; p2</code></pre>
+<pre><code>## filter: removed 274 rows (71%), 110 rows remaining</code></pre>
+<pre class="r"><code>gridExtra::grid.arrange(p1, p2, ncol = 2)</code></pre>
+<p><img src="STA130W20_files/figure-html/Violin%20vs%20Boxplot-1.png" width="576" /></p>
+<pre class="r"><code>rain_df %&gt;% filter(city_name == &quot;Sydney&quot;) %&gt;%
+    ggplot(aes(x = city_name, y = rainfall)) +
+    geom_violin() +
+    geom_boxplot() +
+    theme_minimal() +
+    labs(title = &quot;Combined Plot&quot; )</code></pre>
+<pre><code>## filter: removed 274 rows (71%), 110 rows remaining</code></pre>
+<p><img src="STA130W20_files/figure-html/Violin%20vs%20Boxplot-2.png" width="576" /></p>
+</div>
 </div>
 </div>
 

@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
@@ -90,7 +89,6 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -239,6 +237,7 @@ $(document).ready(function () {
   border: none;
   display: inline-block;
   border-radius: 4px;
+  background-color: transparent;
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
@@ -267,6 +266,12 @@ $(document).ready(function () {
 }
 }
 
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
 
 .toc-content {
   padding-left: 30px;
@@ -365,7 +370,7 @@ div.tocify {
       <a href="STA130W20.html">
         <span class="fa fa-book"></span>
          
-        STA130 - Intro to Data Science Spring 2020
+        STA130 - Intro to Data Science Winter 2020
       </a>
     </li>
     <li>
@@ -542,113 +547,49 @@ div.tocify {
 <div id="preliminaries-and-r-setup" class="section level1">
 <h1>Preliminaries and R setup</h1>
 <pre class="r"><code>library(gridExtra)
-library(car)</code></pre>
-<pre><code>## Loading required package: carData</code></pre>
-<pre class="r"><code>library(gapminder)
+library(car)
+library(gapminder)
 library(ggdendro)
-library(dendextend)</code></pre>
-<pre><code>## 
-## ---------------------
-## Welcome to dendextend version 1.12.0
-## Type citation(&#39;dendextend&#39;) for how to cite the package.
-## 
-## Type browseVignettes(package = &#39;dendextend&#39;) for the package vignette.
-## The github page is: https://github.com/talgalili/dendextend/
-## 
-## Suggestions and bug-reports can be submitted at: https://github.com/talgalili/dendextend/issues
-## Or contact: &lt;tal.galili@gmail.com&gt;
-## 
-##  To suppress this message use:  suppressPackageStartupMessages(library(dendextend))
-## ---------------------</code></pre>
-<pre><code>## 
-## Attaching package: &#39;dendextend&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:ggdendro&#39;:
-## 
-##     theme_dendro</code></pre>
-<pre><code>## The following object is masked from &#39;package:stats&#39;:
-## 
-##     cutree</code></pre>
-<pre class="r"><code>library(e1071)
-library(tidyverse)</code></pre>
-<pre><code>## ── Attaching packages ───────────────────────────────────────────────────────────────────────── tidyverse 1.3.0 ──</code></pre>
-<pre><code>## ✔ ggplot2 3.2.1     ✔ purrr   0.3.3
-## ✔ tibble  2.1.3     ✔ dplyr   0.8.3
-## ✔ tidyr   1.0.0     ✔ stringr 1.4.0
-## ✔ readr   1.3.1     ✔ forcats 0.4.0</code></pre>
-<pre><code>## ── Conflicts ──────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
-## ✖ dplyr::combine() masks gridExtra::combine()
-## ✖ dplyr::filter()  masks stats::filter()
-## ✖ dplyr::lag()     masks stats::lag()
-## ✖ dplyr::recode()  masks car::recode()
-## ✖ purrr::some()    masks car::some()</code></pre>
-<pre class="r"><code>library(MASS)</code></pre>
-<pre><code>## 
-## Attaching package: &#39;MASS&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:dplyr&#39;:
-## 
-##     select</code></pre>
-<pre class="r"><code>library(ISLR)
-library(corrplot)</code></pre>
-<pre><code>## corrplot 0.84 loaded</code></pre>
-<pre class="r"><code>library(pROC)</code></pre>
-<pre><code>## Type &#39;citation(&quot;pROC&quot;)&#39; for a citation.</code></pre>
-<pre><code>## 
-## Attaching package: &#39;pROC&#39;</code></pre>
-<pre><code>## The following objects are masked from &#39;package:stats&#39;:
-## 
-##     cov, smooth, var</code></pre>
-<pre class="r"><code>library(class)
+library(dendextend)
+library(e1071)
+library(tidyverse)
+library(MASS)
+library(ISLR)
+library(corrplot)
+library(pROC)
+library(class)
 library(tidymodels)</code></pre>
 <pre><code>## Registered S3 method overwritten by &#39;xts&#39;:
 ##   method     from
 ##   as.zoo.xts zoo</code></pre>
-<pre><code>## Registered S3 methods overwritten by &#39;lme4&#39;:
-##   method                          from
-##   cooks.distance.influence.merMod car 
-##   influence.merMod                car 
-##   dfbeta.influence.merMod         car 
-##   dfbetas.influence.merMod        car</code></pre>
-<pre><code>## ── Attaching packages ──────────────────────────────────────────────────────────────────────── tidymodels 0.0.3 ──</code></pre>
-<pre><code>## ✔ broom     0.5.2          ✔ recipes   0.1.7     
-## ✔ dials     0.0.3          ✔ rsample   0.0.5     
-## ✔ infer     0.5.0          ✔ yardstick 0.0.4.9000
-## ✔ parsnip   0.0.3.1</code></pre>
-<pre><code>## ── Conflicts ─────────────────────────────────────────────────────────────────────────── tidymodels_conflicts() ──
-## ✖ dplyr::combine()  masks gridExtra::combine()
-## ✖ scales::discard() masks purrr::discard()
-## ✖ dplyr::filter()   masks stats::filter()
-## ✖ recipes::fixed()  masks stringr::fixed()
-## ✖ dplyr::lag()      masks stats::lag()
-## ✖ dials::margin()   masks ggplot2::margin()
-## ✖ dials::offset()   masks stats::offset()
-## ✖ dials::prune()    masks dendextend::prune()
-## ✖ dplyr::recode()   masks car::recode()
-## ✖ MASS::select()    masks dplyr::select()
-## ✖ purrr::some()     masks car::some()
-## ✖ yardstick::spec() masks readr::spec()
-## ✖ recipes::step()   masks stats::step()</code></pre>
+<pre><code>## ── Attaching packages ────────── tidymodels 0.0.3 ──</code></pre>
+<pre><code>## ✓ dials     0.0.4          ✓ recipes   0.1.9     
+## ✓ infer     0.5.1          ✓ rsample   0.0.5     
+## ✓ parsnip   0.0.5          ✓ yardstick 0.0.4.9000</code></pre>
+<pre><code>## ── Conflicts ───────────── tidymodels_conflicts() ──
+## x broom::bootstrap()   masks modelr::bootstrap()
+## x gridExtra::combine() masks dplyr::combine()
+## x scales::discard()    masks purrr::discard()
+## x dplyr::filter()      masks stats::filter()
+## x recipes::fixed()     masks stringr::fixed()
+## x dplyr::lag()         masks stats::lag()
+## x yardstick::mae()     masks modelr::mae()
+## x yardstick::mape()    masks modelr::mape()
+## x dials::margin()      masks ggplot2::margin()
+## x dials::prune()       masks dendextend::prune()
+## x car::recode()        masks dplyr::recode()
+## x yardstick::rmse()    masks modelr::rmse()
+## x MASS::select()       masks dplyr::select()
+## x xgboost::slice()     masks dplyr::slice()
+## x car::some()          masks purrr::some()
+## x yardstick::spec()    masks readr::spec()
+## x recipes::step()      masks stats::step()
+## x recipes::yj_trans()  masks scales::yj_trans()</code></pre>
 <pre class="r"><code>library(yardstick)
 library(parsnip)
 library(leaps)
 library(glmnet)</code></pre>
-<pre><code>## Loading required package: Matrix</code></pre>
-<pre><code>## 
-## Attaching package: &#39;Matrix&#39;</code></pre>
-<pre><code>## The following objects are masked from &#39;package:tidyr&#39;:
-## 
-##     expand, pack, unpack</code></pre>
-<pre><code>## Loading required package: foreach</code></pre>
-<pre><code>## 
-## Attaching package: &#39;foreach&#39;</code></pre>
-<pre><code>## The following objects are masked from &#39;package:purrr&#39;:
-## 
-##     accumulate, when</code></pre>
-<pre><code>## Loaded glmnet 2.0-18</code></pre>
-<pre><code>## 
-## Attaching package: &#39;glmnet&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:pROC&#39;:
-## 
-##     auc</code></pre>
+<pre><code>## Loaded glmnet 3.0-2</code></pre>
 <pre class="r"><code>library(splines)</code></pre>
 <div id="r-setup" class="section level2">
 <h2>R Setup</h2>
@@ -680,18 +621,18 @@ summary(model1)</code></pre>
 ## 
 ## Residuals:
 ##     Min      1Q  Median      3Q     Max 
-## -15.536  -4.246  -1.309   2.445  24.167 
+## -15.215  -3.958  -1.180   2.213  24.447 
 ## 
 ## Coefficients:
-##             Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept) 35.09018    0.67952   51.64   &lt;2e-16 ***
-## lstat       -0.97138    0.04662  -20.84   &lt;2e-16 ***
+##             Estimate Std. Error t value            Pr(&gt;|t|)    
+## (Intercept) 34.57179    0.66016   52.37 &lt;0.0000000000000002 ***
+## lstat       -0.94632    0.04574  -20.69 &lt;0.0000000000000002 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 6.427 on 352 degrees of freedom
-## Multiple R-squared:  0.5523, Adjusted R-squared:  0.551 
-## F-statistic: 434.2 on 1 and 352 DF,  p-value: &lt; 2.2e-16</code></pre>
+## Residual standard error: 6.163 on 352 degrees of freedom
+## Multiple R-squared:  0.5488, Adjusted R-squared:  0.5475 
+## F-statistic: 428.1 on 1 and 352 DF,  p-value: &lt; 0.00000000000000022</code></pre>
 <pre class="r"><code>plot(model1)</code></pre>
 <p><img src="STA314F19_files/figure-html/Model%20Assumptions-1.png" width="576" /><img src="STA314F19_files/figure-html/Model%20Assumptions-2.png" width="576" /><img src="STA314F19_files/figure-html/Model%20Assumptions-3.png" width="576" /><img src="STA314F19_files/figure-html/Model%20Assumptions-4.png" width="576" /></p>
 <p>Assumptions are not satisfied!</p>
@@ -723,19 +664,19 @@ summary(model2)</code></pre>
 ## 
 ## Residuals:
 ##     Min      1Q  Median      3Q     Max 
-## -16.644  -4.114  -1.347   2.302  22.292 
+## -16.240  -3.786  -1.238   2.199  22.738 
 ## 
 ## Coefficients:
-##             Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept) 33.07995    0.89692   36.88  &lt; 2e-16 ***
-## lstat       -1.08339    0.05671  -19.11  &lt; 2e-16 ***
-## age          0.04952    0.01470    3.37 0.000837 ***
+##             Estimate Std. Error t value             Pr(&gt;|t|)    
+## (Intercept) 32.82493    0.85566  38.362 &lt; 0.0000000000000002 ***
+## lstat       -1.05338    0.05651 -18.639 &lt; 0.0000000000000002 ***
+## age          0.04475    0.01420   3.152              0.00176 ** 
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 6.334 on 351 degrees of freedom
-## Multiple R-squared:  0.5663, Adjusted R-squared:  0.5639 
-## F-statistic: 229.2 on 2 and 351 DF,  p-value: &lt; 2.2e-16</code></pre>
+## Residual standard error: 6.087 on 351 degrees of freedom
+## Multiple R-squared:  0.5612, Adjusted R-squared:  0.5587 
+## F-statistic: 224.4 on 2 and 351 DF,  p-value: &lt; 0.00000000000000022</code></pre>
 <pre class="r"><code>plot(model2)</code></pre>
 <p><img src="STA314F19_files/figure-html/MLR-1.png" width="576" /><img src="STA314F19_files/figure-html/MLR-2.png" width="576" /><img src="STA314F19_files/figure-html/MLR-3.png" width="576" /><img src="STA314F19_files/figure-html/MLR-4.png" width="576" /></p>
 <p>How to add everything (and subtract some) variables:</p>
@@ -747,28 +688,28 @@ summary(model3)</code></pre>
 ## 
 ## Residuals:
 ##      Min       1Q   Median       3Q      Max 
-## -15.7177  -2.8975  -0.6761   2.0959  24.4027 
+## -16.2725  -2.6163  -0.6059   2.1039  24.9894 
 ## 
 ## Coefficients:
-##               Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)  40.032269   6.305107   6.349 6.89e-10 ***
-## crim         -0.115508   0.036030  -3.206  0.00147 ** 
-## zn            0.049570   0.017606   2.816  0.00515 ** 
-## chas          2.382488   1.074831   2.217  0.02731 *  
-## nox         -17.693815   4.449224  -3.977 8.53e-05 ***
-## rm            3.475670   0.493264   7.046 1.02e-11 ***
-## dis          -1.540561   0.230279  -6.690 9.13e-11 ***
-## rad           0.317900   0.084841   3.747  0.00021 ***
-## tax          -0.010915   0.004546  -2.401  0.01689 *  
-## ptratio      -0.945354   0.163499  -5.782 1.66e-08 ***
-## black         0.007271   0.003299   2.204  0.02817 *  
-## lstat        -0.588923   0.058238 -10.112  &lt; 2e-16 ***
+##               Estimate Std. Error t value             Pr(&gt;|t|)    
+## (Intercept)  34.610681   5.963598   5.804    0.000000014805298 ***
+## crim         -0.122622   0.035139  -3.490             0.000547 ***
+## zn            0.049093   0.016594   2.958             0.003308 ** 
+## chas          2.969344   0.999299   2.971             0.003174 ** 
+## nox         -17.555532   4.103385  -4.278    0.000024474592589 ***
+## rm            3.854892   0.489971   7.868    0.000000000000048 ***
+## dis          -1.464089   0.219273  -6.677    0.000000000098742 ***
+## rad           0.293201   0.074997   3.910             0.000112 ***
+## tax          -0.011192   0.003961  -2.826             0.004997 ** 
+## ptratio      -0.829099   0.155306  -5.338    0.000000171143507 ***
+## black         0.007305   0.003273   2.232             0.026268 *  
+## lstat        -0.540472   0.056063  -9.640 &lt; 0.0000000000000002 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 5.023 on 342 degrees of freedom
-## Multiple R-squared:  0.7343, Adjusted R-squared:  0.7257 
-## F-statistic: 85.92 on 11 and 342 DF,  p-value: &lt; 2.2e-16</code></pre>
+## Residual standard error: 4.755 on 342 degrees of freedom
+## Multiple R-squared:  0.739,  Adjusted R-squared:  0.7306 
+## F-statistic: 88.04 on 11 and 342 DF,  p-value: &lt; 0.00000000000000022</code></pre>
 <p>How to add interactions:</p>
 <pre class="r"><code>model4 &lt;- lm(data = df_train, formula = medv ~ . -age -indus + lstat:ptratio )
 summary(model4)</code></pre>
@@ -778,29 +719,29 @@ summary(model4)</code></pre>
 ## 
 ## Residuals:
 ##      Min       1Q   Median       3Q      Max 
-## -15.0005  -2.8065  -0.7496   1.9732  24.8779 
+## -16.0577  -2.6329  -0.6341   2.0187  25.1558 
 ## 
 ## Coefficients:
-##                 Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)    46.096123   7.456654   6.182 1.81e-09 ***
-## crim           -0.119896   0.036079  -3.323 0.000986 ***
-## zn              0.044690   0.017865   2.502 0.012833 *  
-## chas            2.477741   1.074635   2.306 0.021729 *  
-## nox           -14.759380   4.844282  -3.047 0.002494 ** 
-## rm              3.285472   0.508063   6.467 3.47e-10 ***
-## dis            -1.433696   0.240409  -5.964 6.17e-09 ***
-## rad             0.312116   0.084766   3.682 0.000269 ***
-## tax            -0.011862   0.004581  -2.590 0.010018 *  
-## ptratio        -1.290531   0.280122  -4.607 5.78e-06 ***
-## black           0.007446   0.003294   2.260 0.024428 *  
-## lstat          -1.198218   0.406072  -2.951 0.003389 ** 
-## ptratio:lstat   0.031831   0.020995   1.516 0.130427    
+##                 Estimate Std. Error t value          Pr(&gt;|t|)    
+## (Intercept)    36.589512   7.192138   5.087 0.000000600562075 ***
+## crim           -0.123494   0.035222  -3.506          0.000515 ***
+## zn              0.047463   0.016938   2.802          0.005366 ** 
+## chas            3.014429   1.004570   3.001          0.002892 ** 
+## nox           -16.714599   4.447437  -3.758          0.000201 ***
+## rm              3.796580   0.504550   7.525 0.000000000000475 ***
+## dis            -1.432258   0.228799  -6.260 0.000000001157358 ***
+## rad             0.291335   0.075175   3.875          0.000128 ***
+## tax            -0.011479   0.004008  -2.864          0.004440 ** 
+## ptratio        -0.938570   0.270916  -3.464          0.000599 ***
+## black           0.007312   0.003277   2.231          0.026300 *  
+## lstat          -0.731034   0.390263  -1.873          0.061898 .  
+## ptratio:lstat   0.009966   0.020197   0.493          0.622032    
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 5.013 on 341 degrees of freedom
-## Multiple R-squared:  0.7361, Adjusted R-squared:  0.7268 
-## F-statistic: 79.25 on 12 and 341 DF,  p-value: &lt; 2.2e-16</code></pre>
+## Residual standard error: 4.761 on 341 degrees of freedom
+## Multiple R-squared:  0.7392, Adjusted R-squared:   0.73 
+## F-statistic: 80.54 on 12 and 341 DF,  p-value: &lt; 0.00000000000000022</code></pre>
 <p>How to write high level interactions:</p>
 <pre class="r"><code>model5 &lt;- lm(data = df_train, formula = medv ~ lstat*ptratio*black)
 summary(model5)</code></pre>
@@ -810,24 +751,24 @@ summary(model5)</code></pre>
 ## 
 ## Residuals:
 ##      Min       1Q   Median       3Q      Max 
-## -13.2771  -3.4380  -0.8151   1.6208  27.5704 
+## -12.7447  -3.4986  -0.7326   1.6692  27.4842 
 ## 
 ## Coefficients:
-##                       Estimate Std. Error t value Pr(&gt;|t|)  
-## (Intercept)         -2.747e+01  5.169e+01  -0.532   0.5954  
-## lstat                1.842e+00  2.797e+00   0.659   0.5105  
-## ptratio              2.330e+00  2.600e+00   0.896   0.3708  
-## black                2.620e-01  1.352e-01   1.938   0.0535 .
-## lstat:ptratio       -1.062e-01  1.402e-01  -0.758   0.4490  
-## lstat:black         -1.110e-02  7.365e-03  -1.507   0.1328  
-## ptratio:black       -1.168e-02  6.818e-03  -1.714   0.0875 .
-## lstat:ptratio:black  4.956e-04  3.701e-04   1.339   0.1814  
+##                        Estimate  Std. Error t value Pr(&gt;|t|)  
+## (Intercept)         -41.0635864  50.5211696  -0.813   0.4169  
+## lstat                 2.5156233   2.7358678   0.919   0.3585  
+## ptratio               2.9539046   2.5494870   1.159   0.2474  
+## black                 0.2817347   0.1322337   2.131   0.0338 *
+## lstat:ptratio        -0.1369656   0.1374528  -0.996   0.3197  
+## lstat:black          -0.0119642   0.0072061  -1.660   0.0978 .
+## ptratio:black        -0.0125044   0.0066872  -1.870   0.0623 .
+## lstat:ptratio:black   0.0005303   0.0003630   1.461   0.1449  
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 5.739 on 346 degrees of freedom
-## Multiple R-squared:  0.649,  Adjusted R-squared:  0.6419 
-## F-statistic:  91.4 on 7 and 346 DF,  p-value: &lt; 2.2e-16</code></pre>
+## Residual standard error: 5.611 on 346 degrees of freedom
+## Multiple R-squared:  0.6323, Adjusted R-squared:  0.6249 
+## F-statistic: 85.01 on 7 and 346 DF,  p-value: &lt; 0.00000000000000022</code></pre>
 <p>This is what our data looks like:</p>
 <pre class="r"><code>ggplot(data = df_train, aes(x = lstat, y = medv)) +
   geom_point() +
@@ -842,19 +783,19 @@ summary(model6)</code></pre>
 ## 
 ## Residuals:
 ##      Min       1Q   Median       3Q      Max 
-## -15.5962  -4.1056  -0.4449   2.4601  25.1322 
+## -15.2670  -4.0100  -0.2982   2.3336  25.3675 
 ## 
 ## Coefficients:
-##             Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept) 43.21406    1.04578  41.322   &lt;2e-16 ***
-## lstat       -2.32680    0.14811 -15.710   &lt;2e-16 ***
-## I(lstat^2)   0.04215    0.00442   9.535   &lt;2e-16 ***
+##              Estimate Std. Error t value            Pr(&gt;|t|)    
+## (Intercept) 42.367124   1.034271  40.963 &lt;0.0000000000000002 ***
+## lstat       -2.253864   0.147919 -15.237 &lt;0.0000000000000002 ***
+## I(lstat^2)   0.041232   0.004481   9.202 &lt;0.0000000000000002 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 5.736 on 351 degrees of freedom
-## Multiple R-squared:  0.6444, Adjusted R-squared:  0.6424 
-## F-statistic:   318 on 2 and 351 DF,  p-value: &lt; 2.2e-16</code></pre>
+## Residual standard error: 5.54 on 351 degrees of freedom
+## Multiple R-squared:  0.6365, Adjusted R-squared:  0.6344 
+## F-statistic: 307.3 on 2 and 351 DF,  p-value: &lt; 0.00000000000000022</code></pre>
 <pre class="r"><code>ggplot(data = df_train, aes(x = lstat, y = medv)) +
   geom_point() +
   geom_smooth(method = &quot;lm&quot;, formula = y ~ x + I(x^2)) +
@@ -869,22 +810,22 @@ summary(model7)</code></pre>
 ## 
 ## Residuals:
 ##      Min       1Q   Median       3Q      Max 
-## -13.4603  -3.3061  -0.5051   2.1598  26.7790 
+## -13.3038  -3.1736  -0.6387   2.1873  26.8217 
 ## 
 ## Coefficients:
-##                           Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)                22.8492     0.2905  78.663  &lt; 2e-16 ***
-## poly(lstat, degree = 5)1 -133.9176     5.4651 -24.504  &lt; 2e-16 ***
-## poly(lstat, degree = 5)2   54.6901     5.4651  10.007  &lt; 2e-16 ***
-## poly(lstat, degree = 5)3  -21.5431     5.4651  -3.942 9.77e-05 ***
-## poly(lstat, degree = 5)4   21.6483     5.4651   3.961 9.05e-05 ***
-## poly(lstat, degree = 5)5  -14.8336     5.4651  -2.714  0.00697 ** 
+##                          Estimate Std. Error t value             Pr(&gt;|t|)    
+## (Intercept)                22.714      0.283  80.257 &lt; 0.0000000000000002 ***
+## poly(lstat, degree = 5)1 -127.518      5.325 -23.948 &lt; 0.0000000000000002 ***
+## poly(lstat, degree = 5)2   50.980      5.325   9.574 &lt; 0.0000000000000002 ***
+## poly(lstat, degree = 5)3  -16.865      5.325  -3.167             0.001675 ** 
+## poly(lstat, degree = 5)4   20.432      5.325   3.837             0.000148 ***
+## poly(lstat, degree = 5)5  -14.271      5.325  -2.680             0.007709 ** 
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 5.465 on 348 degrees of freedom
-## Multiple R-squared:  0.6799, Adjusted R-squared:  0.6753 
-## F-statistic: 147.8 on 5 and 348 DF,  p-value: &lt; 2.2e-16</code></pre>
+## Residual standard error: 5.325 on 348 degrees of freedom
+## Multiple R-squared:  0.667,  Adjusted R-squared:  0.6622 
+## F-statistic: 139.4 on 5 and 348 DF,  p-value: &lt; 0.00000000000000022</code></pre>
 <pre class="r"><code>ggplot(data = df_train, aes(x = lstat, y = medv)) +
   geom_point() +
   geom_smooth(method = &quot;lm&quot;, formula = y ~ poly(x, degree = 5)) +
@@ -903,17 +844,17 @@ df2_test &lt;- setdiff(df2, df2_train)
 glimpse(df2_train)</code></pre>
 <pre><code>## Observations: 280
 ## Variables: 11
-## $ Sales       &lt;dbl&gt; 3.89, 9.32, 8.54, 6.87, 6.20, 8.19, 12.85, 7.82, 6.8…
-## $ CompPrice   &lt;dbl&gt; 123, 141, 139, 128, 128, 127, 123, 124, 132, 121, 15…
-## $ Income      &lt;dbl&gt; 105, 34, 35, 105, 93, 103, 37, 25, 61, 42, 53, 89, 9…
-## $ Advertising &lt;dbl&gt; 0, 16, 0, 11, 0, 0, 15, 13, 0, 4, 0, 10, 15, 11, 9, …
-## $ Population  &lt;dbl&gt; 149, 361, 95, 249, 89, 125, 348, 87, 263, 188, 403, …
-## $ Price       &lt;dbl&gt; 118, 108, 129, 131, 118, 155, 112, 110, 125, 118, 12…
-## $ ShelveLoc   &lt;fct&gt; Bad, Medium, Medium, Medium, Medium, Good, Good, Med…
-## $ Age         &lt;dbl&gt; 62, 69, 42, 63, 34, 29, 28, 57, 41, 54, 58, 28, 58, …
-## $ Education   &lt;dbl&gt; 16, 10, 13, 13, 18, 15, 12, 10, 12, 15, 16, 10, 17, …
-## $ Urban       &lt;fct&gt; Yes, Yes, Yes, Yes, Yes, No, Yes, Yes, No, Yes, Yes,…
-## $ US          &lt;fct&gt; Yes, Yes, No, Yes, No, Yes, Yes, Yes, No, Yes, No, Y…</code></pre>
+## $ Sales       &lt;dbl&gt; 4.15, 6.53, 3.89, 9.32, 8.54, 6.87, 6.20, 8.19, 12.85, 7.…
+## $ CompPrice   &lt;dbl&gt; 141, 154, 123, 141, 139, 128, 128, 127, 123, 124, 132, 12…
+## $ Income      &lt;dbl&gt; 64, 30, 105, 34, 35, 105, 93, 103, 37, 25, 61, 42, 53, 89…
+## $ Advertising &lt;dbl&gt; 3, 0, 0, 16, 0, 11, 0, 0, 15, 13, 0, 4, 0, 10, 15, 11, 9,…
+## $ Population  &lt;dbl&gt; 340, 122, 149, 361, 95, 249, 89, 125, 348, 87, 263, 188, …
+## $ Price       &lt;dbl&gt; 128, 162, 118, 108, 129, 131, 118, 155, 112, 110, 125, 11…
+## $ ShelveLoc   &lt;fct&gt; Bad, Medium, Bad, Medium, Medium, Medium, Medium, Good, G…
+## $ Age         &lt;dbl&gt; 38, 57, 62, 69, 42, 63, 34, 29, 28, 57, 41, 54, 58, 28, 5…
+## $ Education   &lt;dbl&gt; 13, 17, 16, 10, 13, 13, 18, 15, 12, 10, 12, 15, 16, 10, 1…
+## $ Urban       &lt;fct&gt; Yes, No, Yes, Yes, Yes, Yes, Yes, No, Yes, Yes, No, Yes, …
+## $ US          &lt;fct&gt; No, No, Yes, Yes, No, Yes, No, Yes, Yes, Yes, No, Yes, No…</code></pre>
 <pre class="r"><code># Fit a model with a catergorical variable
 model7 &lt;- lm(data = df2_train, formula = Sales ~ ShelveLoc)
 summary(model7)</code></pre>
@@ -922,20 +863,20 @@ summary(model7)</code></pre>
 ## lm(formula = Sales ~ ShelveLoc, data = df2_train)
 ## 
 ## Residuals:
-##    Min     1Q Median     3Q    Max 
-## -7.184 -1.718  0.091  1.643  6.055 
+##     Min      1Q  Median      3Q     Max 
+## -7.2257 -1.6761  0.0587  1.4668  6.0926 
 ## 
 ## Coefficients:
-##                 Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)       5.6154     0.2910  19.294  &lt; 2e-16 ***
-## ShelveLocGood     4.7972     0.4238  11.319  &lt; 2e-16 ***
-## ShelveLocMedium   1.7286     0.3461   4.995 1.04e-06 ***
+##                 Estimate Std. Error t value             Pr(&gt;|t|)    
+## (Intercept)       5.5774     0.2913  19.145 &lt; 0.0000000000000002 ***
+## ShelveLocGood     4.8596     0.4223  11.506 &lt; 0.0000000000000002 ***
+## ShelveLocMedium   1.8083     0.3467   5.215           0.00000036 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 2.346 on 277 degrees of freedom
-## Multiple R-squared:  0.3222, Adjusted R-squared:  0.3173 
-## F-statistic: 65.84 on 2 and 277 DF,  p-value: &lt; 2.2e-16</code></pre>
+## Residual standard error: 2.349 on 277 degrees of freedom
+## Multiple R-squared:  0.3286, Adjusted R-squared:  0.3238 
+## F-statistic: 67.79 on 2 and 277 DF,  p-value: &lt; 0.00000000000000022</code></pre>
 <pre class="r"><code># What are ShelveLocGood and ShelveLocMedium 
 contrasts(df2$ShelveLoc)</code></pre>
 <pre><code>##        Good Medium
@@ -1111,31 +1052,33 @@ summary(log_reg)</code></pre>
 ## 
 ## Deviance Residuals: 
 ##    Min      1Q  Median      3Q     Max  
-## -1.372  -1.184   1.024   1.156   1.378  
+## -1.396  -1.189   1.005   1.134   1.369  
 ## 
 ## Coefficients:
-##               Estimate Std. Error z value Pr(&gt;|z|)
-## (Intercept) -1.613e+02  1.144e+02  -1.410    0.158
-## Year         8.047e-02  5.719e-02   1.407    0.159
-## Lag1        -7.372e-02  5.817e-02  -1.267    0.205
-## Lag2        -2.311e-02  5.990e-02  -0.386    0.700
-## Lag3        -1.255e-03  6.108e-02  -0.021    0.984
-## Lag4         3.672e-02  5.949e-02   0.617    0.537
-## Lag5         5.592e-03  6.040e-02   0.093    0.926
-## Volume       1.058e-01  2.214e-01   0.478    0.633
+##                Estimate  Std. Error z value Pr(&gt;|z|)  
+## (Intercept) -243.445631  115.082052  -2.115   0.0344 *
+## Year           0.121528    0.057545   2.112   0.0347 *
+## Lag1          -0.043183    0.058426  -0.739   0.4598  
+## Lag2          -0.008235    0.060275  -0.137   0.8913  
+## Lag3           0.008761    0.060651   0.144   0.8851  
+## Lag4           0.060948    0.059485   1.025   0.3056  
+## Lag5           0.029985    0.060816   0.493   0.6220  
+## Volume         0.070850    0.223749   0.317   0.7515  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
 ## (Dispersion parameter for binomial family taken to be 1)
 ## 
-##     Null deviance: 1212.9  on 874  degrees of freedom
-## Residual deviance: 1206.6  on 867  degrees of freedom
-## AIC: 1222.6
+##     Null deviance: 1211.9  on 874  degrees of freedom
+## Residual deviance: 1202.1  on 867  degrees of freedom
+## AIC: 1218.1
 ## 
-## Number of Fisher Scoring iterations: 3</code></pre>
+## Number of Fisher Scoring iterations: 4</code></pre>
 <p>We can either make prediction on just the movement direction (by higher probability) or we can return a vector of probaabilities for each case. In the binary case it is enough to specify one. Specifying type = “response” makes sure that instead of returning the log odds, we get the probabilites directly.</p>
 <pre class="r"><code>probabilities = predict(log_reg, type = &quot;response&quot;, newdata = df_test) # Extract the probabilites
 glimpse(probabilities)</code></pre>
-<pre><code>##  Named num [1:375] 0.436 0.462 0.464 0.469 0.476 ...
-##  - attr(*, &quot;names&quot;)= chr [1:375] &quot;1&quot; &quot;2&quot; &quot;3&quot; &quot;4&quot; ...</code></pre>
+<pre><code>##  Named num [1:1250] 0.466 0.398 0.424 0.467 0.469 ...
+##  - attr(*, &quot;names&quot;)= chr [1:1250] &quot;1&quot; &quot;2&quot; &quot;3&quot; &quot;4&quot; ...</code></pre>
 <pre class="r"><code>contrasts(data_orig$Direction) # Which way is Up?</code></pre>
 <pre><code>##      Up
 ## Down  0
@@ -1155,8 +1098,8 @@ actual &lt;- df_test$Direction
 table(predictions, actual)</code></pre>
 <pre><code>##            actual
 ## predictions Down  Up
-##        Down   67  63
-##        Up    103 142</code></pre>
+##        Down  239 213
+##        Up    363 435</code></pre>
 <p>This means we missed 113 + 66 out of the total of 375 on our test set. We separate them because cost of making an error in one way may be higher than the other.</p>
 <p>Now let’s train an LDA model on the same variables (this is not the same as in the lab)</p>
 <pre class="r"><code># Train the model
@@ -1168,25 +1111,25 @@ lda_model</code></pre>
 ## 
 ## Prior probabilities of groups:
 ##      Down        Up 
-## 0.4937143 0.5062857 
+## 0.4822857 0.5177143 
 ## 
 ## Group means:
-##          Year        Lag1         Lag2        Lag3          Lag4
-## Down 2002.861  0.06133333  0.021627315 -0.02647222 -0.0560856481
-## Up   2003.050 -0.03654853 -0.004765237 -0.01984199  0.0002167043
-##             Lag5   Volume
-## Down -0.02420833 1.452340
-## Up   -0.01636795 1.486261
+##          Year        Lag1         Lag2        Lag3        Lag4        Lag5
+## Down 2002.825  0.03877251 -0.006336493 -0.02943128 -0.07300000 -0.04856635
+## Up   2003.095 -0.01965784 -0.009161148 -0.01168653  0.01851656 -0.01085651
+##        Volume
+## Down 1.451423
+## Up   1.491795
 ## 
 ## Coefficients of linear discriminants:
-##                 LD1
-## Year    0.475809419
-## Lag1   -0.434358297
-## Lag2   -0.136352827
-## Lag3   -0.007657301
-## Lag4    0.216066751
-## Lag5    0.032644613
-## Volume  0.621508949</code></pre>
+##                LD1
+## Year    0.57370134
+## Lag1   -0.20293029
+## Lag2   -0.03902997
+## Lag3    0.04112472
+## Lag4    0.28662321
+## Lag5    0.14095625
+## Volume  0.32790504</code></pre>
 <pre class="r"><code># If you work with the object explorer in R you can get these formulas for how 
 # to extract predictions classes and probabilities
 predictions &lt;- predict(lda_model, newdata = df_test)[[&quot;class&quot;]]
@@ -1200,8 +1143,8 @@ predictions[probabilities &gt; 0.5] &lt;- &quot;Up&quot; # Change those with pro
 table(predictions, actual)</code></pre>
 <pre><code>##            actual
 ## predictions Down  Up
-##        Down   67  63
-##        Up    103 142</code></pre>
+##        Down  239 213
+##        Up    363 435</code></pre>
 <p>In the similar way we can do QDA:</p>
 <pre class="r"><code># Train the model
 qda_model &lt;- MASS::qda(Direction~. - Today, data = df_train)
@@ -1212,15 +1155,15 @@ qda_model</code></pre>
 ## 
 ## Prior probabilities of groups:
 ##      Down        Up 
-## 0.4937143 0.5062857 
+## 0.4822857 0.5177143 
 ## 
 ## Group means:
-##          Year        Lag1         Lag2        Lag3          Lag4
-## Down 2002.861  0.06133333  0.021627315 -0.02647222 -0.0560856481
-## Up   2003.050 -0.03654853 -0.004765237 -0.01984199  0.0002167043
-##             Lag5   Volume
-## Down -0.02420833 1.452340
-## Up   -0.01636795 1.486261</code></pre>
+##          Year        Lag1         Lag2        Lag3        Lag4        Lag5
+## Down 2002.825  0.03877251 -0.006336493 -0.02943128 -0.07300000 -0.04856635
+## Up   2003.095 -0.01965784 -0.009161148 -0.01168653  0.01851656 -0.01085651
+##        Volume
+## Down 1.451423
+## Up   1.491795</code></pre>
 <pre class="r"><code># If you work with the object explorer in R you can get these formulas for how 
 # to extract predictions classes and probabilities
 predictions &lt;- predict(qda_model, newdata = df_test)[[&quot;class&quot;]]
@@ -1234,8 +1177,8 @@ predictions[probabilities &gt; 0.5] &lt;- &quot;Up&quot; # Change those with pro
 table(predictions, actual)</code></pre>
 <pre><code>##            actual
 ## predictions Down  Up
-##        Down   55  85
-##        Up    115 120</code></pre>
+##        Down  229 191
+##        Up    373 457</code></pre>
 <p>Finally , we will look at the K-nearest neighbourghs algorithm (KNN). It is inceredibly simple and used a lot in practice for a number of tasks. Not so much just simple classification but nevertheless it’s an extremely important algorithm for you to know.</p>
 <p>Because it uses euclidean distance you need to standardize all of your variables.</p>
 <pre class="r"><code># Create the scaling function cause the regular one outputs a matrix instead 
@@ -1257,8 +1200,8 @@ df_test_std &lt;- df_test %&gt;%
 table(predictions, actual)</code></pre>
 <pre><code>##            actual
 ## predictions Down  Up
-##        Down   79  94
-##        Up     91 111</code></pre>
+##        Down  399 194
+##        Up    203 454</code></pre>
 <p>It’s not a model you train that has parameters so there is no summary, no coefficients, no p-values. How do you pick k? Looking at a validation set seems like a reasonable approach.</p>
 <pre class="r"><code>val_indices &lt;- sample.int(n = 0.7*nrow(df_train), replace = FALSE)
 
@@ -1284,92 +1227,92 @@ print(table(predictions, val_labels))
 ## [1] 0.4562738
 ##            val_labels
 ## predictions Down Up
-##        Down   57 61
-##        Up     82 63
+##        Down   50 58
+##        Up     85 70
 ## k is 2 
-## [1] 0.5095057
+## [1] 0.4372624
 ##            val_labels
 ## predictions Down Up
-##        Down   63 53
-##        Up     76 71
+##        Down   50 63
+##        Up     85 65
 ## k is 3 
-## [1] 0.4562738
+## [1] 0.4296578
 ##            val_labels
 ## predictions Down Up
-##        Down   51 55
-##        Up     88 69
+##        Down   44 59
+##        Up     91 69
 ## k is 4 
-## [1] 0.4752852
+## [1] 0.4410646
 ##            val_labels
 ## predictions Down Up
-##        Down   53 52
-##        Up     86 72
+##        Down   46 58
+##        Up     89 70
 ## k is 5 
-## [1] 0.4790875
-##            val_labels
-## predictions Down Up
-##        Down   55 53
-##        Up     84 71
-## k is 6 
-## [1] 0.5247148
-##            val_labels
-## predictions Down Up
-##        Down   65 51
-##        Up     74 73
-## k is 7 
-## [1] 0.513308
-##            val_labels
-## predictions Down Up
-##        Down   60 49
-##        Up     79 75
-## k is 8 
-## [1] 0.4828897
-##            val_labels
-## predictions Down Up
-##        Down   59 56
-##        Up     80 68
-## k is 9 
-## [1] 0.4904943
-##            val_labels
-## predictions Down Up
-##        Down   53 48
-##        Up     86 76
-## k is 10 
-## [1] 0.4942966
-##            val_labels
-## predictions Down Up
-##        Down   51 45
-##        Up     88 79
-## k is 11 
 ## [1] 0.4980989
 ##            val_labels
 ## predictions Down Up
-##        Down   52 45
-##        Up     87 79
-## k is 12 
+##        Down   52 49
+##        Up     83 79
+## k is 6 
+## [1] 0.4980989
+##            val_labels
+## predictions Down Up
+##        Down   55 52
+##        Up     80 76
+## k is 7 
 ## [1] 0.486692
 ##            val_labels
 ## predictions Down Up
-##        Down   53 49
+##        Down   48 48
+##        Up     87 80
+## k is 8 
+## [1] 0.4714829
+##            val_labels
+## predictions Down Up
+##        Down   49 53
 ##        Up     86 75
+## k is 9 
+## [1] 0.4980989
+##            val_labels
+## predictions Down Up
+##        Down   47 44
+##        Up     88 84
+## k is 10 
+## [1] 0.4828897
+##            val_labels
+## predictions Down Up
+##        Down   47 48
+##        Up     88 80
+## k is 11 
+## [1] 0.4904943
+##            val_labels
+## predictions Down Up
+##        Down   46 45
+##        Up     89 83
+## k is 12 
+## [1] 0.5247148
+##            val_labels
+## predictions Down Up
+##        Down   49 39
+##        Up     86 89
 ## k is 13 
-## [1] 0.4790875
+## [1] 0.4980989
 ##            val_labels
 ## predictions Down Up
-##        Down   50 48
-##        Up     89 76
+##        Down   42 39
+##        Up     93 89
 ## k is 14 
-## [1] 0.4676806
+## [1] 0.4980989
 ##            val_labels
 ## predictions Down Up
-##        Down   50 51
-##        Up     89 73
+##        Down   43 40
+##        Up     92 88
 ## k is 15 
-## [1] 0.4942966
+## [1] 0.513308
 ##            val_labels
 ## predictions Down Up
-##        Down   52 46
-##        Up     87 78</code></pre>
+##        Down   44 37
+##        Up     91 91</code></pre>
 <p>k vary a lot between runs so I would probably pick something around 4-5.</p>
 </div>
 </div>
@@ -1406,25 +1349,25 @@ df_split # This outputs numbers of rows for &lt;training, testing, total&gt;</co
 df_split %&gt;% training() %&gt;% glimpse()</code></pre>
 <pre><code>## Observations: 875
 ## Variables: 8
-## $ Year      &lt;dbl&gt; 2001, 2001, 2001, 2001, 2001, 2001, 2001, 2001, 2001, …
-## $ Lag1      &lt;dbl&gt; 0.381, 0.959, 1.032, -0.623, 0.213, 1.392, 0.027, 0.28…
-## $ Lag2      &lt;dbl&gt; -0.192, 0.381, 0.959, 1.032, 0.614, 0.213, -0.403, 1.3…
-## $ Lag3      &lt;dbl&gt; -2.624, -0.192, 0.381, 0.959, -0.623, 0.614, 1.392, 0.…
-## $ Lag4      &lt;dbl&gt; -1.055, -2.624, -0.192, 0.381, 1.032, -0.623, 0.213, -…
-## $ Lag5      &lt;dbl&gt; 5.010, -1.055, -2.624, -0.192, 0.959, 1.032, 0.614, 1.…
-## $ Volume    &lt;dbl&gt; 1.1913, 1.2965, 1.4112, 1.2760, 1.3491, 1.4450, 1.1640…
-## $ Direction &lt;fct&gt; Up, Up, Down, Up, Up, Down, Up, Down, Up, Up, Down, Do…</code></pre>
+## $ Year      &lt;dbl&gt; 2001, 2001, 2001, 2001, 2001, 2001, 2001, 2001, 2001, 2001,…
+## $ Lag1      &lt;dbl&gt; 0.381, 0.959, 1.032, -0.623, 0.213, 1.392, 0.287, -0.189, 0…
+## $ Lag2      &lt;dbl&gt; -0.192, 0.381, 0.959, 1.032, 0.614, 0.213, 1.303, -0.498, -…
+## $ Lag3      &lt;dbl&gt; -2.624, -0.192, 0.381, 0.959, -0.623, 0.614, 0.027, 0.287, …
+## $ Lag4      &lt;dbl&gt; -1.055, -2.624, -0.192, 0.381, 1.032, -0.623, -0.403, 1.303…
+## $ Lag5      &lt;dbl&gt; 5.010, -1.055, -2.624, -0.192, 0.959, 1.032, 1.392, 0.027, …
+## $ Volume    &lt;dbl&gt; 1.1913, 1.2965, 1.4112, 1.2760, 1.3491, 1.4450, 1.3090, 1.0…
+## $ Direction &lt;fct&gt; Up, Up, Down, Up, Up, Down, Down, Up, Up, Down, Up, Down, D…</code></pre>
 <pre class="r"><code>df_split %&gt;% testing() %&gt;% glimpse()</code></pre>
 <pre><code>## Observations: 375
 ## Variables: 8
-## $ Year      &lt;dbl&gt; 2001, 2001, 2001, 2001, 2001, 2001, 2001, 2001, 2001, …
-## $ Lag1      &lt;dbl&gt; 0.614, -0.403, 1.303, -0.498, 0.680, 0.701, -0.562, 0.…
-## $ Lag2      &lt;dbl&gt; -0.623, 1.392, 0.027, 0.287, -0.189, 0.680, 0.701, -0.…
-## $ Lag3      &lt;dbl&gt; 1.032, 0.213, -0.403, 1.303, -0.498, -0.189, 0.680, 0.…
-## $ Lag4      &lt;dbl&gt; 0.959, 0.614, 1.392, 0.027, 0.287, -0.498, -0.189, 0.6…
-## $ Lag5      &lt;dbl&gt; 0.381, -0.623, 0.213, -0.403, 1.303, 0.287, -0.498, -0…
-## $ Volume    &lt;dbl&gt; 1.2057, 1.4078, 1.2326, 1.2580, 1.0531, 1.1498, 1.2953…
-## $ Direction &lt;fct&gt; Up, Up, Up, Down, Up, Down, Up, Down, Down, Down, Up, …</code></pre>
+## $ Year      &lt;dbl&gt; 2001, 2001, 2001, 2001, 2001, 2001, 2001, 2001, 2001, 2001,…
+## $ Lag1      &lt;dbl&gt; 0.614, -0.403, 0.027, 1.303, -0.498, 0.701, -0.562, -0.865,…
+## $ Lag2      &lt;dbl&gt; -0.623, 1.392, -0.403, 0.027, 0.287, 0.680, 0.701, 1.183, -…
+## $ Lag3      &lt;dbl&gt; 1.032, 0.213, 1.392, -0.403, 1.303, -0.189, 0.680, -1.334, …
+## $ Lag4      &lt;dbl&gt; 0.959, 0.614, 0.213, 1.392, 0.027, -0.498, -0.189, -0.623, …
+## $ Lag5      &lt;dbl&gt; 0.381, -0.623, 0.614, 0.213, -0.403, 0.287, -0.498, -0.841,…
+## $ Volume    &lt;dbl&gt; 1.2057, 1.4078, 1.1640, 1.2326, 1.2580, 1.1498, 1.2953, 1.0…
+## $ Direction &lt;fct&gt; Up, Up, Up, Up, Down, Down, Up, Down, Down, Up, Up, Down, D…</code></pre>
 <pre class="r"><code># This can be used to make sure that your samples are reasonable by using 
 # summarize.
 
@@ -1448,42 +1391,42 @@ rbind(sum1, sum2) %&gt;% # Combine the two datasets
   rownames_to_column() %&gt;%
   gather(var, value, -rowname) %&gt;% 
   spread(rowname, value) # Transpose</code></pre>
-<pre><code>##              var             1             2
-## 1       Lag1_max  5.733000e+00  4.368000e+00
-## 2      Lag1_mean -2.292914e-02  6.628267e-02
-## 3    Lag1_median  1.000000e-03  1.000000e-01
-## 4       Lag1_min -4.318000e+00 -4.922000e+00
-## 5        Lag1_sd  1.146519e+00  1.111089e+00
-## 6       Lag2_max  5.408000e+00  5.733000e+00
-## 7      Lag2_mean  7.024000e-03 -3.325333e-03
-## 8    Lag2_median  4.600000e-02  1.400000e-02
-## 9       Lag2_min -4.922000e+00 -4.318000e+00
-## 10       Lag2_sd  1.163373e+00  1.071872e+00
-## 11      Lag3_max  5.733000e+00  5.408000e+00
-## 12     Lag3_mean -2.259429e-03  1.099200e-02
-## 13   Lag3_median  1.600000e-02  5.400000e-02
-## 14      Lag3_min -4.922000e+00 -4.154000e+00
-## 15       Lag3_sd  1.135282e+00  1.148115e+00
-## 16      Lag4_max  5.733000e+00  4.734000e+00
-## 17     Lag4_mean -2.017143e-02  5.252000e-02
-## 18   Lag4_median  2.700000e-02  5.700000e-02
-## 19      Lag4_min -4.922000e+00 -3.523000e+00
-## 20       Lag4_sd  1.180201e+00  1.035404e+00
-## 21      Lag5_max  5.733000e+00  4.368000e+00
-## 22     Lag5_mean  3.102286e-02 -5.368800e-02
-## 23   Lag5_median  5.900000e-02 -2.400000e-02
-## 24      Lag5_min -4.318000e+00 -4.922000e+00
-## 25       Lag5_sd  1.160736e+00  1.115449e+00
-## 26    Volume_max  3.152470e+00  2.792030e+00
-## 27   Volume_mean  1.476949e+00  1.481470e+00
-## 28 Volume_median  1.413700e+00  1.445800e+00
-## 29    Volume_min  4.396700e-01  3.560700e-01
-## 30     Volume_sd  3.520603e-01  3.794773e-01
-## 31      Year_max  2.005000e+03  2.005000e+03
-## 32     Year_mean  2.003007e+03  2.003037e+03
-## 33   Year_median  2.003000e+03  2.003000e+03
-## 34      Year_min  2.001000e+03  2.001000e+03
-## 35       Year_sd  1.418236e+00  1.388915e+00</code></pre>
+<pre><code>##              var              1             2
+## 1       Lag1_max    5.733000000    4.36800000
+## 2      Lag1_mean   -0.026235429    0.07399733
+## 3    Lag1_median    0.003000000    0.10800000
+## 4       Lag1_min   -4.318000000   -4.92200000
+## 5        Lag1_sd    1.151001446    1.09953981
+## 6       Lag2_max    5.408000000    5.73300000
+## 7      Lag2_mean    0.018988571   -0.03124267
+## 8    Lag2_median    0.049000000    0.00200000
+## 9       Lag2_min   -4.922000000   -4.31800000
+## 10       Lag2_sd    1.150494502    1.10311093
+## 11      Lag3_max    5.733000000    5.40800000
+## 12     Lag3_mean    0.007901714   -0.01271733
+## 13   Lag3_median    0.028000000    0.04600000
+## 14      Lag3_min   -4.922000000   -4.15400000
+## 15       Lag3_sd    1.117792670    1.18746669
+## 16      Lag4_max    5.733000000    4.73400000
+## 17     Lag4_mean   -0.023384000    0.06001600
+## 18   Lag4_median    0.028000000    0.04600000
+## 19      Lag4_min   -4.922000000   -3.52300000
+## 20       Lag4_sd    1.189146983    1.01062104
+## 21      Lag5_max    5.733000000    4.00500000
+## 22     Lag5_mean    0.026669714   -0.04353067
+## 23   Lag5_median    0.065000000   -0.04800000
+## 24      Lag5_min   -4.922000000   -3.83500000
+## 25       Lag5_sd    1.175502624    1.07943842
+## 26    Volume_max    3.152470000    2.70359000
+## 27   Volume_mean    1.476346411    1.48287504
+## 28 Volume_median    1.422360000    1.43743000
+## 29    Volume_min    0.439670000    0.35607000
+## 30     Volume_sd    0.355683965    0.37147562
+## 31      Year_max 2005.000000000 2005.00000000
+## 32     Year_mean 2003.016000000 2003.01600000
+## 33   Year_median 2003.000000000 2003.00000000
+## 34      Year_min 2001.000000000 2001.00000000
+## 35       Year_sd    1.412503822    1.40273225</code></pre>
 <p>Now we would like to preprocess our data to be mean 0 and standard deviation of 1. We will be using the recipe package.</p>
 <pre class="r"><code>df_recipe &lt;- df_split %&gt;% 
   training() %&gt;%
@@ -1535,14 +1478,14 @@ tidy(logreg_fit)</code></pre>
 <pre><code>## # A tibble: 8 x 5
 ##   term        estimate std.error statistic p.value
 ##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
-## 1 (Intercept)  0.0894     0.0681    1.31    0.189 
-## 2 Year         0.208      0.0810    2.57    0.0101
-## 3 Lag1        -0.135      0.0692   -1.95    0.0511
-## 4 Lag2        -0.0720     0.0687   -1.05    0.294 
-## 5 Lag3         0.00191    0.0686    0.0279  0.978 
-## 6 Lag4        -0.0142     0.0691   -0.205   0.837 
-## 7 Lag5         0.0217     0.0684    0.317   0.752 
-## 8 Volume      -0.133      0.0814   -1.63    0.103</code></pre>
+## 1 (Intercept)  0.104      0.0681    1.52    0.128 
+## 2 Year         0.150      0.0820    1.83    0.0669
+## 3 Lag1        -0.120      0.0691   -1.74    0.0815
+## 4 Lag2        -0.119      0.0688   -1.73    0.0828
+## 5 Lag3         0.0105     0.0687    0.153   0.878 
+## 6 Lag4        -0.0373     0.0690   -0.540   0.589 
+## 7 Lag5         0.00894    0.0688    0.130   0.897 
+## 8 Volume      -0.00239    0.0822   -0.0290  0.977</code></pre>
 </div>
 <div id="make-predictions" class="section level2">
 <h2>Make Predictions</h2>
@@ -1569,29 +1512,29 @@ predict(logreg_fit, new_data = df_test) # See what the predictions look like</co
 ##  7 Down       
 ##  8 Down       
 ##  9 Up         
-## 10 Up         
+## 10 Down       
 ## # … with 365 more rows</code></pre>
 <pre class="r"><code>predict(logreg_fit, new_data = df_test, type = &quot;prob&quot;) # See what the probabilites look like</code></pre>
 <pre><code>## # A tibble: 375 x 2
 ##    .pred_Down .pred_Up
 ##         &lt;dbl&gt;    &lt;dbl&gt;
-##  1      0.536    0.464
-##  2      0.560    0.440
-##  3      0.571    0.429
-##  4      0.523    0.477
-##  5      0.524    0.476
-##  6      0.550    0.450
-##  7      0.531    0.469
-##  8      0.528    0.472
-##  9      0.441    0.559
-## 10      0.450    0.550
+##  1      0.532    0.468
+##  2      0.559    0.441
+##  3      0.515    0.485
+##  4      0.573    0.427
+##  5      0.520    0.480
+##  6      0.559    0.441
+##  7      0.529    0.471
+##  8      0.535    0.465
+##  9      0.432    0.568
+## 10      0.573    0.427
 ## # … with 365 more rows</code></pre>
 <pre class="r"><code>glimpse(logreg_results)</code></pre>
 <pre><code>## Observations: 375
 ## Variables: 3
-## $ Direction     &lt;fct&gt; Up, Up, Up, Down, Up, Down, Up, Down, Down, Down, …
-## $ log_reg_class &lt;fct&gt; Down, Down, Down, Down, Down, Down, Down, Down, Up…
-## $ log_reg_prob  &lt;dbl&gt; 0.4643367, 0.4402919, 0.4291951, 0.4772689, 0.4756…</code></pre>
+## $ Direction     &lt;fct&gt; Up, Up, Up, Up, Down, Down, Up, Down, Down, Up, Up, Dow…
+## $ log_reg_class &lt;fct&gt; Down, Down, Down, Down, Down, Down, Down, Down, Up, Dow…
+## $ log_reg_prob  &lt;dbl&gt; 0.4681106, 0.4411732, 0.4849128, 0.4265915, 0.4798973, …</code></pre>
 </div>
 <div id="evaluate-performance" class="section level2">
 <h2>Evaluate performance</h2>
@@ -1601,19 +1544,19 @@ logreg_results %&gt;% roc_auc(truth = Direction, log_reg_prob)</code></pre>
 <pre><code>## # A tibble: 1 x 3
 ##   .metric .estimator .estimate
 ##   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
-## 1 roc_auc binary         0.507</code></pre>
+## 1 roc_auc binary         0.514</code></pre>
 <pre class="r"><code># Accuracy
 logreg_results %&gt;% accuracy(truth = Direction, log_reg_class)</code></pre>
 <pre><code>## # A tibble: 1 x 3
 ##   .metric  .estimator .estimate
 ##   &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;
-## 1 accuracy binary         0.515</code></pre>
+## 1 accuracy binary         0.528</code></pre>
 <pre class="r"><code># Truth Table / Confidence Matrix
 logreg_results %&gt;% conf_mat(truth = Direction, log_reg_class)</code></pre>
 <pre><code>##           Truth
 ## Prediction Down  Up
-##       Down   60  58
-##       Up    124 133</code></pre>
+##       Down   61  51
+##       Up    126 137</code></pre>
 <pre class="r"><code># Nicer Confidence Matrix 
 logreg_results %&gt;%
   conf_mat(truth = Direction, log_reg_class) %&gt;%
@@ -1720,16 +1663,16 @@ my_function(args = list(a = 1, b = 2))</code></pre>
 for (sample in samples) {
   print(sample + 5)
 }</code></pre>
-<pre><code>## [1] 5.456576
-## [1] 5.494118
-## [1] 5.609299
-## [1] 5.024747
-## [1] 5.815657
-## [1] 5.682413
-## [1] 5.034818
-## [1] 5.134886
-## [1] 5.100857
-## [1] 5.532696</code></pre>
+<pre><code>## [1] 5.796561
+## [1] 5.215439
+## [1] 5.571921
+## [1] 5.655329
+## [1] 5.315566
+## [1] 5.203861
+## [1] 5.575691
+## [1] 5.014822
+## [1] 5.944064
+## [1] 5.84321</code></pre>
 <ul>
 <li>Don’t override vectors with vectors: vec &lt;- c(vec, num)</li>
 </ul>
@@ -1745,7 +1688,7 @@ for (i in 1:reps) {
 }
 
 var(samp_means)</code></pre>
-<pre><code>## [1] 0.0009922266</code></pre>
+<pre><code>## [1] 0.001031789</code></pre>
 <p>This results in us having to allocate new memory to the vector samp_means at every iteration which results in incredibly slow code. Instead if we know the length of the output we are expecting to get, we begin by creating an empty vector of that length and overwriting the values within it. This makes sure that we don’t have to move the vector in memory and doesn’t slow us down at all.</p>
 <pre class="r"><code># Do this instead
 reps &lt;- 1000
@@ -1758,7 +1701,7 @@ for (i in c(1:reps)) {
 }
 
 var(samp_means)</code></pre>
-<pre><code>## [1] 0.0009273014</code></pre>
+<pre><code>## [1] 0.0009412145</code></pre>
 <ul>
 <li>for (i in 1:length(a)) allows us to interact with elements of a in an iterative way while keeping just an index instead of extracting the inside of the vector.</li>
 </ul>
@@ -1784,7 +1727,7 @@ a</code></pre>
 ##  [78]        NA        NA        NA        NA        NA        NA        NA
 ##  [85]        NA        NA        NA        NA        NA        NA        NA
 ##  [92]        NA        NA        NA        NA        NA        NA        NA
-##  [99] 0.8062991 0.8434484</code></pre>
+##  [99] 0.1440219 0.5395327</code></pre>
 <ul>
 <li>for (i in vec) allows us to iterate over things inside of a vector.</li>
 </ul>
@@ -1948,24 +1891,24 @@ summary(regfit_full)</code></pre>
 ## NewLeagueN     FALSE      FALSE
 ## 1 subsets of each size up to 8
 ## Selection Algorithm: exhaustive
-##          AtBat Hits HmRun Runs RBI Walks Years CAtBat CHits CHmRun CRuns
-## 1  ( 1 ) &quot; &quot;   &quot; &quot;  &quot; &quot;   &quot; &quot;  &quot; &quot; &quot; &quot;   &quot; &quot;   &quot; &quot;    &quot; &quot;   &quot; &quot;    &quot; &quot;  
-## 2  ( 1 ) &quot; &quot;   &quot;*&quot;  &quot; &quot;   &quot; &quot;  &quot; &quot; &quot; &quot;   &quot; &quot;   &quot; &quot;    &quot; &quot;   &quot; &quot;    &quot; &quot;  
-## 3  ( 1 ) &quot; &quot;   &quot;*&quot;  &quot; &quot;   &quot; &quot;  &quot; &quot; &quot; &quot;   &quot; &quot;   &quot; &quot;    &quot; &quot;   &quot; &quot;    &quot; &quot;  
-## 4  ( 1 ) &quot; &quot;   &quot;*&quot;  &quot; &quot;   &quot; &quot;  &quot; &quot; &quot; &quot;   &quot; &quot;   &quot; &quot;    &quot; &quot;   &quot; &quot;    &quot; &quot;  
-## 5  ( 1 ) &quot;*&quot;   &quot;*&quot;  &quot; &quot;   &quot; &quot;  &quot; &quot; &quot; &quot;   &quot; &quot;   &quot; &quot;    &quot; &quot;   &quot; &quot;    &quot; &quot;  
-## 6  ( 1 ) &quot;*&quot;   &quot;*&quot;  &quot; &quot;   &quot; &quot;  &quot; &quot; &quot;*&quot;   &quot; &quot;   &quot; &quot;    &quot; &quot;   &quot; &quot;    &quot; &quot;  
-## 7  ( 1 ) &quot; &quot;   &quot;*&quot;  &quot; &quot;   &quot; &quot;  &quot; &quot; &quot;*&quot;   &quot; &quot;   &quot;*&quot;    &quot;*&quot;   &quot;*&quot;    &quot; &quot;  
-## 8  ( 1 ) &quot;*&quot;   &quot;*&quot;  &quot; &quot;   &quot; &quot;  &quot; &quot; &quot;*&quot;   &quot; &quot;   &quot; &quot;    &quot; &quot;   &quot;*&quot;    &quot;*&quot;  
-##          CRBI CWalks LeagueN DivisionW PutOuts Assists Errors NewLeagueN
-## 1  ( 1 ) &quot;*&quot;  &quot; &quot;    &quot; &quot;     &quot; &quot;       &quot; &quot;     &quot; &quot;     &quot; &quot;    &quot; &quot;       
-## 2  ( 1 ) &quot;*&quot;  &quot; &quot;    &quot; &quot;     &quot; &quot;       &quot; &quot;     &quot; &quot;     &quot; &quot;    &quot; &quot;       
-## 3  ( 1 ) &quot;*&quot;  &quot; &quot;    &quot; &quot;     &quot; &quot;       &quot;*&quot;     &quot; &quot;     &quot; &quot;    &quot; &quot;       
-## 4  ( 1 ) &quot;*&quot;  &quot; &quot;    &quot; &quot;     &quot;*&quot;       &quot;*&quot;     &quot; &quot;     &quot; &quot;    &quot; &quot;       
-## 5  ( 1 ) &quot;*&quot;  &quot; &quot;    &quot; &quot;     &quot;*&quot;       &quot;*&quot;     &quot; &quot;     &quot; &quot;    &quot; &quot;       
-## 6  ( 1 ) &quot;*&quot;  &quot; &quot;    &quot; &quot;     &quot;*&quot;       &quot;*&quot;     &quot; &quot;     &quot; &quot;    &quot; &quot;       
-## 7  ( 1 ) &quot; &quot;  &quot; &quot;    &quot; &quot;     &quot;*&quot;       &quot;*&quot;     &quot; &quot;     &quot; &quot;    &quot; &quot;       
-## 8  ( 1 ) &quot; &quot;  &quot;*&quot;    &quot; &quot;     &quot;*&quot;       &quot;*&quot;     &quot; &quot;     &quot; &quot;    &quot; &quot;</code></pre>
+##          AtBat Hits HmRun Runs RBI Walks Years CAtBat CHits CHmRun CRuns CRBI
+## 1  ( 1 ) &quot; &quot;   &quot; &quot;  &quot; &quot;   &quot; &quot;  &quot; &quot; &quot; &quot;   &quot; &quot;   &quot; &quot;    &quot; &quot;   &quot; &quot;    &quot; &quot;   &quot;*&quot; 
+## 2  ( 1 ) &quot; &quot;   &quot;*&quot;  &quot; &quot;   &quot; &quot;  &quot; &quot; &quot; &quot;   &quot; &quot;   &quot; &quot;    &quot; &quot;   &quot; &quot;    &quot; &quot;   &quot;*&quot; 
+## 3  ( 1 ) &quot; &quot;   &quot;*&quot;  &quot; &quot;   &quot; &quot;  &quot; &quot; &quot; &quot;   &quot; &quot;   &quot; &quot;    &quot; &quot;   &quot; &quot;    &quot; &quot;   &quot;*&quot; 
+## 4  ( 1 ) &quot; &quot;   &quot;*&quot;  &quot; &quot;   &quot; &quot;  &quot; &quot; &quot; &quot;   &quot; &quot;   &quot; &quot;    &quot; &quot;   &quot; &quot;    &quot; &quot;   &quot;*&quot; 
+## 5  ( 1 ) &quot;*&quot;   &quot;*&quot;  &quot; &quot;   &quot; &quot;  &quot; &quot; &quot; &quot;   &quot; &quot;   &quot; &quot;    &quot; &quot;   &quot; &quot;    &quot; &quot;   &quot;*&quot; 
+## 6  ( 1 ) &quot;*&quot;   &quot;*&quot;  &quot; &quot;   &quot; &quot;  &quot; &quot; &quot;*&quot;   &quot; &quot;   &quot; &quot;    &quot; &quot;   &quot; &quot;    &quot; &quot;   &quot;*&quot; 
+## 7  ( 1 ) &quot; &quot;   &quot;*&quot;  &quot; &quot;   &quot; &quot;  &quot; &quot; &quot;*&quot;   &quot; &quot;   &quot;*&quot;    &quot;*&quot;   &quot;*&quot;    &quot; &quot;   &quot; &quot; 
+## 8  ( 1 ) &quot;*&quot;   &quot;*&quot;  &quot; &quot;   &quot; &quot;  &quot; &quot; &quot;*&quot;   &quot; &quot;   &quot; &quot;    &quot; &quot;   &quot;*&quot;    &quot;*&quot;   &quot; &quot; 
+##          CWalks LeagueN DivisionW PutOuts Assists Errors NewLeagueN
+## 1  ( 1 ) &quot; &quot;    &quot; &quot;     &quot; &quot;       &quot; &quot;     &quot; &quot;     &quot; &quot;    &quot; &quot;       
+## 2  ( 1 ) &quot; &quot;    &quot; &quot;     &quot; &quot;       &quot; &quot;     &quot; &quot;     &quot; &quot;    &quot; &quot;       
+## 3  ( 1 ) &quot; &quot;    &quot; &quot;     &quot; &quot;       &quot;*&quot;     &quot; &quot;     &quot; &quot;    &quot; &quot;       
+## 4  ( 1 ) &quot; &quot;    &quot; &quot;     &quot;*&quot;       &quot;*&quot;     &quot; &quot;     &quot; &quot;    &quot; &quot;       
+## 5  ( 1 ) &quot; &quot;    &quot; &quot;     &quot;*&quot;       &quot;*&quot;     &quot; &quot;     &quot; &quot;    &quot; &quot;       
+## 6  ( 1 ) &quot; &quot;    &quot; &quot;     &quot;*&quot;       &quot;*&quot;     &quot; &quot;     &quot; &quot;    &quot; &quot;       
+## 7  ( 1 ) &quot; &quot;    &quot; &quot;     &quot;*&quot;       &quot;*&quot;     &quot; &quot;     &quot; &quot;    &quot; &quot;       
+## 8  ( 1 ) &quot;*&quot;    &quot; &quot;     &quot;*&quot;       &quot;*&quot;     &quot; &quot;     &quot; &quot;    &quot; &quot;</code></pre>
 <p>So we can see that the best one variable model uses CRBI and two variable uses CRBI and Hits.</p>
 <p>Now let’s use more than 8 variables.</p>
 <pre class="r"><code>regfit_full &lt;- leaps::regsubsets(Salary~., data = df, nvmax = 19)
@@ -1995,55 +1938,55 @@ summary(regfit_full)</code></pre>
 ## NewLeagueN     FALSE      FALSE
 ## 1 subsets of each size up to 19
 ## Selection Algorithm: exhaustive
-##           AtBat Hits HmRun Runs RBI Walks Years CAtBat CHits CHmRun CRuns
-## 1  ( 1 )  &quot; &quot;   &quot; &quot;  &quot; &quot;   &quot; &quot;  &quot; &quot; &quot; &quot;   &quot; &quot;   &quot; &quot;    &quot; &quot;   &quot; &quot;    &quot; &quot;  
-## 2  ( 1 )  &quot; &quot;   &quot;*&quot;  &quot; &quot;   &quot; &quot;  &quot; &quot; &quot; &quot;   &quot; &quot;   &quot; &quot;    &quot; &quot;   &quot; &quot;    &quot; &quot;  
-## 3  ( 1 )  &quot; &quot;   &quot;*&quot;  &quot; &quot;   &quot; &quot;  &quot; &quot; &quot; &quot;   &quot; &quot;   &quot; &quot;    &quot; &quot;   &quot; &quot;    &quot; &quot;  
-## 4  ( 1 )  &quot; &quot;   &quot;*&quot;  &quot; &quot;   &quot; &quot;  &quot; &quot; &quot; &quot;   &quot; &quot;   &quot; &quot;    &quot; &quot;   &quot; &quot;    &quot; &quot;  
-## 5  ( 1 )  &quot;*&quot;   &quot;*&quot;  &quot; &quot;   &quot; &quot;  &quot; &quot; &quot; &quot;   &quot; &quot;   &quot; &quot;    &quot; &quot;   &quot; &quot;    &quot; &quot;  
-## 6  ( 1 )  &quot;*&quot;   &quot;*&quot;  &quot; &quot;   &quot; &quot;  &quot; &quot; &quot;*&quot;   &quot; &quot;   &quot; &quot;    &quot; &quot;   &quot; &quot;    &quot; &quot;  
-## 7  ( 1 )  &quot; &quot;   &quot;*&quot;  &quot; &quot;   &quot; &quot;  &quot; &quot; &quot;*&quot;   &quot; &quot;   &quot;*&quot;    &quot;*&quot;   &quot;*&quot;    &quot; &quot;  
-## 8  ( 1 )  &quot;*&quot;   &quot;*&quot;  &quot; &quot;   &quot; &quot;  &quot; &quot; &quot;*&quot;   &quot; &quot;   &quot; &quot;    &quot; &quot;   &quot;*&quot;    &quot;*&quot;  
-## 9  ( 1 )  &quot;*&quot;   &quot;*&quot;  &quot; &quot;   &quot; &quot;  &quot; &quot; &quot;*&quot;   &quot; &quot;   &quot;*&quot;    &quot; &quot;   &quot; &quot;    &quot;*&quot;  
-## 10  ( 1 ) &quot;*&quot;   &quot;*&quot;  &quot; &quot;   &quot; &quot;  &quot; &quot; &quot;*&quot;   &quot; &quot;   &quot;*&quot;    &quot; &quot;   &quot; &quot;    &quot;*&quot;  
-## 11  ( 1 ) &quot;*&quot;   &quot;*&quot;  &quot; &quot;   &quot; &quot;  &quot; &quot; &quot;*&quot;   &quot; &quot;   &quot;*&quot;    &quot; &quot;   &quot; &quot;    &quot;*&quot;  
-## 12  ( 1 ) &quot;*&quot;   &quot;*&quot;  &quot; &quot;   &quot;*&quot;  &quot; &quot; &quot;*&quot;   &quot; &quot;   &quot;*&quot;    &quot; &quot;   &quot; &quot;    &quot;*&quot;  
-## 13  ( 1 ) &quot;*&quot;   &quot;*&quot;  &quot; &quot;   &quot;*&quot;  &quot; &quot; &quot;*&quot;   &quot; &quot;   &quot;*&quot;    &quot; &quot;   &quot; &quot;    &quot;*&quot;  
-## 14  ( 1 ) &quot;*&quot;   &quot;*&quot;  &quot;*&quot;   &quot;*&quot;  &quot; &quot; &quot;*&quot;   &quot; &quot;   &quot;*&quot;    &quot; &quot;   &quot; &quot;    &quot;*&quot;  
-## 15  ( 1 ) &quot;*&quot;   &quot;*&quot;  &quot;*&quot;   &quot;*&quot;  &quot; &quot; &quot;*&quot;   &quot; &quot;   &quot;*&quot;    &quot;*&quot;   &quot; &quot;    &quot;*&quot;  
-## 16  ( 1 ) &quot;*&quot;   &quot;*&quot;  &quot;*&quot;   &quot;*&quot;  &quot;*&quot; &quot;*&quot;   &quot; &quot;   &quot;*&quot;    &quot;*&quot;   &quot; &quot;    &quot;*&quot;  
-## 17  ( 1 ) &quot;*&quot;   &quot;*&quot;  &quot;*&quot;   &quot;*&quot;  &quot;*&quot; &quot;*&quot;   &quot; &quot;   &quot;*&quot;    &quot;*&quot;   &quot; &quot;    &quot;*&quot;  
-## 18  ( 1 ) &quot;*&quot;   &quot;*&quot;  &quot;*&quot;   &quot;*&quot;  &quot;*&quot; &quot;*&quot;   &quot;*&quot;   &quot;*&quot;    &quot;*&quot;   &quot; &quot;    &quot;*&quot;  
-## 19  ( 1 ) &quot;*&quot;   &quot;*&quot;  &quot;*&quot;   &quot;*&quot;  &quot;*&quot; &quot;*&quot;   &quot;*&quot;   &quot;*&quot;    &quot;*&quot;   &quot;*&quot;    &quot;*&quot;  
-##           CRBI CWalks LeagueN DivisionW PutOuts Assists Errors NewLeagueN
-## 1  ( 1 )  &quot;*&quot;  &quot; &quot;    &quot; &quot;     &quot; &quot;       &quot; &quot;     &quot; &quot;     &quot; &quot;    &quot; &quot;       
-## 2  ( 1 )  &quot;*&quot;  &quot; &quot;    &quot; &quot;     &quot; &quot;       &quot; &quot;     &quot; &quot;     &quot; &quot;    &quot; &quot;       
-## 3  ( 1 )  &quot;*&quot;  &quot; &quot;    &quot; &quot;     &quot; &quot;       &quot;*&quot;     &quot; &quot;     &quot; &quot;    &quot; &quot;       
-## 4  ( 1 )  &quot;*&quot;  &quot; &quot;    &quot; &quot;     &quot;*&quot;       &quot;*&quot;     &quot; &quot;     &quot; &quot;    &quot; &quot;       
-## 5  ( 1 )  &quot;*&quot;  &quot; &quot;    &quot; &quot;     &quot;*&quot;       &quot;*&quot;     &quot; &quot;     &quot; &quot;    &quot; &quot;       
-## 6  ( 1 )  &quot;*&quot;  &quot; &quot;    &quot; &quot;     &quot;*&quot;       &quot;*&quot;     &quot; &quot;     &quot; &quot;    &quot; &quot;       
-## 7  ( 1 )  &quot; &quot;  &quot; &quot;    &quot; &quot;     &quot;*&quot;       &quot;*&quot;     &quot; &quot;     &quot; &quot;    &quot; &quot;       
-## 8  ( 1 )  &quot; &quot;  &quot;*&quot;    &quot; &quot;     &quot;*&quot;       &quot;*&quot;     &quot; &quot;     &quot; &quot;    &quot; &quot;       
-## 9  ( 1 )  &quot;*&quot;  &quot;*&quot;    &quot; &quot;     &quot;*&quot;       &quot;*&quot;     &quot; &quot;     &quot; &quot;    &quot; &quot;       
-## 10  ( 1 ) &quot;*&quot;  &quot;*&quot;    &quot; &quot;     &quot;*&quot;       &quot;*&quot;     &quot;*&quot;     &quot; &quot;    &quot; &quot;       
-## 11  ( 1 ) &quot;*&quot;  &quot;*&quot;    &quot;*&quot;     &quot;*&quot;       &quot;*&quot;     &quot;*&quot;     &quot; &quot;    &quot; &quot;       
-## 12  ( 1 ) &quot;*&quot;  &quot;*&quot;    &quot;*&quot;     &quot;*&quot;       &quot;*&quot;     &quot;*&quot;     &quot; &quot;    &quot; &quot;       
-## 13  ( 1 ) &quot;*&quot;  &quot;*&quot;    &quot;*&quot;     &quot;*&quot;       &quot;*&quot;     &quot;*&quot;     &quot;*&quot;    &quot; &quot;       
-## 14  ( 1 ) &quot;*&quot;  &quot;*&quot;    &quot;*&quot;     &quot;*&quot;       &quot;*&quot;     &quot;*&quot;     &quot;*&quot;    &quot; &quot;       
-## 15  ( 1 ) &quot;*&quot;  &quot;*&quot;    &quot;*&quot;     &quot;*&quot;       &quot;*&quot;     &quot;*&quot;     &quot;*&quot;    &quot; &quot;       
-## 16  ( 1 ) &quot;*&quot;  &quot;*&quot;    &quot;*&quot;     &quot;*&quot;       &quot;*&quot;     &quot;*&quot;     &quot;*&quot;    &quot; &quot;       
-## 17  ( 1 ) &quot;*&quot;  &quot;*&quot;    &quot;*&quot;     &quot;*&quot;       &quot;*&quot;     &quot;*&quot;     &quot;*&quot;    &quot;*&quot;       
-## 18  ( 1 ) &quot;*&quot;  &quot;*&quot;    &quot;*&quot;     &quot;*&quot;       &quot;*&quot;     &quot;*&quot;     &quot;*&quot;    &quot;*&quot;       
-## 19  ( 1 ) &quot;*&quot;  &quot;*&quot;    &quot;*&quot;     &quot;*&quot;       &quot;*&quot;     &quot;*&quot;     &quot;*&quot;    &quot;*&quot;</code></pre>
+##           AtBat Hits HmRun Runs RBI Walks Years CAtBat CHits CHmRun CRuns CRBI
+## 1  ( 1 )  &quot; &quot;   &quot; &quot;  &quot; &quot;   &quot; &quot;  &quot; &quot; &quot; &quot;   &quot; &quot;   &quot; &quot;    &quot; &quot;   &quot; &quot;    &quot; &quot;   &quot;*&quot; 
+## 2  ( 1 )  &quot; &quot;   &quot;*&quot;  &quot; &quot;   &quot; &quot;  &quot; &quot; &quot; &quot;   &quot; &quot;   &quot; &quot;    &quot; &quot;   &quot; &quot;    &quot; &quot;   &quot;*&quot; 
+## 3  ( 1 )  &quot; &quot;   &quot;*&quot;  &quot; &quot;   &quot; &quot;  &quot; &quot; &quot; &quot;   &quot; &quot;   &quot; &quot;    &quot; &quot;   &quot; &quot;    &quot; &quot;   &quot;*&quot; 
+## 4  ( 1 )  &quot; &quot;   &quot;*&quot;  &quot; &quot;   &quot; &quot;  &quot; &quot; &quot; &quot;   &quot; &quot;   &quot; &quot;    &quot; &quot;   &quot; &quot;    &quot; &quot;   &quot;*&quot; 
+## 5  ( 1 )  &quot;*&quot;   &quot;*&quot;  &quot; &quot;   &quot; &quot;  &quot; &quot; &quot; &quot;   &quot; &quot;   &quot; &quot;    &quot; &quot;   &quot; &quot;    &quot; &quot;   &quot;*&quot; 
+## 6  ( 1 )  &quot;*&quot;   &quot;*&quot;  &quot; &quot;   &quot; &quot;  &quot; &quot; &quot;*&quot;   &quot; &quot;   &quot; &quot;    &quot; &quot;   &quot; &quot;    &quot; &quot;   &quot;*&quot; 
+## 7  ( 1 )  &quot; &quot;   &quot;*&quot;  &quot; &quot;   &quot; &quot;  &quot; &quot; &quot;*&quot;   &quot; &quot;   &quot;*&quot;    &quot;*&quot;   &quot;*&quot;    &quot; &quot;   &quot; &quot; 
+## 8  ( 1 )  &quot;*&quot;   &quot;*&quot;  &quot; &quot;   &quot; &quot;  &quot; &quot; &quot;*&quot;   &quot; &quot;   &quot; &quot;    &quot; &quot;   &quot;*&quot;    &quot;*&quot;   &quot; &quot; 
+## 9  ( 1 )  &quot;*&quot;   &quot;*&quot;  &quot; &quot;   &quot; &quot;  &quot; &quot; &quot;*&quot;   &quot; &quot;   &quot;*&quot;    &quot; &quot;   &quot; &quot;    &quot;*&quot;   &quot;*&quot; 
+## 10  ( 1 ) &quot;*&quot;   &quot;*&quot;  &quot; &quot;   &quot; &quot;  &quot; &quot; &quot;*&quot;   &quot; &quot;   &quot;*&quot;    &quot; &quot;   &quot; &quot;    &quot;*&quot;   &quot;*&quot; 
+## 11  ( 1 ) &quot;*&quot;   &quot;*&quot;  &quot; &quot;   &quot; &quot;  &quot; &quot; &quot;*&quot;   &quot; &quot;   &quot;*&quot;    &quot; &quot;   &quot; &quot;    &quot;*&quot;   &quot;*&quot; 
+## 12  ( 1 ) &quot;*&quot;   &quot;*&quot;  &quot; &quot;   &quot;*&quot;  &quot; &quot; &quot;*&quot;   &quot; &quot;   &quot;*&quot;    &quot; &quot;   &quot; &quot;    &quot;*&quot;   &quot;*&quot; 
+## 13  ( 1 ) &quot;*&quot;   &quot;*&quot;  &quot; &quot;   &quot;*&quot;  &quot; &quot; &quot;*&quot;   &quot; &quot;   &quot;*&quot;    &quot; &quot;   &quot; &quot;    &quot;*&quot;   &quot;*&quot; 
+## 14  ( 1 ) &quot;*&quot;   &quot;*&quot;  &quot;*&quot;   &quot;*&quot;  &quot; &quot; &quot;*&quot;   &quot; &quot;   &quot;*&quot;    &quot; &quot;   &quot; &quot;    &quot;*&quot;   &quot;*&quot; 
+## 15  ( 1 ) &quot;*&quot;   &quot;*&quot;  &quot;*&quot;   &quot;*&quot;  &quot; &quot; &quot;*&quot;   &quot; &quot;   &quot;*&quot;    &quot;*&quot;   &quot; &quot;    &quot;*&quot;   &quot;*&quot; 
+## 16  ( 1 ) &quot;*&quot;   &quot;*&quot;  &quot;*&quot;   &quot;*&quot;  &quot;*&quot; &quot;*&quot;   &quot; &quot;   &quot;*&quot;    &quot;*&quot;   &quot; &quot;    &quot;*&quot;   &quot;*&quot; 
+## 17  ( 1 ) &quot;*&quot;   &quot;*&quot;  &quot;*&quot;   &quot;*&quot;  &quot;*&quot; &quot;*&quot;   &quot; &quot;   &quot;*&quot;    &quot;*&quot;   &quot; &quot;    &quot;*&quot;   &quot;*&quot; 
+## 18  ( 1 ) &quot;*&quot;   &quot;*&quot;  &quot;*&quot;   &quot;*&quot;  &quot;*&quot; &quot;*&quot;   &quot;*&quot;   &quot;*&quot;    &quot;*&quot;   &quot; &quot;    &quot;*&quot;   &quot;*&quot; 
+## 19  ( 1 ) &quot;*&quot;   &quot;*&quot;  &quot;*&quot;   &quot;*&quot;  &quot;*&quot; &quot;*&quot;   &quot;*&quot;   &quot;*&quot;    &quot;*&quot;   &quot;*&quot;    &quot;*&quot;   &quot;*&quot; 
+##           CWalks LeagueN DivisionW PutOuts Assists Errors NewLeagueN
+## 1  ( 1 )  &quot; &quot;    &quot; &quot;     &quot; &quot;       &quot; &quot;     &quot; &quot;     &quot; &quot;    &quot; &quot;       
+## 2  ( 1 )  &quot; &quot;    &quot; &quot;     &quot; &quot;       &quot; &quot;     &quot; &quot;     &quot; &quot;    &quot; &quot;       
+## 3  ( 1 )  &quot; &quot;    &quot; &quot;     &quot; &quot;       &quot;*&quot;     &quot; &quot;     &quot; &quot;    &quot; &quot;       
+## 4  ( 1 )  &quot; &quot;    &quot; &quot;     &quot;*&quot;       &quot;*&quot;     &quot; &quot;     &quot; &quot;    &quot; &quot;       
+## 5  ( 1 )  &quot; &quot;    &quot; &quot;     &quot;*&quot;       &quot;*&quot;     &quot; &quot;     &quot; &quot;    &quot; &quot;       
+## 6  ( 1 )  &quot; &quot;    &quot; &quot;     &quot;*&quot;       &quot;*&quot;     &quot; &quot;     &quot; &quot;    &quot; &quot;       
+## 7  ( 1 )  &quot; &quot;    &quot; &quot;     &quot;*&quot;       &quot;*&quot;     &quot; &quot;     &quot; &quot;    &quot; &quot;       
+## 8  ( 1 )  &quot;*&quot;    &quot; &quot;     &quot;*&quot;       &quot;*&quot;     &quot; &quot;     &quot; &quot;    &quot; &quot;       
+## 9  ( 1 )  &quot;*&quot;    &quot; &quot;     &quot;*&quot;       &quot;*&quot;     &quot; &quot;     &quot; &quot;    &quot; &quot;       
+## 10  ( 1 ) &quot;*&quot;    &quot; &quot;     &quot;*&quot;       &quot;*&quot;     &quot;*&quot;     &quot; &quot;    &quot; &quot;       
+## 11  ( 1 ) &quot;*&quot;    &quot;*&quot;     &quot;*&quot;       &quot;*&quot;     &quot;*&quot;     &quot; &quot;    &quot; &quot;       
+## 12  ( 1 ) &quot;*&quot;    &quot;*&quot;     &quot;*&quot;       &quot;*&quot;     &quot;*&quot;     &quot; &quot;    &quot; &quot;       
+## 13  ( 1 ) &quot;*&quot;    &quot;*&quot;     &quot;*&quot;       &quot;*&quot;     &quot;*&quot;     &quot;*&quot;    &quot; &quot;       
+## 14  ( 1 ) &quot;*&quot;    &quot;*&quot;     &quot;*&quot;       &quot;*&quot;     &quot;*&quot;     &quot;*&quot;    &quot; &quot;       
+## 15  ( 1 ) &quot;*&quot;    &quot;*&quot;     &quot;*&quot;       &quot;*&quot;     &quot;*&quot;     &quot;*&quot;    &quot; &quot;       
+## 16  ( 1 ) &quot;*&quot;    &quot;*&quot;     &quot;*&quot;       &quot;*&quot;     &quot;*&quot;     &quot;*&quot;    &quot; &quot;       
+## 17  ( 1 ) &quot;*&quot;    &quot;*&quot;     &quot;*&quot;       &quot;*&quot;     &quot;*&quot;     &quot;*&quot;    &quot;*&quot;       
+## 18  ( 1 ) &quot;*&quot;    &quot;*&quot;     &quot;*&quot;       &quot;*&quot;     &quot;*&quot;     &quot;*&quot;    &quot;*&quot;       
+## 19  ( 1 ) &quot;*&quot;    &quot;*&quot;     &quot;*&quot;       &quot;*&quot;     &quot;*&quot;     &quot;*&quot;    &quot;*&quot;</code></pre>
 <p>The summary actually contains more stuff that is not displayed so let’s explore that:</p>
 <pre class="r"><code>regfit_summary &lt;- summary(regfit_full)
 names(regfit_summary)</code></pre>
 <pre><code>## [1] &quot;which&quot;  &quot;rsq&quot;    &quot;rss&quot;    &quot;adjr2&quot;  &quot;cp&quot;     &quot;bic&quot;    &quot;outmat&quot; &quot;obj&quot;</code></pre>
 <pre class="r"><code># We can look at the RSS of the models as we increase the number of variables:
 regfit_summary$rss</code></pre>
-<pre><code>##  [1] 36179679 30646560 29249297 27970852 27149899 26194904 25906548
-##  [8] 25136930 24814051 24500402 24387345 24333232 24289148 24248660
-## [15] 24235177 24219377 24209447 24201837 24200700</code></pre>
+<pre><code>##  [1] 36179679 30646560 29249297 27970852 27149899 26194904 25906548 25136930
+##  [9] 24814051 24500402 24387345 24333232 24289148 24248660 24235177 24219377
+## [17] 24209447 24201837 24200700</code></pre>
 <pre class="r"><code># Even plot it (on a log scale)
 qplot(x = 1:19, y = log(regfit_summary$rss))</code></pre>
 <p><img src="STA314F19_files/figure-html/summary%20of%20bss%20part%201-1.png" width="576" /></p>
@@ -2056,10 +1999,8 @@ qplot(x = 1:19, y = regfit_summary$adjr2)</code></pre>
 <p><img src="STA314F19_files/figure-html/plotting%20bss-1.png" width="576" /></p>
 <p>We can also access the coefficients of the model using the coef() function. Let’s look at the 5 variable model.</p>
 <pre class="r"><code>coef(regfit_full, 5)</code></pre>
-<pre><code>##  (Intercept)        AtBat         Hits         CRBI    DivisionW 
-##   97.7684116   -1.4401428    7.1753197    0.6882079 -129.7319386 
-##      PutOuts 
-##    0.2905164</code></pre>
+<pre><code>##  (Intercept)        AtBat         Hits         CRBI    DivisionW      PutOuts 
+##   97.7684116   -1.4401428    7.1753197    0.6882079 -129.7319386    0.2905164</code></pre>
 <p>How does it choose the best subsets of variables?</p>
 <pre class="r"><code>?regsubsets</code></pre>
 <p>Both Forward and Backwards selections are greedy algorithms.</p>
@@ -2092,7 +2033,7 @@ optim(par, xsquared, hessian = TRUE)</code></pre>
 ## [1]  6.2048368 -0.3770086
 ## 
 ## $value
-## [1] 2.763466e-06
+## [1] 0.000002763466
 ## 
 ## $counts
 ## function gradient 
@@ -2144,8 +2085,8 @@ predictions &lt;- knn(train = df_train_std %&gt;% dplyr::select(-Direction), # T
 table(predictions, actual)</code></pre>
 <pre><code>##            actual
 ## predictions Down  Up
-##        Down   85  78
-##        Up    103 109</code></pre>
+##        Down  395 198
+##        Up    207 450</code></pre>
 <pre class="r"><code># Do k-fold CV on KNN. Note that the k in k-fold is not the same as the k in KNN.
 # I will call it m-fold CV just to avoid confusion.
 
@@ -2197,26 +2138,26 @@ for (cv_fold in 1:m) {
 }
 cv_errors</code></pre>
 <pre><code>##              1         2         3         4         5         6         7
-## [1,] 0.5864198 0.5740741 0.5864198 0.5555556 0.5617284 0.5617284 0.5432099
-## [2,] 0.4638554 0.5120482 0.5783133 0.5602410 0.5903614 0.5662651 0.5783133
-## [3,] 0.4624277 0.5086705 0.5086705 0.5086705 0.5606936 0.5317919 0.5144509
-## [4,] 0.4851485 0.4900990 0.4405941 0.4306931 0.4603960 0.4455446 0.4257426
-## [5,] 0.5290698 0.4825581 0.4941860 0.5465116 0.4767442 0.4941860 0.4476744
+## [1,] 0.5276074 0.5337423 0.5521472 0.5705521 0.5460123 0.5337423 0.5460123
+## [2,] 0.5030675 0.5030675 0.5092025 0.4846626 0.5153374 0.4785276 0.5705521
+## [3,] 0.5885714 0.5428571 0.4800000 0.5257143 0.5085714 0.4914286 0.5028571
+## [4,] 0.4688995 0.4545455 0.5071770 0.4880383 0.5023923 0.4832536 0.5311005
+## [5,] 0.5393939 0.5393939 0.5151515 0.4969697 0.5212121 0.4969697 0.4909091
 ##              8         9        10
-## [1,] 0.5246914 0.5802469 0.5617284
-## [2,] 0.5481928 0.6024096 0.5963855
-## [3,] 0.5722543 0.5202312 0.4971098
-## [4,] 0.4356436 0.4158416 0.4405941
-## [5,] 0.4534884 0.4941860 0.5000000</code></pre>
+## [1,] 0.4969325 0.5214724 0.4785276
+## [2,] 0.5950920 0.5828221 0.5828221
+## [3,] 0.5028571 0.5028571 0.5428571
+## [4,] 0.5454545 0.5215311 0.4688995
+## [5,] 0.5212121 0.4606061 0.4969697</code></pre>
 <pre class="r"><code># Average Errors across different k&#39;s for KNN:
 
 average_accuracy &lt;- apply(cv_errors, 2, mean)
 average_accuracy</code></pre>
-<pre><code>##         1         2         3         4         5         6         7 
-## 0.5053842 0.5134900 0.5216367 0.5203343 0.5299847 0.5199032 0.5018782 
-##         8         9        10 
-## 0.5068541 0.5225831 0.5191636</code></pre>
-<p>So the optimal choice is 5 according to 5-fold CV. Please note that this code is very much hacked together and not at all efficient.</p>
+<pre><code>##         1         2         3         4         5         6         7         8 
+## 0.5255079 0.5147213 0.5127356 0.5131874 0.5187051 0.4967844 0.5282862 0.5323097 
+##         9        10 
+## 0.5178578 0.5140152</code></pre>
+<p>So the optimal choice is 8 according to 5-fold CV. Please note that this code is very much hacked together and not at all efficient.</p>
 <p>For those of you who have not picked up their midterms: they were returned to the professor, you can contact her to arrange for a pick-up during office hours.</p>
 </div>
 <div id="tutorial-9" class="section level1">
@@ -2226,7 +2167,7 @@ average_accuracy</code></pre>
 df &lt;- df_orig</code></pre>
 <pre class="r"><code>x = model.matrix(Salary~.,Hitters)[,-1]
 y &lt;- Hitters$Salary[!is.na(Hitters$Salary)]</code></pre>
-<pre class="r"><code># Lasso 
+<pre class="r"><code># Lasso
 model_lasso &lt;- glmnet(x, y, family = &quot;gaussian&quot;, alpha = 1)
 
 
@@ -2265,12 +2206,12 @@ summary(lm_1)</code></pre>
 ## -98.707 -24.626  -4.993  15.217 203.693 
 ## 
 ## Coefficients:
-##                                      Estimate Std. Error t value Pr(&gt;|t|)
-## (Intercept)                        -1.842e+02  6.004e+01  -3.067 0.002180
-## poly(age, degree = 4, raw = TRUE)1  2.125e+01  5.887e+00   3.609 0.000312
-## poly(age, degree = 4, raw = TRUE)2 -5.639e-01  2.061e-01  -2.736 0.006261
-## poly(age, degree = 4, raw = TRUE)3  6.811e-03  3.066e-03   2.221 0.026398
-## poly(age, degree = 4, raw = TRUE)4 -3.204e-05  1.641e-05  -1.952 0.051039
+##                                         Estimate    Std. Error t value Pr(&gt;|t|)
+## (Intercept)                        -184.15417977   60.04037718  -3.067 0.002180
+## poly(age, degree = 4, raw = TRUE)1   21.24552053    5.88674824   3.609 0.000312
+## poly(age, degree = 4, raw = TRUE)2   -0.56385931    0.20610826  -2.736 0.006261
+## poly(age, degree = 4, raw = TRUE)3    0.00681069    0.00306593   2.221 0.026398
+## poly(age, degree = 4, raw = TRUE)4   -0.00003204    0.00001641  -1.952 0.051039
 ##                                       
 ## (Intercept)                        ** 
 ## poly(age, degree = 4, raw = TRUE)1 ***
@@ -2282,7 +2223,7 @@ summary(lm_1)</code></pre>
 ## 
 ## Residual standard error: 39.91 on 2995 degrees of freedom
 ## Multiple R-squared:  0.08626,    Adjusted R-squared:  0.08504 
-## F-statistic: 70.69 on 4 and 2995 DF,  p-value: &lt; 2.2e-16</code></pre>
+## F-statistic: 70.69 on 4 and 2995 DF,  p-value: &lt; 0.00000000000000022</code></pre>
 <pre class="r"><code>lm_2 &lt;- lm(wage~age + I(age^2) + I(age^3) +I(age^4), data = df)
 summary(lm_2)</code></pre>
 <pre><code>## 
@@ -2294,18 +2235,18 @@ summary(lm_2)</code></pre>
 ## -98.707 -24.626  -4.993  15.217 203.693 
 ## 
 ## Coefficients:
-##               Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept) -1.842e+02  6.004e+01  -3.067 0.002180 ** 
-## age          2.125e+01  5.887e+00   3.609 0.000312 ***
-## I(age^2)    -5.639e-01  2.061e-01  -2.736 0.006261 ** 
-## I(age^3)     6.811e-03  3.066e-03   2.221 0.026398 *  
-## I(age^4)    -3.204e-05  1.641e-05  -1.952 0.051039 .  
+##                  Estimate    Std. Error t value Pr(&gt;|t|)    
+## (Intercept) -184.15417977   60.04037718  -3.067 0.002180 ** 
+## age           21.24552053    5.88674824   3.609 0.000312 ***
+## I(age^2)      -0.56385931    0.20610826  -2.736 0.006261 ** 
+## I(age^3)       0.00681069    0.00306593   2.221 0.026398 *  
+## I(age^4)      -0.00003204    0.00001641  -1.952 0.051039 .  
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
 ## Residual standard error: 39.91 on 2995 degrees of freedom
 ## Multiple R-squared:  0.08626,    Adjusted R-squared:  0.08504 
-## F-statistic: 70.69 on 4 and 2995 DF,  p-value: &lt; 2.2e-16</code></pre>
+## F-statistic: 70.69 on 4 and 2995 DF,  p-value: &lt; 0.00000000000000022</code></pre>
 <p>We can use anova to compare nested models. The resulting p-value is for a hypothesis test of the two models being the same / different. It is very useful for comparing nested models with large differences in number of parameters. If you want to learn more take STA303 next term.</p>
 <pre class="r"><code>lm_3 &lt;- lm(wage ~ age + I(age^2), data = df)
 
@@ -2366,17 +2307,17 @@ summary(lm_spline)</code></pre>
 ## -99.693 -24.562  -5.222  15.096 206.119 
 ## 
 ## Coefficients:
-##                   Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)         58.689      4.013  14.625  &lt; 2e-16 ***
-## splines::bs(age)1  102.644     11.449   8.965  &lt; 2e-16 ***
-## splines::bs(age)2   48.762      8.625   5.654 1.72e-08 ***
-## splines::bs(age)3   40.803     12.109   3.370 0.000762 ***
+##                   Estimate Std. Error t value             Pr(&gt;|t|)    
+## (Intercept)         58.689      4.013  14.625 &lt; 0.0000000000000002 ***
+## splines::bs(age)1  102.644     11.449   8.965 &lt; 0.0000000000000002 ***
+## splines::bs(age)2   48.762      8.625   5.654         0.0000000172 ***
+## splines::bs(age)3   40.803     12.109   3.370             0.000762 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
 ## Residual standard error: 39.93 on 2996 degrees of freedom
 ## Multiple R-squared:  0.0851, Adjusted R-squared:  0.08419 
-## F-statistic: 92.89 on 3 and 2996 DF,  p-value: &lt; 2.2e-16</code></pre>
+## F-statistic: 92.89 on 3 and 2996 DF,  p-value: &lt; 0.00000000000000022</code></pre>
 <pre class="r"><code># We can add our own knots and make sure it adds the intercept.
 splines &lt;- bs(df$age, knots = c(37, 48 , 55), intercept = TRUE)
 attr(splines, &quot;knots&quot;)</code></pre>
@@ -2393,20 +2334,20 @@ summary(lm_spline_manual)</code></pre>
 ## -98.819 -24.374  -5.171  15.638 202.348 
 ## 
 ## Coefficients:
-##          Estimate Std. Error t value Pr(&gt;|t|)    
-## splines1   58.784      6.527   9.006  &lt; 2e-16 ***
-## splines2   85.291      5.936  14.370  &lt; 2e-16 ***
-## splines3  124.415      4.881  25.492  &lt; 2e-16 ***
-## splines4  116.918      2.983  39.192  &lt; 2e-16 ***
-## splines5  121.133      6.050  20.021  &lt; 2e-16 ***
-## splines6  111.423     13.179   8.455  &lt; 2e-16 ***
-## splines7   77.806     16.091   4.835  1.4e-06 ***
+##          Estimate Std. Error t value             Pr(&gt;|t|)    
+## splines1   58.784      6.527   9.006 &lt; 0.0000000000000002 ***
+## splines2   85.291      5.936  14.370 &lt; 0.0000000000000002 ***
+## splines3  124.415      4.881  25.492 &lt; 0.0000000000000002 ***
+## splines4  116.918      2.983  39.192 &lt; 0.0000000000000002 ***
+## splines5  121.133      6.050  20.021 &lt; 0.0000000000000002 ***
+## splines6  111.423     13.179   8.455 &lt; 0.0000000000000002 ***
+## splines7   77.806     16.091   4.835            0.0000014 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
 ## Residual standard error: 39.91 on 2993 degrees of freedom
 ## Multiple R-squared:  0.8883, Adjusted R-squared:  0.888 
-## F-statistic:  3399 on 7 and 2993 DF,  p-value: &lt; 2.2e-16</code></pre>
+## F-statistic:  3399 on 7 and 2993 DF,  p-value: &lt; 0.00000000000000022</code></pre>
 <p>Let’s see what the splines look like:</p>
 <pre class="r"><code>df %&gt;%
   ggplot(aes(x = age, y = wage)) +
@@ -2615,57 +2556,108 @@ auto_PCA &lt;- as.tibble(pca_out$x)</code></pre>
 ## This warning is displayed once per session.</code></pre>
 <pre class="r"><code>difference = manual_PCA - auto_PCA
 difference</code></pre>
-<pre><code>##              PC1           PC2           PC3           PC4
-## 1  -5.551115e-16 -8.881784e-16 -3.330669e-16 -9.992007e-16
-## 2   6.661338e-16 -8.881784e-16  4.440892e-16  1.942890e-15
-## 3   1.110223e-15 -1.998401e-15  1.554312e-15  6.661338e-16
-## 4  -8.326673e-16  2.220446e-16 -1.110223e-16 -3.885781e-16
-## 5   2.220446e-15 -2.442491e-15  1.332268e-15  1.665335e-15
-## 6   1.776357e-15 -1.110223e-15  2.220446e-16  1.859624e-15
-## 7   0.000000e+00  8.881784e-16  2.220446e-16 -1.526557e-16
-## 8   1.665335e-16 -4.996004e-16  1.110223e-15 -5.551115e-16
-## 9   1.332268e-15 -3.080869e-15  8.881784e-16 -3.469447e-16
-## 10 -2.220446e-16 -1.332268e-15 -1.110223e-15 -6.661338e-16
-## 11  6.661338e-16  6.661338e-16 -8.326673e-16  6.661338e-16
-## 12 -8.881784e-16  1.637579e-15  2.220446e-16  5.551115e-17
-## 13  6.661338e-16 -1.665335e-15  6.661338e-16 -3.608225e-16
-## 14 -2.220446e-16  6.106227e-16 -5.551115e-16  3.330669e-16
-## 15 -4.440892e-16  2.137179e-15 -6.661338e-16  9.714451e-17
-## 16 -2.220446e-16  7.771561e-16 -3.885781e-16  8.326673e-17
-## 17 -1.110223e-15  9.992007e-16 -1.110223e-15 -5.551115e-16
-## 18  0.000000e+00 -1.554312e-15 -4.440892e-16 -1.110223e-15
-## 19 -8.881784e-16  2.442491e-15 -2.220446e-16 -4.440892e-16
-## 20  4.440892e-16 -1.776357e-15  8.881784e-16 -4.440892e-16
-## 21  5.551115e-16  2.220446e-16  4.440892e-16  0.000000e+00
-## 22  4.440892e-16 -1.915135e-15  3.330669e-16  6.938894e-16
-## 23  0.000000e+00  1.665335e-15 -3.330669e-16  2.914335e-16
-## 24 -1.554312e-15 -8.881784e-16 -6.661338e-16 -1.887379e-15
-## 25  5.551115e-16 -4.996004e-16 -5.551115e-17  6.106227e-16
-## 26 -8.881784e-16  1.332268e-15 -4.440892e-16 -9.714451e-17
-## 27 -2.220446e-16  1.304512e-15 -1.110223e-16  2.428613e-16
-## 28  1.776357e-15 -2.442491e-15  2.220446e-16  1.776357e-15
-## 29 -8.881784e-16  2.525757e-15 -4.440892e-16 -1.110223e-16
-## 30  8.881784e-16 -6.661338e-16  2.220446e-16 -1.665335e-16
-## 31  8.881784e-16 -1.915135e-15  7.771561e-16  3.885781e-16
-## 32  1.554312e-15 -1.998401e-15  6.661338e-16 -2.289835e-16
-## 33 -1.554312e-15 -1.332268e-15  9.992007e-16 -1.887379e-15
-## 34 -1.776357e-15  2.997602e-15 -4.440892e-16 -2.220446e-16
-## 35  3.608225e-16  0.000000e+00 -4.163336e-16  2.220446e-16
-## 36  1.665335e-16  2.775558e-16 -2.775558e-17  1.110223e-16
-## 37  6.106227e-16  1.110223e-16  3.330669e-16  1.387779e-15
-## 38 -2.220446e-16  7.771561e-16 -4.440892e-16 -3.330669e-16
-## 39  4.440892e-16  2.220446e-16  1.110223e-15 -8.881784e-16
-## 40 -8.881784e-16 -8.881784e-16  5.551115e-17 -1.082467e-15
-## 41 -1.110223e-15  2.220446e-15 -4.440892e-16 -5.551115e-17
-## 42 -2.220446e-16 -5.551115e-16 -7.771561e-16 -1.110223e-16
-## 43  6.661338e-16 -1.443290e-15 -3.330669e-16 -3.330669e-16
-## 44  8.881784e-16  4.440892e-16  2.220446e-16  9.020562e-16
-## 45 -2.220446e-15  3.108624e-15 -8.881784e-16  3.053113e-16
-## 46 -2.081668e-16  1.665335e-16 -2.983724e-16 -8.326673e-17
-## 47  8.326673e-16  2.220446e-16  3.330669e-16  1.110223e-15
-## 48 -1.776357e-15  1.998401e-15 -8.881784e-16 -7.216450e-16
-## 49 -4.440892e-16  1.776357e-15 -5.551115e-16 -5.551115e-17
-## 50 -5.551115e-16  4.996004e-16  0.000000e+00 -4.718448e-16</code></pre>
+<pre><code>##                          PC1                       PC2
+## 1  -0.0000000000000005551115 -0.0000000000000008881784
+## 2   0.0000000000000006661338 -0.0000000000000008881784
+## 3   0.0000000000000011102230 -0.0000000000000019984014
+## 4  -0.0000000000000008326673  0.0000000000000002220446
+## 5   0.0000000000000022204460 -0.0000000000000024424907
+## 6   0.0000000000000017763568 -0.0000000000000011102230
+## 7   0.0000000000000000000000  0.0000000000000008881784
+## 8   0.0000000000000001665335 -0.0000000000000004996004
+## 9   0.0000000000000013322676 -0.0000000000000030808689
+## 10 -0.0000000000000002220446 -0.0000000000000013322676
+## 11  0.0000000000000006661338  0.0000000000000006661338
+## 12 -0.0000000000000008881784  0.0000000000000016375790
+## 13  0.0000000000000006661338 -0.0000000000000016653345
+## 14 -0.0000000000000002220446  0.0000000000000006106227
+## 15 -0.0000000000000004440892  0.0000000000000021371793
+## 16 -0.0000000000000002220446  0.0000000000000007771561
+## 17 -0.0000000000000011102230  0.0000000000000009992007
+## 18  0.0000000000000000000000 -0.0000000000000015543122
+## 19 -0.0000000000000008881784  0.0000000000000024424907
+## 20  0.0000000000000004440892 -0.0000000000000017763568
+## 21  0.0000000000000005551115  0.0000000000000002220446
+## 22  0.0000000000000004440892 -0.0000000000000019151347
+## 23  0.0000000000000000000000  0.0000000000000016653345
+## 24 -0.0000000000000015543122 -0.0000000000000008881784
+## 25  0.0000000000000005551115 -0.0000000000000004996004
+## 26 -0.0000000000000008881784  0.0000000000000013322676
+## 27 -0.0000000000000002220446  0.0000000000000013045121
+## 28  0.0000000000000017763568 -0.0000000000000024424907
+## 29 -0.0000000000000008881784  0.0000000000000025257574
+## 30  0.0000000000000008881784 -0.0000000000000006661338
+## 31  0.0000000000000008881784 -0.0000000000000019151347
+## 32  0.0000000000000015543122 -0.0000000000000019984014
+## 33 -0.0000000000000015543122 -0.0000000000000013322676
+## 34 -0.0000000000000017763568  0.0000000000000029976022
+## 35  0.0000000000000003608225  0.0000000000000000000000
+## 36  0.0000000000000001665335  0.0000000000000002775558
+## 37  0.0000000000000006106227  0.0000000000000001110223
+## 38 -0.0000000000000002220446  0.0000000000000007771561
+## 39  0.0000000000000004440892  0.0000000000000002220446
+## 40 -0.0000000000000008881784 -0.0000000000000008881784
+## 41 -0.0000000000000011102230  0.0000000000000022204460
+## 42 -0.0000000000000002220446 -0.0000000000000005551115
+## 43  0.0000000000000006661338 -0.0000000000000014432899
+## 44  0.0000000000000008881784  0.0000000000000004440892
+## 45 -0.0000000000000022204460  0.0000000000000031086245
+## 46 -0.0000000000000002081668  0.0000000000000001665335
+## 47  0.0000000000000008326673  0.0000000000000002220446
+## 48 -0.0000000000000017763568  0.0000000000000019984014
+## 49 -0.0000000000000004440892  0.0000000000000017763568
+## 50 -0.0000000000000005551115  0.0000000000000004996004
+##                           PC3                        PC4
+## 1  -0.00000000000000033306691 -0.00000000000000099920072
+## 2   0.00000000000000044408921  0.00000000000000194289029
+## 3   0.00000000000000155431223  0.00000000000000066613381
+## 4  -0.00000000000000011102230 -0.00000000000000038857806
+## 5   0.00000000000000133226763  0.00000000000000166533454
+## 6   0.00000000000000022204460  0.00000000000000185962357
+## 7   0.00000000000000022204460 -0.00000000000000015265567
+## 8   0.00000000000000111022302 -0.00000000000000055511151
+## 9   0.00000000000000088817842 -0.00000000000000034694470
+## 10 -0.00000000000000111022302 -0.00000000000000066613381
+## 11 -0.00000000000000083266727  0.00000000000000066613381
+## 12  0.00000000000000022204460  0.00000000000000005551115
+## 13  0.00000000000000066613381 -0.00000000000000036082248
+## 14 -0.00000000000000055511151  0.00000000000000033306691
+## 15 -0.00000000000000066613381  0.00000000000000009714451
+## 16 -0.00000000000000038857806  0.00000000000000008326673
+## 17 -0.00000000000000111022302 -0.00000000000000055511151
+## 18 -0.00000000000000044408921 -0.00000000000000111022302
+## 19 -0.00000000000000022204460 -0.00000000000000044408921
+## 20  0.00000000000000088817842 -0.00000000000000044408921
+## 21  0.00000000000000044408921  0.00000000000000000000000
+## 22  0.00000000000000033306691  0.00000000000000069388939
+## 23 -0.00000000000000033306691  0.00000000000000029143354
+## 24 -0.00000000000000066613381 -0.00000000000000188737914
+## 25 -0.00000000000000005551115  0.00000000000000061062266
+## 26 -0.00000000000000044408921 -0.00000000000000009714451
+## 27 -0.00000000000000011102230  0.00000000000000024286129
+## 28  0.00000000000000022204460  0.00000000000000177635684
+## 29 -0.00000000000000044408921 -0.00000000000000011102230
+## 30  0.00000000000000022204460 -0.00000000000000016653345
+## 31  0.00000000000000077715612  0.00000000000000038857806
+## 32  0.00000000000000066613381 -0.00000000000000022898350
+## 33  0.00000000000000099920072 -0.00000000000000188737914
+## 34 -0.00000000000000044408921 -0.00000000000000022204460
+## 35 -0.00000000000000041633363  0.00000000000000022204460
+## 36 -0.00000000000000002775558  0.00000000000000011102230
+## 37  0.00000000000000033306691  0.00000000000000138777878
+## 38 -0.00000000000000044408921 -0.00000000000000033306691
+## 39  0.00000000000000111022302 -0.00000000000000088817842
+## 40  0.00000000000000005551115 -0.00000000000000108246745
+## 41 -0.00000000000000044408921 -0.00000000000000005551115
+## 42 -0.00000000000000077715612 -0.00000000000000011102230
+## 43 -0.00000000000000033306691 -0.00000000000000033306691
+## 44  0.00000000000000022204460  0.00000000000000090205621
+## 45 -0.00000000000000088817842  0.00000000000000030531133
+## 46 -0.00000000000000029837244 -0.00000000000000008326673
+## 47  0.00000000000000033306691  0.00000000000000111022302
+## 48 -0.00000000000000088817842 -0.00000000000000072164497
+## 49 -0.00000000000000055511151 -0.00000000000000005551115
+## 50  0.00000000000000000000000 -0.00000000000000047184479</code></pre>
 </div>
 <div id="lab-3-pca-and-clustering" class="section level2">
 <h2>Lab 3: PCA and Clustering</h2>

@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
@@ -90,7 +89,6 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -239,6 +237,7 @@ $(document).ready(function () {
   border: none;
   display: inline-block;
   border-radius: 4px;
+  background-color: transparent;
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
@@ -267,6 +266,12 @@ $(document).ready(function () {
 }
 }
 
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
 
 .toc-content {
   padding-left: 30px;
@@ -365,7 +370,7 @@ div.tocify {
       <a href="STA130W20.html">
         <span class="fa fa-book"></span>
          
-        STA130 - Intro to Data Science Spring 2020
+        STA130 - Intro to Data Science Winter 2020
       </a>
     </li>
     <li>
@@ -809,10 +814,9 @@ gridExtra::grid.arrange(p1, p2, ncol = 2)</code></pre>
 <pre class="r"><code>df &lt;- data_original
 # Look at column names
 colnames(df)</code></pre>
-<pre><code>##  [1] &quot;Name&quot;         &quot;Survived&quot;     &quot;Boarded&quot;      &quot;Class&quot;       
-##  [5] &quot;MWC&quot;          &quot;Age&quot;          &quot;Adut_or_Chld&quot; &quot;Sex&quot;         
-##  [9] &quot;Paid&quot;         &quot;Ticket_No&quot;    &quot;Boat_or_Body&quot; &quot;Job&quot;         
-## [13] &quot;Class_Dept&quot;   &quot;Class_Full&quot;</code></pre>
+<pre><code>##  [1] &quot;Name&quot;         &quot;Survived&quot;     &quot;Boarded&quot;      &quot;Class&quot;        &quot;MWC&quot;         
+##  [6] &quot;Age&quot;          &quot;Adut_or_Chld&quot; &quot;Sex&quot;          &quot;Paid&quot;         &quot;Ticket_No&quot;   
+## [11] &quot;Boat_or_Body&quot; &quot;Job&quot;          &quot;Class_Dept&quot;   &quot;Class_Full&quot;</code></pre>
 <pre class="r"><code>df %&gt;% ggplot(aes(facet = Survived, x = Paid)) +
     geom_histogram(bins = 75) +
     facet_wrap(. ~ Survived) +

@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
@@ -29,7 +28,7 @@
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
-<script src="site_libs/htmlwidgets-1.3/htmlwidgets.js"></script>
+<script src="site_libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
 <script src="site_libs/viz-0.3/viz.js"></script>
 <link href="site_libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet" />
 <script src="site_libs/grViz-binding-1.0.1/grViz.js"></script>
@@ -94,7 +93,6 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -243,6 +241,7 @@ $(document).ready(function () {
   border: none;
   display: inline-block;
   border-radius: 4px;
+  background-color: transparent;
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
@@ -271,6 +270,12 @@ $(document).ready(function () {
 }
 }
 
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
 
 .toc-content {
   padding-left: 30px;
@@ -369,7 +374,7 @@ div.tocify {
       <a href="STA130W20.html">
         <span class="fa fa-book"></span>
          
-        STA130 - Intro to Data Science Spring 2020
+        STA130 - Intro to Data Science Winter 2020
       </a>
     </li>
     <li>
@@ -957,12 +962,12 @@ update(lm_fit3, ~ . -age)</code></pre>
 ##     rad + tax + ptratio + black + lstat, data = Boston)
 ## 
 ## Coefficients:
-## (Intercept)         crim           zn        indus         chas  
-##   36.436927    -0.108006     0.046334     0.020562     2.689026  
-##         nox           rm          dis          rad          tax  
-##  -17.713540     3.814394    -1.478612     0.305786    -0.012329  
-##     ptratio        black        lstat  
-##   -0.952211     0.009321    -0.523852</code></pre>
+## (Intercept)         crim           zn        indus         chas          nox  
+##   36.436927    -0.108006     0.046334     0.020562     2.689026   -17.713540  
+##          rm          dis          rad          tax      ptratio        black  
+##    3.814394    -1.478612     0.305786    -0.012329    -0.952211     0.009321  
+##       lstat  
+##   -0.523852</code></pre>
 <pre class="r"><code>summary(lm_fit3)</code></pre>
 <pre><code>## 
 ## Call:
@@ -1173,9 +1178,9 @@ country_model &lt;- function(df) {
 # Then we can abuse the purrr package to apply that function to each of 
 # the elements of a list:
 by_country &lt;- by_country %&gt;%
-    mutate(model = map(data, country_model))
-
-# Now the column &quot;model&quot; in the by_country tibble contains all of the linear models we just fit!
+    mutate(model = map(data, country_model))</code></pre>
+<pre><code>## mutate (grouped): new variable &#39;model&#39; with 142 unique values and 0% NA</code></pre>
+<pre class="r"><code># Now the column &quot;model&quot; in the by_country tibble contains all of the linear models we just fit!
 by_country</code></pre>
 <pre><code>## # A tibble: 142 x 4
 ## # Groups:   country, continent [710]
@@ -1196,9 +1201,9 @@ by_country</code></pre>
 <pre class="r"><code>by_country &lt;- by_country %&gt;% 
   mutate(
     resids = map2(data, model, add_residuals)
-  )
-
-# Let&#39;s unnest the residuals:
+  )</code></pre>
+<pre><code>## mutate (grouped): new variable &#39;resids&#39; with 142 unique values and 0% NA</code></pre>
+<pre class="r"><code># Let&#39;s unnest the residuals:
 resids &lt;- unnest(by_country, resids)
 
 # Plot the residuals:
@@ -1263,22 +1268,12 @@ colnames(USArrests)</code></pre>
 <pre><code>## [1] &quot;Murder&quot;   &quot;Assault&quot;  &quot;UrbanPop&quot; &quot;Rape&quot;</code></pre>
 <pre class="r"><code># Display means of each row
 USArrests %&gt;% summarize_all(funs(mean))</code></pre>
-<pre><code>## Warning: funs() is soft deprecated as of dplyr 0.8.0
-## Please use a list of either functions or lambdas: 
-## 
-##   # Simple named list: 
-##   list(mean = mean, median = median)
-## 
-##   # Auto named with `tibble::lst()`: 
-##   tibble::lst(mean, median)
-## 
-##   # Using lambdas
-##   list(~ mean(., trim = .2), ~ median(., na.rm = TRUE))
-## This warning is displayed once per session.</code></pre>
+<pre><code>## summarize_all: now one row and 4 columns, ungrouped</code></pre>
 <pre><code>##   Murder Assault UrbanPop   Rape
 ## 1  7.788  170.76    65.54 21.232</code></pre>
 <pre class="r"><code># Display means and variances of each row
 USArrests %&gt;% summarize_all(.funs = c(Mean = mean, Variance = var))</code></pre>
+<pre><code>## summarize_all: now one row and 8 columns, ungrouped</code></pre>
 <pre><code>##   Murder_Mean Assault_Mean UrbanPop_Mean Rape_Mean Murder_Variance
 ## 1       7.788       170.76         65.54    21.232        18.97047
 ##   Assault_Variance UrbanPop_Variance Rape_Variance
@@ -1386,9 +1381,12 @@ ggplot(data = df, aes(x = PCA, y = VarianceProportion)) +
     scale_y_continuous(limits = c(0, 1))</code></pre>
 <p><img src="STA314_files/figure-html/plots-4.png" width="672" /></p>
 <pre class="r"><code># standardize all the variables
-USArrests_std &lt;- USArrests %&gt;% mutate_all(.funs = (scale))
-
-varcov_matrix &lt;- cor(USArrests_std)
+USArrests_std &lt;- USArrests %&gt;% mutate_all(.funs = (scale))</code></pre>
+<pre><code>## mutate_all: changed 50 values (100%) of &#39;Murder&#39; (0 new NA)</code></pre>
+<pre><code>##             converted &#39;Assault&#39; from integer to double (0 new NA)</code></pre>
+<pre><code>##             converted &#39;UrbanPop&#39; from integer to double (0 new NA)</code></pre>
+<pre><code>##             changed 50 values (100%) of &#39;Rape&#39; (0 new NA)</code></pre>
+<pre class="r"><code>varcov_matrix &lt;- cor(USArrests_std)
 varcov_matrix</code></pre>
 <pre><code>##              Murder   Assault   UrbanPop      Rape
 ## Murder   1.00000000 0.8018733 0.06957262 0.5635788
@@ -1547,6 +1545,8 @@ unique(nci$labels)</code></pre>
 ## [11] &quot;K562A-repro&quot; &quot;COLON&quot;       &quot;MCF7A-repro&quot; &quot;MCF7D-repro&quot;</code></pre>
 <pre class="r"><code># Let&#39;s see how many of each label:
 nci %&gt;% group_by(labels) %&gt;% summarize(n())</code></pre>
+<pre><code>## group_by: one grouping variable (labels)</code></pre>
+<pre><code>## summarize: now 14 rows and 2 columns, ungrouped</code></pre>
 <pre><code>## # A tibble: 14 x 2
 ##    labels      `n()`
 ##    &lt;chr&gt;       &lt;int&gt;
@@ -1802,14 +1802,14 @@ df &lt;- as.tibble(Smarket) %&gt;% dplyr::select(-Today)
 glimpse(df)</code></pre>
 <pre><code>## Observations: 1,250
 ## Variables: 8
-## $ Year      &lt;dbl&gt; 2001, 2001, 2001, 2001, 2001, 2001, 2001, 2001, 2001, …
-## $ Lag1      &lt;dbl&gt; 0.381, 0.959, 1.032, -0.623, 0.614, 0.213, 1.392, -0.4…
-## $ Lag2      &lt;dbl&gt; -0.192, 0.381, 0.959, 1.032, -0.623, 0.614, 0.213, 1.3…
-## $ Lag3      &lt;dbl&gt; -2.624, -0.192, 0.381, 0.959, 1.032, -0.623, 0.614, 0.…
-## $ Lag4      &lt;dbl&gt; -1.055, -2.624, -0.192, 0.381, 0.959, 1.032, -0.623, 0…
-## $ Lag5      &lt;dbl&gt; 5.010, -1.055, -2.624, -0.192, 0.381, 0.959, 1.032, -0…
-## $ Volume    &lt;dbl&gt; 1.1913, 1.2965, 1.4112, 1.2760, 1.2057, 1.3491, 1.4450…
-## $ Direction &lt;fct&gt; Up, Up, Down, Up, Up, Up, Down, Up, Up, Up, Down, Down…</code></pre>
+## $ Year      &lt;dbl&gt; 2001, 2001, 2001, 2001, 2001, 2001, 2001, 2001, 2001, 2001,…
+## $ Lag1      &lt;dbl&gt; 0.381, 0.959, 1.032, -0.623, 0.614, 0.213, 1.392, -0.403, 0…
+## $ Lag2      &lt;dbl&gt; -0.192, 0.381, 0.959, 1.032, -0.623, 0.614, 0.213, 1.392, -…
+## $ Lag3      &lt;dbl&gt; -2.624, -0.192, 0.381, 0.959, 1.032, -0.623, 0.614, 0.213, …
+## $ Lag4      &lt;dbl&gt; -1.055, -2.624, -0.192, 0.381, 0.959, 1.032, -0.623, 0.614,…
+## $ Lag5      &lt;dbl&gt; 5.010, -1.055, -2.624, -0.192, 0.381, 0.959, 1.032, -0.623,…
+## $ Volume    &lt;dbl&gt; 1.1913, 1.2965, 1.4112, 1.2760, 1.2057, 1.3491, 1.4450, 1.4…
+## $ Direction &lt;fct&gt; Up, Up, Down, Up, Up, Up, Down, Up, Up, Up, Down, Down, Up,…</code></pre>
 <pre class="r"><code>## There is a problem with summarytools on the current R version
 # dfSummary(df)
 
@@ -1848,10 +1848,10 @@ summary(glm.fit)</code></pre>
 ## Number of Fisher Scoring iterations: 3</code></pre>
 <pre class="r"><code># Look at coefficients
 coef(glm.fit)</code></pre>
-<pre><code>##  (Intercept)         Lag1         Lag2         Lag3         Lag4 
-## -0.126000257 -0.073073746 -0.042301344  0.011085108  0.009358938 
-##         Lag5       Volume 
-##  0.010313068  0.135440659</code></pre>
+<pre><code>##  (Intercept)         Lag1         Lag2         Lag3         Lag4         Lag5 
+## -0.126000257 -0.073073746 -0.042301344  0.011085108  0.009358938  0.010313068 
+##       Volume 
+##  0.135440659</code></pre>
 <pre class="r"><code>summary(glm.fit)$coef #Equivalent</code></pre>
 <pre><code>##                 Estimate Std. Error    z value  Pr(&gt;|z|)
 ## (Intercept) -0.126000257 0.24073574 -0.5233966 0.6006983
@@ -1871,10 +1871,10 @@ contrasts(df$Direction)</code></pre>
 ## Up    1</code></pre>
 <pre class="r"><code># Look at the first few probabilities
 glm.probs[1:10]</code></pre>
-<pre><code>##         1         2         3         4         5         6         7 
-## 0.5070841 0.4814679 0.4811388 0.5152224 0.5107812 0.5069565 0.4926509 
-##         8         9        10 
-## 0.5092292 0.5176135 0.4888378</code></pre>
+<pre><code>##         1         2         3         4         5         6         7         8 
+## 0.5070841 0.4814679 0.4811388 0.5152224 0.5107812 0.5069565 0.4926509 0.5092292 
+##         9        10 
+## 0.5176135 0.4888378</code></pre>
 <p>Looks really bad! Probabilies are all very close to 50% so our model is not very certain of either of the classes. We will take the threshold of 50% and see our accuracy based on that.</p>
 <pre class="r"><code># Initialize the vector of predictions
 preds &lt;- rep(&quot;Down&quot;, 1250)
@@ -1894,13 +1894,16 @@ mean(preds == df$Direction )</code></pre>
 <p>We get an accuracy of 52% on the training set, this is only a bit better than a monkey throwing darts. But we have made a very significant error in practice: We are looking at the error on the data the model was trained on, so in reality we don’t know how well it will generalize. Let’s fix this.</p>
 <p>In a classification problem we should make sure that both the training and the test set will have a similar proportion of classes as the actual problem. In case of imbalanced problems (where one class is much more prevalent in data than the other) we will be trying to up or down sample one of the classes so that the model is better at predictions, or we will be changing the loss function penalties for misclassifying classes.</p>
 <pre class="r"><code># Split the data
-df %&gt;% filter(Direction == &quot;Down&quot;) -&gt; down_data
-df %&gt;% filter(Direction == &quot;Up&quot;) -&gt; up_data
-
-# Sample 70% of both datasets and combine
-train_down &lt;- sample_frac(down_data, size = 0.7)
-train_up &lt;- sample_frac(up_data, size = 0.7)
-train = rbind(train_down, train_up)
+df %&gt;% filter(Direction == &quot;Down&quot;) -&gt; down_data</code></pre>
+<pre><code>## filter: removed 648 rows (52%), 602 rows remaining</code></pre>
+<pre class="r"><code>df %&gt;% filter(Direction == &quot;Up&quot;) -&gt; up_data</code></pre>
+<pre><code>## filter: removed 602 rows (48%), 648 rows remaining</code></pre>
+<pre class="r"><code># Sample 70% of both datasets and combine
+train_down &lt;- sample_frac(down_data, size = 0.7)</code></pre>
+<pre><code>## sample_frac: removed 181 rows (30%), 421 rows remaining</code></pre>
+<pre class="r"><code>train_up &lt;- sample_frac(up_data, size = 0.7)</code></pre>
+<pre><code>## sample_frac: removed 194 rows (30%), 454 rows remaining</code></pre>
+<pre class="r"><code>train = rbind(train_down, train_up)
 
 # Take the test set to be the other 30%
 test &lt;- setdiff(df, train)</code></pre>
@@ -2027,13 +2030,12 @@ plot(svcfit , df)</code></pre>
 <p><img src="STA314_files/figure-html/Prepare%20data%20and%20fit%20SVC-2.png" width="672" /></p>
 <p>The light blue side corresponds to the <span class="math inline">\(-1\)</span> class and the pink one is the <span class="math inline">\(1\)</span> class. The support vectors are plotted as crosses, and the rest as circles. In the plot we can see 27 support vectors. We can also identify them by looking at the index of the svm object. We would also like to see what is in the summary of said object.</p>
 <pre class="r"><code>svcfit$index</code></pre>
-<pre><code>##  [1]  1  2  5  6  7 10 12 14 17 19 21 22 24 26 27 29 30 31 35 37 38 39 40
-## [24] 42 45 47 50</code></pre>
+<pre><code>##  [1]  1  2  5  6  7 10 12 14 17 19 21 22 24 26 27 29 30 31 35 37 38 39 40 42 45
+## [26] 47 50</code></pre>
 <pre class="r"><code>summary(svcfit)</code></pre>
 <pre><code>## 
 ## Call:
-## svm(formula = y ~ ., data = df, kernel = &quot;linear&quot;, cost = 10, 
-##     scale = FALSE)
+## svm(formula = y ~ ., data = df, kernel = &quot;linear&quot;, cost = 10, scale = FALSE)
 ## 
 ## 
 ## Parameters:
@@ -2334,8 +2336,11 @@ ggplot(data = df, aes(x = Class)) +
 <p><img src="STA314_files/figure-html/xgboost%20setup-1.png" width="672" /></p>
 <pre class="r"><code># We see that the classes are imbalanced but that&#39;s fine.
 # I will try to create a new class feature to make it a binary classification
-df2 &lt;- df %&gt;% mutate(Hue_class = if_else(Hue &lt; 1, 0, 1)) %&gt;% dplyr::select(-Hue)
-df2 %&gt;% group_by(Hue_class) %&gt;% summarise(n = n())</code></pre>
+df2 &lt;- df %&gt;% mutate(Hue_class = if_else(Hue &lt; 1, 0, 1)) %&gt;% dplyr::select(-Hue)</code></pre>
+<pre><code>## mutate: new variable &#39;Hue_class&#39; with 2 unique values and 0% NA</code></pre>
+<pre class="r"><code>df2 %&gt;% group_by(Hue_class) %&gt;% summarise(n = n())</code></pre>
+<pre><code>## group_by: one grouping variable (Hue_class)</code></pre>
+<pre><code>## summarise: now 2 rows and 2 columns, ungrouped</code></pre>
 <pre><code>## # A tibble: 2 x 2
 ##   Hue_class     n
 ##       &lt;dbl&gt; &lt;int&gt;
@@ -2418,11 +2423,11 @@ roc &lt;- roc(response = df2[-indexes,]$Hue_class, predictions)</code></pre>
 <pre class="r"><code># This is not horrible!
 # Let&#39;s see what our trees actually look like:
 xgb.plot.tree(model = xgb_model, trees = 0)</code></pre>
-<div id="htmlwidget-0102c1e3aab5d339f492" style="width:672px;height:480px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-0102c1e3aab5d339f492">{"x":{"diagram":"digraph {\n\ngraph [layout = \"dot\",\n       rankdir = \"LR\"]\n\nnode [color = \"DimGray\",\n      style = \"filled\",\n      fontname = \"Helvetica\"]\n\nedge [color = \"DimGray\",\n     arrowsize = \"1.5\",\n     arrowhead = \"vee\",\n     fontname = \"Helvetica\"]\n\n  \"1\" [label = \"Tree 0\n`Malic Acid`\nCover: 31\nGain: 36.547699\", shape = \"rectangle\", fontcolor = \"black\", fillcolor = \"Beige\"] \n  \"2\" [label = \"Class\nCover: 18\nGain: 8.87819481\", shape = \"rectangle\", fontcolor = \"black\", fillcolor = \"Beige\"] \n  \"3\" [label = \"Proanthocyanins\nCover: 13\nGain: 4.34288025\", shape = \"rectangle\", fontcolor = \"black\", fillcolor = \"Beige\"] \n  \"4\" [label = \"Proanthocyanins\nCover: 16.5\nGain: 4.45054913\", shape = \"rectangle\", fontcolor = \"black\", fillcolor = \"Beige\"] \n  \"5\" [label = \"Leaf\nCover: 1.5\nValue: -0.120000005\", shape = \"oval\", fontcolor = \"black\", fillcolor = \"Khaki\"] \n  \"6\" [label = \"Alcohol\nCover: 10.75\nGain: 0.106136322\", shape = \"rectangle\", fontcolor = \"black\", fillcolor = \"Beige\"] \n  \"7\" [label = \"Ash\nCover: 2.25\nGain: 1.42307687\", shape = \"rectangle\", fontcolor = \"black\", fillcolor = \"Beige\"] \n  \"8\" [label = \"Leaf\nCover: 12\nValue: 0.115384616\", shape = \"oval\", fontcolor = \"black\", fillcolor = \"Khaki\"] \n  \"9\" [label = \"Leaf\nCover: 4.5\nValue: 0\", shape = \"oval\", fontcolor = \"black\", fillcolor = \"Khaki\"] \n  \"10\" [label = \"Leaf\nCover: 1\nValue: -0.0500000007\", shape = \"oval\", fontcolor = \"black\", fillcolor = \"Khaki\"] \n  \"11\" [label = \"Leaf\nCover: 9.75\nValue: -0.181395352\", shape = \"oval\", fontcolor = \"black\", fillcolor = \"Khaki\"] \n  \"12\" [label = \"Leaf\nCover: 1.25\nValue: -0.0666666701\", shape = \"oval\", fontcolor = \"black\", fillcolor = \"Khaki\"] \n  \"13\" [label = \"Leaf\nCover: 1\nValue: 0.0500000007\", shape = \"oval\", fontcolor = \"black\", fillcolor = \"Khaki\"] \n\"1\"->\"2\" [label = \"< 2.2750001\", style = \"bold\"] \n\"2\"->\"4\" [label = \"< 2.5\", style = \"bold\"] \n\"3\"->\"6\" [label = \"< 1.7650001\", style = \"bold\"] \n\"4\"->\"8\" [label = \"< 2.01999998\", style = \"bold\"] \n\"6\"->\"10\" [label = \"< 12.2250004\", style = \"bold\"] \n\"7\"->\"12\" [label = \"< 2.33500004\", style = \"bold\"] \n\"1\"->\"3\" [style = \"bold\", style = \"solid\"] \n\"2\"->\"5\" [style = \"solid\", style = \"solid\"] \n\"3\"->\"7\" [style = \"solid\", style = \"solid\"] \n\"4\"->\"9\" [style = \"solid\", style = \"solid\"] \n\"6\"->\"11\" [style = \"solid\", style = \"solid\"] \n\"7\"->\"13\" [style = \"solid\", style = \"solid\"] \n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-a83e68cd4fe2d38807be" style="width:672px;height:480px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-a83e68cd4fe2d38807be">{"x":{"diagram":"digraph {\n\ngraph [layout = \"dot\",\n       rankdir = \"LR\"]\n\nnode [color = \"DimGray\",\n      style = \"filled\",\n      fontname = \"Helvetica\"]\n\nedge [color = \"DimGray\",\n     arrowsize = \"1.5\",\n     arrowhead = \"vee\",\n     fontname = \"Helvetica\"]\n\n  \"1\" [label = \"Tree 0\n`Malic Acid`\nCover: 31\nGain: 36.547699\", shape = \"rectangle\", fontcolor = \"black\", fillcolor = \"Beige\"] \n  \"2\" [label = \"Class\nCover: 18\nGain: 8.87819481\", shape = \"rectangle\", fontcolor = \"black\", fillcolor = \"Beige\"] \n  \"3\" [label = \"Proanthocyanins\nCover: 13\nGain: 4.34288025\", shape = \"rectangle\", fontcolor = \"black\", fillcolor = \"Beige\"] \n  \"4\" [label = \"Proanthocyanins\nCover: 16.5\nGain: 4.45054913\", shape = \"rectangle\", fontcolor = \"black\", fillcolor = \"Beige\"] \n  \"5\" [label = \"Leaf\nCover: 1.5\nValue: -0.120000005\", shape = \"oval\", fontcolor = \"black\", fillcolor = \"Khaki\"] \n  \"6\" [label = \"Alcohol\nCover: 10.75\nGain: 0.106136322\", shape = \"rectangle\", fontcolor = \"black\", fillcolor = \"Beige\"] \n  \"7\" [label = \"Ash\nCover: 2.25\nGain: 1.42307687\", shape = \"rectangle\", fontcolor = \"black\", fillcolor = \"Beige\"] \n  \"8\" [label = \"Leaf\nCover: 12\nValue: 0.115384616\", shape = \"oval\", fontcolor = \"black\", fillcolor = \"Khaki\"] \n  \"9\" [label = \"Leaf\nCover: 4.5\nValue: 0\", shape = \"oval\", fontcolor = \"black\", fillcolor = \"Khaki\"] \n  \"10\" [label = \"Leaf\nCover: 1\nValue: -0.0500000007\", shape = \"oval\", fontcolor = \"black\", fillcolor = \"Khaki\"] \n  \"11\" [label = \"Leaf\nCover: 9.75\nValue: -0.181395352\", shape = \"oval\", fontcolor = \"black\", fillcolor = \"Khaki\"] \n  \"12\" [label = \"Leaf\nCover: 1.25\nValue: -0.0666666701\", shape = \"oval\", fontcolor = \"black\", fillcolor = \"Khaki\"] \n  \"13\" [label = \"Leaf\nCover: 1\nValue: 0.0500000007\", shape = \"oval\", fontcolor = \"black\", fillcolor = \"Khaki\"] \n\"1\"->\"2\" [label = \"< 2.2750001\", style = \"bold\"] \n\"2\"->\"4\" [label = \"< 2.5\", style = \"bold\"] \n\"3\"->\"6\" [label = \"< 1.7650001\", style = \"bold\"] \n\"4\"->\"8\" [label = \"< 2.01999998\", style = \"bold\"] \n\"6\"->\"10\" [label = \"< 12.2250004\", style = \"bold\"] \n\"7\"->\"12\" [label = \"< 2.33500004\", style = \"bold\"] \n\"1\"->\"3\" [style = \"bold\", style = \"solid\"] \n\"2\"->\"5\" [style = \"solid\", style = \"solid\"] \n\"3\"->\"7\" [style = \"solid\", style = \"solid\"] \n\"4\"->\"9\" [style = \"solid\", style = \"solid\"] \n\"6\"->\"11\" [style = \"solid\", style = \"solid\"] \n\"7\"->\"13\" [style = \"solid\", style = \"solid\"] \n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 <pre class="r"><code>xgb.plot.tree(model = xgb_model, trees = 1)</code></pre>
-<div id="htmlwidget-25f45fbfe85b8687cd97" style="width:672px;height:480px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-25f45fbfe85b8687cd97">{"x":{"diagram":"digraph {\n\ngraph [layout = \"dot\",\n       rankdir = \"LR\"]\n\nnode [color = \"DimGray\",\n      style = \"filled\",\n      fontname = \"Helvetica\"]\n\nedge [color = \"DimGray\",\n     arrowsize = \"1.5\",\n     arrowhead = \"vee\",\n     fontname = \"Helvetica\"]\n\n  \"1\" [label = \"Tree 1\nClass\nCover: 30.8723564\nGain: 30.616312\", shape = \"rectangle\", fontcolor = \"black\", fillcolor = \"Beige\"] \n  \"2\" [label = \"`Malic Acid`\nCover: 21.439537\nGain: 12.7372866\", shape = \"rectangle\", fontcolor = \"black\", fillcolor = \"Beige\"] \n  \"3\" [label = \"Leaf\nCover: 9.43282127\nValue: -0.167110249\", shape = \"oval\", fontcolor = \"black\", fillcolor = \"Khaki\"] \n  \"4\" [label = \"Proline\nCover: 17.7054672\nGain: 3.92671585\", shape = \"rectangle\", fontcolor = \"black\", fillcolor = \"Beige\"] \n  \"5\" [label = \"Ash\nCover: 3.73406935\nGain: 0.955885887\", shape = \"rectangle\", fontcolor = \"black\", fillcolor = \"Beige\"] \n  \"6\" [label = \"Leaf\nCover: 2.49065018\nValue: -0.0305322744\", shape = \"oval\", fontcolor = \"black\", fillcolor = \"Khaki\"] \n  \"7\" [label = \"Leaf\nCover: 15.214817\nValue: 0.0942952633\", shape = \"oval\", fontcolor = \"black\", fillcolor = \"Khaki\"] \n  \"8\" [label = \"Leaf\nCover: 2.49051762\nValue: -0.136272669\", shape = \"oval\", fontcolor = \"black\", fillcolor = \"Khaki\"] \n  \"9\" [label = \"Leaf\nCover: 1.24355185\nValue: -0.0173528474\", shape = \"oval\", fontcolor = \"black\", fillcolor = \"Khaki\"] \n\"1\"->\"2\" [label = \"< 2.5\", style = \"bold\"] \n\"2\"->\"4\" [label = \"< 2.86000013\", style = \"bold\"] \n\"4\"->\"6\" [label = \"< 417.5\", style = \"bold\"] \n\"5\"->\"8\" [label = \"< 2.39499998\", style = \"bold\"] \n\"1\"->\"3\" [style = \"bold\", style = \"solid\"] \n\"2\"->\"5\" [style = \"solid\", style = \"solid\"] \n\"4\"->\"7\" [style = \"solid\", style = \"solid\"] \n\"5\"->\"9\" [style = \"solid\", style = \"solid\"] \n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-4551c2da4544e6458ebb" style="width:672px;height:480px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-4551c2da4544e6458ebb">{"x":{"diagram":"digraph {\n\ngraph [layout = \"dot\",\n       rankdir = \"LR\"]\n\nnode [color = \"DimGray\",\n      style = \"filled\",\n      fontname = \"Helvetica\"]\n\nedge [color = \"DimGray\",\n     arrowsize = \"1.5\",\n     arrowhead = \"vee\",\n     fontname = \"Helvetica\"]\n\n  \"1\" [label = \"Tree 1\nClass\nCover: 30.8723564\nGain: 30.616312\", shape = \"rectangle\", fontcolor = \"black\", fillcolor = \"Beige\"] \n  \"2\" [label = \"`Malic Acid`\nCover: 21.439537\nGain: 12.7372866\", shape = \"rectangle\", fontcolor = \"black\", fillcolor = \"Beige\"] \n  \"3\" [label = \"Leaf\nCover: 9.43282127\nValue: -0.167110249\", shape = \"oval\", fontcolor = \"black\", fillcolor = \"Khaki\"] \n  \"4\" [label = \"Proline\nCover: 17.7054672\nGain: 3.92671585\", shape = \"rectangle\", fontcolor = \"black\", fillcolor = \"Beige\"] \n  \"5\" [label = \"Ash\nCover: 3.73406935\nGain: 0.955885887\", shape = \"rectangle\", fontcolor = \"black\", fillcolor = \"Beige\"] \n  \"6\" [label = \"Leaf\nCover: 2.49065018\nValue: -0.0305322744\", shape = \"oval\", fontcolor = \"black\", fillcolor = \"Khaki\"] \n  \"7\" [label = \"Leaf\nCover: 15.214817\nValue: 0.0942952633\", shape = \"oval\", fontcolor = \"black\", fillcolor = \"Khaki\"] \n  \"8\" [label = \"Leaf\nCover: 2.49051762\nValue: -0.136272669\", shape = \"oval\", fontcolor = \"black\", fillcolor = \"Khaki\"] \n  \"9\" [label = \"Leaf\nCover: 1.24355185\nValue: -0.0173528474\", shape = \"oval\", fontcolor = \"black\", fillcolor = \"Khaki\"] \n\"1\"->\"2\" [label = \"< 2.5\", style = \"bold\"] \n\"2\"->\"4\" [label = \"< 2.86000013\", style = \"bold\"] \n\"4\"->\"6\" [label = \"< 417.5\", style = \"bold\"] \n\"5\"->\"8\" [label = \"< 2.39499998\", style = \"bold\"] \n\"1\"->\"3\" [style = \"bold\", style = \"solid\"] \n\"2\"->\"5\" [style = \"solid\", style = \"solid\"] \n\"4\"->\"7\" [style = \"solid\", style = \"solid\"] \n\"5\"->\"9\" [style = \"solid\", style = \"solid\"] \n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 </div>

@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
@@ -90,7 +89,6 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -239,6 +237,7 @@ $(document).ready(function () {
   border: none;
   display: inline-block;
   border-radius: 4px;
+  background-color: transparent;
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
@@ -267,6 +266,12 @@ $(document).ready(function () {
 }
 }
 
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
 
 .toc-content {
   padding-left: 30px;
@@ -365,7 +370,7 @@ div.tocify {
       <a href="STA130W20.html">
         <span class="fa fa-book"></span>
          
-        STA130 - Intro to Data Science Spring 2020
+        STA130 - Intro to Data Science Winter 2020
       </a>
     </li>
     <li>
@@ -583,6 +588,9 @@ datasaurus_dozen %&gt;%
     ) %&gt;%
     mutate(ID = 1:13) %&gt;%
     dplyr::select(-dataset)</code></pre>
+<pre><code>## group_by: one grouping variable (dataset)</code></pre>
+<pre><code>## summarize: now 13 rows and 6 columns, ungrouped</code></pre>
+<pre><code>## mutate: new variable &#39;ID&#39; with 13 unique values and 0% NA</code></pre>
 <pre><code>## # A tibble: 13 x 6
 ##    mean_x mean_y std_dev_x std_dev_y corr_x_y    ID
 ##     &lt;dbl&gt;  &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;int&gt;
@@ -604,18 +612,18 @@ datasaurus_dozen %&gt;%
 <pre class="r"><code># Create nested datasets
 by_dataset &lt;- datasaurus_dozen %&gt;%
     group_by(dataset) %&gt;%
-    nest()
-
-# Write the simple linear regression function we care about.
+    nest()</code></pre>
+<pre><code>## group_by: one grouping variable (dataset)</code></pre>
+<pre class="r"><code># Write the simple linear regression function we care about.
 slr &lt;- function(df) {
     lm(y ~ x, data = df)
 }
 
 # Use the function on all the nested datasets using the map function.
 by_dataset &lt;- by_dataset %&gt;%
-    mutate(model = map(data, slr))
-
-# Let&#39;s look at model coefficients (This is the intercept of the line and the slope)
+    mutate(model = map(data, slr))</code></pre>
+<pre><code>## mutate (grouped): new variable &#39;model&#39; with 13 unique values and 0% NA</code></pre>
+<pre class="r"><code># Let&#39;s look at model coefficients (This is the intercept of the line and the slope)
 # y = Intercept + Slope * x
 for (model in by_dataset$model) {
     print(model$coefficients)
@@ -776,9 +784,11 @@ ggplot(data = new_pvals) +
 <pre class="r"><code>p_vals_summary &lt;- new_pvals %&gt;% group_by(degrees) %&gt;%
     summarize(reject_prob = mean(p_values &lt; 0.05)) %&gt;%
     mutate(degrees = as.integer(degrees)) %&gt;%
-    arrange(degrees)
-
-print(p_vals_summary)</code></pre>
+    arrange(degrees)</code></pre>
+<pre><code>## group_by: one grouping variable (degrees)</code></pre>
+<pre><code>## summarize: now 10 rows and 2 columns, ungrouped</code></pre>
+<pre><code>## mutate: converted &#39;degrees&#39; from character to integer (0 new NA)</code></pre>
+<pre class="r"><code>print(p_vals_summary)</code></pre>
 <pre><code>## # A tibble: 10 x 2
 ##    degrees reject_prob
 ##      &lt;int&gt;       &lt;dbl&gt;
@@ -861,6 +871,8 @@ return(list(plot = plot, real_id = real_id))
 }
 
 prepare_grid(my_data)</code></pre>
+<pre><code>## mutate: converted &#39;ID&#39; from double to factor (0 new NA)</code></pre>
+<pre><code>##         new variable &#39;ID2&#39; with 9 unique values and 0% NA</code></pre>
 <pre><code>## $plot</code></pre>
 <p><img src="STA220_files/figure-html/QQplot%20solution-1.png" width="576" /></p>
 <pre><code>## 
@@ -869,24 +881,32 @@ prepare_grid(my_data)</code></pre>
 <p>As the title suggests I randomly arrange our data in a grid with 8 random normals. The trick is - if I can tell which one is my data from the plot, then it’s probably not normal. Feel free to use this function as you please, all I ask from you is that you give me credit for writing it, when using it.</p>
 <p>Now let’s use old simulated data that is not normal and see if you are able to tell where it is in the grid. (Feel free to play around on your own)</p>
 <pre class="r"><code>prepare_grid(ex2)</code></pre>
+<pre><code>## mutate: converted &#39;ID&#39; from double to factor (0 new NA)</code></pre>
+<pre><code>##         new variable &#39;ID2&#39; with 9 unique values and 0% NA</code></pre>
 <pre><code>## $plot</code></pre>
 <p><img src="STA220_files/figure-html/Playing%20around%20with%20the%20new%20function-1.png" width="576" /></p>
 <pre><code>## 
 ## $real_id
 ## [1] 5</code></pre>
 <pre class="r"><code>prepare_grid(ex3)</code></pre>
+<pre><code>## mutate: converted &#39;ID&#39; from double to factor (0 new NA)
+##         new variable &#39;ID2&#39; with 9 unique values and 0% NA</code></pre>
 <pre><code>## $plot</code></pre>
 <p><img src="STA220_files/figure-html/Playing%20around%20with%20the%20new%20function-2.png" width="576" /></p>
 <pre><code>## 
 ## $real_id
 ## [1] 1</code></pre>
 <pre class="r"><code>prepare_grid(ex4)</code></pre>
+<pre><code>## mutate: converted &#39;ID&#39; from double to factor (0 new NA)
+##         new variable &#39;ID2&#39; with 9 unique values and 0% NA</code></pre>
 <pre><code>## $plot</code></pre>
 <p><img src="STA220_files/figure-html/Playing%20around%20with%20the%20new%20function-3.png" width="576" /></p>
 <pre><code>## 
 ## $real_id
 ## [1] 2</code></pre>
 <pre class="r"><code>prepare_grid(ex6)</code></pre>
+<pre><code>## mutate: converted &#39;ID&#39; from double to factor (0 new NA)
+##         new variable &#39;ID2&#39; with 9 unique values and 0% NA</code></pre>
 <pre><code>## $plot</code></pre>
 <p><img src="STA220_files/figure-html/Playing%20around%20with%20the%20new%20function-4.png" width="576" /></p>
 <pre><code>## 
@@ -942,8 +962,9 @@ distributions %&gt;% filter(heavy_tailed != min(heavy_tailed)) %&gt;%
     theme_minimal() +
     geom_qq() +
     geom_qq_line() +
-    labs(title = &quot;Heavy Tailed Distribution&quot;) -&gt; ht
-ht</code></pre>
+    labs(title = &quot;Heavy Tailed Distribution&quot;) -&gt; ht</code></pre>
+<pre><code>## filter: removed one row (&lt;1%), 999 rows remaining</code></pre>
+<pre class="r"><code>ht</code></pre>
 <p><img src="STA220_files/figure-html/QQplots%20intuition%20-%20Heavy%20Tail%20QQ%20minus%20extreme-1.png" width="576" /></p>
 <p>With the point removed, the scaling of the plot changes and we can see that both the right and the left tails are quite far off the line. (And we should keep in mind that we have an extreme observation with a very negative value)</p>
 <p>Again the interpretation would go along these lines:</p>
@@ -961,8 +982,9 @@ distributions %&gt;% filter(heavy_tailed != min(heavy_tailed)) %&gt;%
     geom_histogram(bins = 100, fill = &quot;white&quot;, color = &quot;black&quot;) +
     labs(title = &quot;Heavy Tailed Distribution&quot;) +
     geom_vline(xintercept = mean(distributions$heavy_tailed), size = 0.5, color = &quot;red&quot;) +
-    geom_vline(xintercept = median(distributions$heavy_tailed), size = 0.5, color = &quot;blue&quot;) -&gt; ht
-ht</code></pre>
+    geom_vline(xintercept = median(distributions$heavy_tailed), size = 0.5, color = &quot;blue&quot;) -&gt; ht</code></pre>
+<pre><code>## filter: removed one row (&lt;1%), 999 rows remaining</code></pre>
+<pre class="r"><code>ht</code></pre>
 <p><img src="STA220_files/figure-html/QQplots%20intuition%20-%20Heavy%20Tailed%20Hist-1.png" width="576" /></p>
 <p>We can see that even with the extreme negative observation removed the scale of the histogram is so wide that it looks like one peak on a bad scale. Let’s see a less extreme example of a heavy tailed distribution:</p>
 <pre class="r"><code># ggplot qqplot
