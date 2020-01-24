@@ -893,17 +893,71 @@ rain_df %&gt;% filter(city_name == &quot;Sydney&quot;) %&gt;%
 <div id="vocab" class="section level2">
 <h2>Vocab</h2>
 <p>Cleaning data</p>
+<pre class="r"><code>df &lt;- as_tibble(oly12) 
+df &lt;- df %&gt;% janitor::clean_names()
+# janitor::row_as_names()</code></pre>
 <p>Tidy data</p>
 <p>Removing a column</p>
+<pre class="r"><code>names(df)</code></pre>
+<pre><code>##  [1] &quot;name&quot;     &quot;country&quot;  &quot;age&quot;      &quot;height&quot;   &quot;weight&quot;   &quot;sex&quot;     
+##  [7] &quot;dob&quot;      &quot;place_ob&quot; &quot;gold&quot;     &quot;silver&quot;   &quot;bronze&quot;   &quot;total&quot;   
+## [13] &quot;sport&quot;    &quot;event&quot;</code></pre>
+<pre class="r"><code>df &lt;- df %&gt;% select(-dob)</code></pre>
+<pre><code>## select: dropped one variable (dob)</code></pre>
+<pre class="r"><code>names(df)</code></pre>
+<pre><code>##  [1] &quot;name&quot;     &quot;country&quot;  &quot;age&quot;      &quot;height&quot;   &quot;weight&quot;   &quot;sex&quot;     
+##  [7] &quot;place_ob&quot; &quot;gold&quot;     &quot;silver&quot;   &quot;bronze&quot;   &quot;total&quot;    &quot;sport&quot;   
+## [13] &quot;event&quot;</code></pre>
 <p>Extracting a subset of variables</p>
+<pre class="r"><code>names(df)</code></pre>
+<pre><code>##  [1] &quot;name&quot;     &quot;country&quot;  &quot;age&quot;      &quot;height&quot;   &quot;weight&quot;   &quot;sex&quot;     
+##  [7] &quot;place_ob&quot; &quot;gold&quot;     &quot;silver&quot;   &quot;bronze&quot;   &quot;total&quot;    &quot;sport&quot;   
+## [13] &quot;event&quot;</code></pre>
+<pre class="r"><code>df_subset &lt;- df %&gt;% select(name, age, height, weight)</code></pre>
+<pre><code>## select: dropped 9 variables (country, sex, place_ob, gold, silver, …)</code></pre>
+<pre class="r"><code>names(df_subset)</code></pre>
+<pre><code>## [1] &quot;name&quot;   &quot;age&quot;    &quot;height&quot; &quot;weight&quot;</code></pre>
 <p>Filtering the data frame based on a condition (e.g. based on the values in one or more of the variables/columns)</p>
+<pre class="r"><code>df_filtered &lt;- df %&gt;% filter(height &gt; 1.6)</code></pre>
+<pre><code>## filter: removed 1,251 rows (12%), 9,133 rows remaining</code></pre>
+<pre class="r"><code># Some vector of names 
+names &lt;- c(&quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;)
+
+df_filtered &lt;- df %&gt;% filter(name %in% names)</code></pre>
+<pre><code>## filter: removed all rows (100%)</code></pre>
 <p>Sorting data based on the values of a variable</p>
+<pre class="r"><code># ascending
+df_sorted &lt;- df %&gt;% arrange(age)
+# descending
+df_sorted &lt;- df %&gt;% arrange(-age)</code></pre>
 <p>Renaming the variables</p>
-<p>Grouping categories</p>
+<pre class="r"><code>names(df)</code></pre>
+<pre><code>##  [1] &quot;name&quot;     &quot;country&quot;  &quot;age&quot;      &quot;height&quot;   &quot;weight&quot;   &quot;sex&quot;     
+##  [7] &quot;place_ob&quot; &quot;gold&quot;     &quot;silver&quot;   &quot;bronze&quot;   &quot;total&quot;    &quot;sport&quot;   
+## [13] &quot;event&quot;</code></pre>
+<pre class="r"><code>df &lt;- df %&gt;% rename(place_of_birth = place_ob)</code></pre>
+<pre><code>## rename: renamed one variable (place_of_birth)</code></pre>
+<pre class="r"><code>names(df)</code></pre>
+<pre><code>##  [1] &quot;name&quot;           &quot;country&quot;        &quot;age&quot;            &quot;height&quot;        
+##  [5] &quot;weight&quot;         &quot;sex&quot;            &quot;place_of_birth&quot; &quot;gold&quot;          
+##  [9] &quot;silver&quot;         &quot;bronze&quot;         &quot;total&quot;          &quot;sport&quot;         
+## [13] &quot;event&quot;</code></pre>
 <p>Defining new variables</p>
+<pre class="r"><code>df &lt;- df %&gt;% mutate(bmi = weight / height^2)</code></pre>
+<pre><code>## mutate: new variable &#39;bmi&#39; with 1,903 unique values and 13% NA</code></pre>
 <p>Producing new data frames</p>
+<pre class="r"><code># df_new &lt;- function(df_old)</code></pre>
 <p>Handling missing values (NAs)</p>
+<pre class="r"><code>df &lt;- df %&gt;% filter(!is.na(bmi))</code></pre>
+<pre><code>## filter: removed 1,346 rows (13%), 9,038 rows remaining</code></pre>
+<p>Grouping categories</p>
+<pre class="r"><code>df &lt;- df %&gt;% group_by(sport)</code></pre>
+<pre><code>## group_by: one grouping variable (sport)</code></pre>
 <p>Creating summary tables</p>
+<pre class="r"><code># Passing an already grouped tibble!
+df_summary &lt;- df %&gt;% summarize(mean_bmi = mean(bmi),
+                               n = n())</code></pre>
+<pre><code>## summarize: now 36 rows and 3 columns, ungrouped</code></pre>
 </div>
 <div id="discussion" class="section level2">
 <h2>Discussion</h2>
