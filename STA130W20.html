@@ -14,8 +14,8 @@
 
 <title>STA130 Spring 2020 - T0206</title>
 
+<script src="site_libs/header-attrs-2.1/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
-<script src="site_libs/elevate-section-attrs-2.0/elevate-section-attrs.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
@@ -575,12 +575,12 @@ set.seed(1337)</code></pre>
 <h2>Attendance</h2>
 <p>Attendance is important - not only do you get marks for showing up on time (and only if you show up on time). People who come to tutorials tend to do better on the midterm and poster presentations.</p>
 <pre class="r"><code>attendance_df %&gt;% ggplot(aes(x = attendance, y = midterm_marks)) +
-  geom_point() +
-  theme_minimal() +
-  geom_smooth(method = &quot;lm&quot;) +
-  scale_x_continuous(name = &quot;Attendance(%)&quot;) +
-  scale_y_continuous(name = &quot;Midterm Mark(%)&quot;) +
-  labs(title = &quot;Attendance and Midterm marks&quot;)</code></pre>
+    geom_point() +
+    theme_minimal() +
+    geom_smooth(method = &quot;lm&quot;) +
+    scale_x_continuous(name = &quot;Attendance(%)&quot;) +
+    scale_y_continuous(name = &quot;Midterm Mark(%)&quot;) +
+    labs(title = &quot;Attendance and Midterm marks&quot;)</code></pre>
 <p><img src="STA130W20_files/figure-html/Attendance%20Plot-1.png" width="384" /></p>
 </div>
 <div id="expectations" class="section level2">
@@ -779,10 +779,10 @@ df &lt;- as_tibble(oly12)
 
 # Make a boxplot:
 df %&gt;%
-  ggplot(aes(x = Sport, y = Age)) +
-  geom_boxplot() +
-  coord_flip() +
-  theme_minimal()</code></pre>
+    ggplot(aes(x = Sport, y = Age)) +
+    geom_boxplot() +
+    coord_flip() +
+    theme_minimal()</code></pre>
 <p><img src="STA130W20_files/figure-html/How%20to%20make%20boxplot-1.png" width="576" /></p>
 <p>Limitations: Boxplots are nothing more than visualizations of a couple of numbers which means they do not give the full picture of your data. If you would like to know about a (better in my opinion) alternative - Violin plots, read the section at the end of this tutorial (THIS IS OPTIONAL)</p>
 </div>
@@ -799,12 +799,12 @@ df %&gt;%
 ##   decade = col_character()
 ## )</code></pre>
 <pre class="r"><code>ggplot(data = temp_df, aes(x = temperature)) +
-  geom_histogram(color = &quot;black&quot;, fill = &quot;gray&quot;, bins = 30) +
-  theme_minimal() -&gt; p1
+    geom_histogram(color = &quot;black&quot;, fill = &quot;gray&quot;, bins = 30) +
+    theme_minimal() -&gt; p1
 
 ggplot(data = temp_df, aes(x = &quot;&quot;, y = temperature)) +
-  geom_boxplot() +
-  theme_minimal() -&gt; p2
+    geom_boxplot() +
+    theme_minimal() -&gt; p2
 
 gridExtra::grid.arrange(p1, p2, ncol = 2)</code></pre>
 <p><img src="STA130W20_files/figure-html/Temperature-1.png" width="576" /></p>
@@ -812,8 +812,8 @@ gridExtra::grid.arrange(p1, p2, ncol = 2)</code></pre>
 <li>Based on your plot in Question 2d, can you determine if the same number of rainfall observations were recorded each decade? Why or why not?</li>
 </ol>
 <pre class="r"><code>ggplot(data = temp_df, aes(x = city_name, y = temperature)) +
-  geom_boxplot() +
-  theme_minimal()</code></pre>
+    geom_boxplot() +
+    theme_minimal()</code></pre>
 <p><img src="STA130W20_files/figure-html/Temp%20boxplots%20by%20city-1.png" width="576" /></p>
 <ol start="3" style="list-style-type: decimal">
 <li>Why might it be useful to provide a summary table? (You made one in Question 2h)</li>
@@ -826,12 +826,12 @@ gridExtra::grid.arrange(p1, p2, ncol = 2)</code></pre>
 ##   decade = col_character()
 ## )</code></pre>
 <pre class="r"><code>ggplot(data = rain_df, aes(x = rainfall)) +
-  geom_histogram(color = &quot;black&quot;, fill = &quot;gray&quot;, bins = 30) +
-  theme_minimal() -&gt; p1
+    geom_histogram(color = &quot;black&quot;, fill = &quot;gray&quot;, bins = 30) +
+    theme_minimal() -&gt; p1
 
 ggplot(data = rain_df, aes(x = &quot;&quot;, y = rainfall)) +
-  geom_boxplot() +
-  theme_minimal() -&gt; p2
+    geom_boxplot() +
+    theme_minimal() -&gt; p2
 
 gridExtra::grid.arrange(p1, p2, ncol = 2)</code></pre>
 <p><img src="STA130W20_files/figure-html/rain%20data-1.png" width="576" /></p>
@@ -856,28 +856,28 @@ gridExtra::grid.arrange(p1, p2, ncol = 2)</code></pre>
 <p>In addition to plotting just the summary of data which underlies the boxplots, violin plots provide an overview of how the data is spread along that axis. A side by side comparison of the two is below.</p>
 <pre class="r"><code># Boxplot
 rain_df %&gt;%
-  filter(city_name == &quot;Sydney&quot;) %&gt;%
-  ggplot(aes(x = city_name, y = rainfall)) +
-  geom_boxplot() +
-  theme_minimal() +
-  labs(title = &quot;Boxplot&quot;) -&gt; p1</code></pre>
+    filter(city_name == &quot;Sydney&quot;) %&gt;%
+    ggplot(aes(x = city_name, y = rainfall)) +
+    geom_boxplot() +
+    theme_minimal() +
+    labs(title = &quot;Boxplot&quot;) -&gt; p1</code></pre>
 <pre><code>## filter: removed 274 rows (71%), 110 rows remaining</code></pre>
 <pre class="r"><code>rain_df %&gt;%
-  filter(city_name == &quot;Sydney&quot;) %&gt;%
-  ggplot(aes(x = city_name, y = rainfall)) +
-  geom_violin() +
-  theme_minimal() +
-  labs(title = &quot;Violin Plot&quot;) -&gt; p2</code></pre>
+    filter(city_name == &quot;Sydney&quot;) %&gt;%
+    ggplot(aes(x = city_name, y = rainfall)) +
+    geom_violin() +
+    theme_minimal() +
+    labs(title = &quot;Violin Plot&quot;) -&gt; p2</code></pre>
 <pre><code>## filter: removed 274 rows (71%), 110 rows remaining</code></pre>
 <pre class="r"><code>gridExtra::grid.arrange(p1, p2, ncol = 2)</code></pre>
 <p><img src="STA130W20_files/figure-html/Violin%20vs%20Boxplot-1.png" width="576" /></p>
 <pre class="r"><code>rain_df %&gt;%
-  filter(city_name == &quot;Sydney&quot;) %&gt;%
-  ggplot(aes(x = city_name, y = rainfall)) +
-  geom_violin() +
-  geom_boxplot() +
-  theme_minimal() +
-  labs(title = &quot;Combined Plot&quot;)</code></pre>
+    filter(city_name == &quot;Sydney&quot;) %&gt;%
+    ggplot(aes(x = city_name, y = rainfall)) +
+    geom_violin() +
+    geom_boxplot() +
+    theme_minimal() +
+    labs(title = &quot;Combined Plot&quot;)</code></pre>
 <pre><code>## filter: removed 274 rows (71%), 110 rows remaining</code></pre>
 <p><img src="STA130W20_files/figure-html/Violin%20vs%20Boxplot-2.png" width="576" /></p>
 </div>
@@ -960,8 +960,8 @@ df_sorted &lt;- df %&gt;% arrange(-age)</code></pre>
 <p>Creating summary tables</p>
 <pre class="r"><code># Passing an already grouped tibble!
 df_summary &lt;- df %&gt;% summarize(
-  mean_bmi = mean(bmi),
-  n = n()
+    mean_bmi = mean(bmi),
+    n = n()
 )</code></pre>
 <pre><code>## summarize: now 36 rows and 3 columns, ungrouped</code></pre>
 </div>
@@ -1021,35 +1021,34 @@ df_summary &lt;- df %&gt;% summarize(
 <h2>Group Discussions</h2>
 <p>For Question 1, what would you expect to happen your p-value if you used 10 simulations versus 10,000 simulations? Explain.</p>
 <pre class="r"><code>run_simulation &lt;- function(repetitions) {
-  simulated_stats &lt;- rep(NA, repetitions)
-  n_observations &lt;- 500
-  test_stat &lt;- 63 / n_observations
+    simulated_stats &lt;- rep(NA, repetitions)
+    n_observations &lt;- 500
+    test_stat &lt;- 63 / n_observations
 
+    for (i in 1:repetitions)
+    {
+        new_sim &lt;-
+            sample(
+                c(&quot;Left&quot;, &quot;Right&quot;),
+                size = n_observations,
+                prob = c(0.1, 0.9),
+                replace = TRUE
+            )
+        sim_p &lt;- sum(new_sim == &quot;Left&quot;) / n_observations
+        simulated_stats[i] &lt;- sim_p
+    }
+    sim &lt;- tibble(prop_Left = simulated_stats)
 
-  for (i in 1:repetitions)
-  {
-    new_sim &lt;-
-      sample(
-        c(&quot;Left&quot;, &quot;Right&quot;),
-        size = n_observations,
-        prob = c(0.1, 0.9),
-        replace = TRUE
-      )
-    sim_p &lt;- sum(new_sim == &quot;Left&quot;) / n_observations
-    simulated_stats[i] &lt;- sim_p
-  }
-  sim &lt;- tibble(prop_Left = simulated_stats)
+    plot &lt;- ggplot(sim, aes(prop_Left)) +
+        geom_histogram(bins = max(floor(sqrt(repetitions)), 10)) +
+        geom_vline(xintercept = test_stat, color = &quot;red&quot;) +
+        geom_vline(xintercept = 0.1 - (test_stat - .1), color = &quot;red&quot;)
 
-  plot &lt;- ggplot(sim, aes(prop_Left)) +
-    geom_histogram(bins = max(floor(sqrt(repetitions)), 10)) +
-    geom_vline(xintercept = test_stat, color = &quot;red&quot;) +
-    geom_vline(xintercept = 0.1 - (test_stat - .1), color = &quot;red&quot;)
+    summary &lt;- sim %&gt;%
+        filter(prop_Left &gt;= test_stat | prop_Left &lt;= 0.1 - (test_stat - 0.1)) %&gt;%
+        summarise(p_value = n() / repetitions)
 
-  summary &lt;- sim %&gt;%
-    filter(prop_Left &gt;= test_stat | prop_Left &lt;= 0.1 - (test_stat - 0.1)) %&gt;%
-    summarise(p_value = n() / repetitions)
-
-  return(list(plot, summary))
+    return(list(plot, summary))
 }
 
 run_simulation(10000)</code></pre>
@@ -1104,32 +1103,29 @@ Show/hide
 <li><p>Limitations (optional, but good practice). E.g. sample size, study design issues, etc.</p></li>
 </ol>
 </div>
-<div id="rstudio-cloud-problems" class="section level2">
-<h2>RStudio Cloud problems</h2>
-</div>
 <div id="additional-resources-for-coding" class="section level2">
 <h2>Additional Resources for coding:</h2>
-<p>The best way to become familiar with how to write code in R is to practice and do some simple data analyses. If you would also like too see what the process from getting data to analysis looks like there is a weekly live coding session called Tidy Tuesdays done by David Robinson. They come out to about 90 minutes, and I think it would be very beneficial to you if you watched one an tried to follow along with some of the commands. An example can be found <a href="https://www.youtube.com/watch?v=AQzZNIyjyWM">here</a></p>
+<p>The best way to become familiar with how to write code in R is to practice and do some simple data analyses. If you would also like too see what the process from getting data to analysis looks like there is a weekly live coding session called Tidy Tuesdays done by David Robinson. They come out to about 90 minutes, and I think it would be very beneficial to you if you watched one and tried to follow along with some of the commands. An example can be found <a href="https://www.youtube.com/watch?v=AQzZNIyjyWM">here</a></p>
 </div>
 <div id="additional-resources---the-why-of-data-visualization" class="section level2">
 <h2>Additional Resources - the “Why” of data visualization</h2>
 <p>Let’s begin with a short exercise - I have loaded 13 new datasets into my memory. They are all simple and contain 142 observations each of 2 variables - x and y. I will begin by just looking at some data summaries that we typically look at in this class. Mean, standard deviation, and correlation of the two variables.</p>
 <pre class="r"><code>library(datasauRus)
 df &lt;- datasaurus_dozen %&gt;%
-  mutate(ID = as.integer(as_factor(dataset))) %&gt;%
-  dplyr::select(-dataset)</code></pre>
+    mutate(ID = as.integer(as_factor(dataset))) %&gt;%
+    dplyr::select(-dataset)</code></pre>
 <pre><code>## mutate: new variable &#39;ID&#39; with 13 unique values and 0% NA</code></pre>
 <pre class="r"><code>df %&gt;%
-  group_by(ID) %&gt;%
-  summarize(
-    mean_x = mean(x),
-    mean_y = mean(y),
-    std_dev_x = sd(x),
-    std_dev_y = sd(y),
-    corr_x_y = cor(x, y),
-    median_x = median(x),
-    median_y = median(y)
-  )</code></pre>
+    group_by(ID) %&gt;%
+    summarize(
+        mean_x = mean(x),
+        mean_y = mean(y),
+        std_dev_x = sd(x),
+        std_dev_y = sd(y),
+        corr_x_y = cor(x, y),
+        median_x = median(x),
+        median_y = median(y)
+    )</code></pre>
 <pre><code>## group_by: one grouping variable (ID)</code></pre>
 <pre><code>## summarize: now 13 rows and 8 columns, ungrouped</code></pre>
 <pre><code>## # A tibble: 13 x 8
@@ -1150,24 +1146,92 @@ df &lt;- datasaurus_dozen %&gt;%
 ## 13    13   54.3   47.8      16.8      26.9  -0.0666     64.6     46.3</code></pre>
 <p>As we can see, the numerical summaries are all pretty much the same - which means the datasets should be fairly similar, right? Let’s look at boxplots first:</p>
 <pre class="r"><code>ggplot(data = df, aes(y = y, colour = ID)) +
-  geom_boxplot() +
-  theme_light() +
-  theme(legend.position = &quot;none&quot;) +
-  facet_wrap(~ID, ncol = 4)</code></pre>
+    geom_boxplot() +
+    theme_light() +
+    theme(legend.position = &quot;none&quot;) +
+    facet_wrap(~ID, ncol = 4)</code></pre>
 <p><img src="STA130W20_files/figure-html/Datasaurus%20Boxplots-1.png" width="576" /></p>
 <pre class="r"><code>ggplot(data = df, aes(y = x, colour = ID)) +
-  geom_boxplot() +
-  theme_light() +
-  theme(legend.position = &quot;none&quot;) +
-  facet_wrap(~ID, ncol = 4)</code></pre>
+    geom_boxplot() +
+    theme_light() +
+    theme(legend.position = &quot;none&quot;) +
+    facet_wrap(~ID, ncol = 4)</code></pre>
 <p><img src="STA130W20_files/figure-html/Datasaurus%20Boxplots-2.png" width="576" /></p>
 <p>Most of them seem quite similar. Let’s see what our data actually looks like:</p>
 <pre class="r"><code>ggplot(datasaurus_dozen, aes(x = x, y = y, colour = dataset)) +
-  geom_point() +
-  theme_void() +
-  theme(legend.position = &quot;none&quot;) +
-  facet_wrap(~dataset, ncol = 4)</code></pre>
+    geom_point() +
+    theme_void() +
+    theme(legend.position = &quot;none&quot;) +
+    facet_wrap(~dataset, ncol = 4)</code></pre>
 <p><img src="STA130W20_files/figure-html/Datasaurus%20plots-1.png" width="576" /></p>
+</div>
+</div>
+<div id="tutorial-5" class="section level1">
+<h1>Tutorial 5</h1>
+<div id="agenda-3" class="section level2">
+<h2>Agenda:</h2>
+<ul>
+<li><p>Vocab</p></li>
+<li><p>Group Discussion</p></li>
+<li><p>Group Presentations</p></li>
+<li><p>Ticket Out the Door / Self Reflection</p></li>
+</ul>
+</div>
+<div id="vocab-1" class="section level2">
+<h2>Vocab</h2>
+<ul>
+<li><p>Type I error</p></li>
+<li><p>Type II error</p></li>
+<li><p>What are two-sample and one-sample tests?</p></li>
+</ul>
+<p>One sample test: I want to see if observations from a certain group are different from a known constant value. (one group -&gt; one sample)</p>
+<p>Two sample test: I want to see if observations from two different groups differ from eachother. (two groups -&gt; two samples)</p>
+<ul>
+<li>Approximate Permutation test</li>
+</ul>
+<p>Great resource (With LLAMAS!) <a href="https://www.jwilber.me/permutationtest/">here</a></p>
+<ul>
+<li>How to determine Type I and Type II errors?</li>
+</ul>
+<p>You can’t! That is why we are so obsessed with the idea of p-values and power in statistics. When conducting a study you will almost never know that you end up with a Type I or Type II error. We are only able to control the error rate by focusing on studies with low p-values and high power.</p>
+<ul>
+<li>How to calculate p-values - review</li>
+</ul>
+<p>We use simulations. All of the code you wrote that was about repetitions is just to get a p-value for the problem. In short:</p>
+<ol start="0" style="list-style-type: decimal">
+<li><p>You conducted a study and obtained some result.</p></li>
+<li><p>Take the distribution under the null hypothesis (e.g. probability of some event is 50%)</p></li>
+<li><p>Run a large number of simulations using that distribution</p></li>
+<li><p>See in what % of simulations you saw result as extreme or more than your observed test statistic.</p></li>
+</ol>
+<p>That is your approximate p-value. The more simulations you run, the closer it is to the actual p-value.</p>
+<p>Real-world example: Somebody is being convicted of murder.</p>
+<p><span class="math inline">\(H_0\)</span> ? <span class="math inline">\(H_a\)</span> ? Type I error? Type II error?</p>
+</div>
+<div id="group-discussions-1" class="section level2">
+<h2>Group Discussions:</h2>
+<ul>
+<li><p>Come up with one more example!</p></li>
+<li><p>Summarize your results from Question 2 c: Do you have stronger evidence against the null hypothesis of no difference in median anxiety scores for the two groups, or more evidence against the null hypothesis of no difference in mean anxiety scores?</p></li>
+<li><p>Look at the presentation rubric, which three aspects do you think are the most important for a successful presentation? (Write down a list of exactly 3)</p></li>
+</ul>
+</div>
+<div id="oral-presentations-1" class="section level2">
+<h2>Oral Presentations:</h2>
+<div id="scenarios" class="section level3">
+<h3>Scenarios</h3>
+<ol style="list-style-type: lower-alpha">
+<li><p>A health survey asked 200 individuals aged 20-45 living in Toronto to report the number minutes they exercised last week. Researchers were interested in determining whether the average duration of exercise differed between people who consume alcohol and those who do not consume alcohol. Assume the researchers who conducted this study found that people who drank alcohol exercised, on average, 20 minutes per week. In contrast, people who did not drink alcohol exercised 40 minutes per week, on average. The researchers reported a p-value of 0.249.</p></li>
+<li><p>A study was conducted to examine whether the sex of a baby is related to whether or not the baby’s mother smoked while she was pregnant. The researchers used a birth registry of all children born in Ontario in 2018, which included approximately 130,000 births. The researchers found that 4% of mothers reported smoking during pregnancy and 52% of babies born to mothers who smoked were male. In contrast, 51% of babies born to mothers who did not smoke were male. The researchers reported a p-value of 0.50.</p></li>
+<li><p>Based on results from a survey of graduates from the University of Toronto, we would like to compare the median salaries of graduates of statistics programs and graduates of computer science programs. 1,000 recent graduates who completed their Bachelor’s degree in the last five years were included in the study; 80% of the respondents were female and 20% were male. Among statistics graduates, the median reported income was $76,000. Among computer science graduates, the median reported income was $84,000. The researchers reported a p-value of 0.014.</p></li>
+<li><p>A team of researchers were interested in understanding millennial’s views regarding housing affordability in Toronto. The team interviewed 850 millennials currently living in Toronto. 84% reported that they felt housing prices were unaffordable in the city. Suppose the researchers were interested in testing whether this proportion was different from a study published last year, which found that 92% of millennials reported that housing costs were unaffordable. The researchers reported a p-value of 0.023.</p></li>
+<li><p>Suppose a drug company was interested in testing a new weight-loss drug. They enrolled 20,000 participants and assigned 10,000 to take their new drug, SlimX, and 10,000 to take a placebo. The researchers found that over 2 months, participants who took SlimX lost, on average, 5 lbs. In comparison, the control group lost 4.5 lbs during the same time. The researchers reported a p-value of <span class="math inline">\(&lt;0.0001\)</span>.</p></li>
+</ol>
+</div>
+</div>
+<div id="ticket-out-the-door" class="section level2">
+<h2>Ticket out the door</h2>
+<p>Everyone grabs a piece of paper, HAVE TO WRITE A QUESTION about the course materials.</p>
 </div>
 </div>
 

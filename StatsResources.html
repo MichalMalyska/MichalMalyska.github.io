@@ -15,6 +15,7 @@
 <title>Statistical Resources</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/elevate-section-attrs-2.0/elevate-section-attrs.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
@@ -544,16 +545,18 @@ div.tocify {
 </div>
 
 
+<div id="general-statistical-resources" class="section level1 tabset tabset-fade tabset-pills">
+<h1 class="tabset tabset-fade tabset-pills">General Statistical Resources</h1>
 <p>This file will be a compliation of all the statistics resources I encounter / make that I think are worth spending some more time on outside of the classroom.</p>
-<div id="assessing-normality" class="section level1">
-<h1>Assessing Normality</h1>
+<div id="assessing-normality" class="section level2">
+<h2>Assessing Normality</h2>
 <p>This is a guide I originally wrote as additional materials for STA220 in the summer of 2019.</p>
 <p>Most people starting their journey in statistics<br />
 struggle with something that used to be problematic for me as well - assessing normality from Normal QQ-plots. Understandably, It’s very difficult to quantify how much does a plot look like a “normal” Normal QQ-plot would, especially at smaller sample sizes. I want to show you two approaches that have helped me, and that I usually resort to, when looking for normality.</p>
-<div id="shapiro-wilk-test" class="section level2">
-<h2>Shapiro Wilk test</h2>
-<div id="description-and-example" class="section level3">
-<h3>Description and Example</h3>
+<div id="shapiro-wilk-test" class="section level3">
+<h3>Shapiro Wilk test</h3>
+<div id="description-and-example" class="section level4">
+<h4>Description and Example</h4>
 <p>Shapiro Wilk test is conceptually somewhat similar to what you’ve seen so far for assesing the equality of variances - the F test. The null hypothesis is that the data comes from a normal distribution, and looks to see if the the data gives evidence against that assumption. The test statistic is beyond the scope of this course, and is an example of something you will learn if you take STA355. If you’re interested you can just look at the wikipedia page. One very good property of the Shapiro-Wilk test is that it been shown that it has the best power for a given significance - meaning it is most likely to reject the null given that the data is not normal for a given significance level.</p>
 <p>There are no new packages for you to install to be able to run a Shapiro-Wilk test in R, the function is built in with the name shapiro.test(). You can find an example code, where I assess the normality of 5 different generated datasets.</p>
 <pre class="r"><code># First, I&#39;m gonna generate a few sample datasets for our tests:
@@ -595,8 +598,8 @@ ggplot(data = p_vals) +
 <p><img src="StatsResources_files/figure-html/Shapiro-Wilk%20Examples-1.png" width="576" /></p>
 <p>We can see that it peforms quite well, in fact all the p-values for non-normal distributions are so close to 0, I had to add sideways jitter for you to be able to tell them apart.</p>
 </div>
-<div id="simulations" class="section level3">
-<h3>Simulations</h3>
+<div id="simulations" class="section level4">
+<h4>Simulations</h4>
 <p>Now I will try to see it’s behaviour under the null hypothesis, by simulating normals and looking at the distribution of p-values.</p>
 <pre class="r"><code>new_pvals &lt;- NULL
 
@@ -683,40 +686,40 @@ print(p_vals_summary)</code></pre>
 ## 10    1000       0.066</code></pre>
 <p>As we can see beyond 50 degrees of freedom we are not able to distinguish a t distribution from a normal even with a large sample (1000). Try thinking what would happen if we only had 100 or fewer datapoints. What is interesting to see is that even for 2 degrees of freedom there are some samples that didn’t provide enough evidence to reject the normality assumption.</p>
 </div>
-<div id="discussion-and-limitations" class="section level3">
-<h3>Discussion and Limitations</h3>
+<div id="discussion-and-limitations" class="section level4">
+<h4>Discussion and Limitations</h4>
 <p>Shapiro-Wilk has a very nice property of giving us something tangible to talk about when assessing normality of our data. However it has one limitation that is worth keeping in mind - it only works on sample sizes up to 5000 points. Of course there are ways to get around that problem (Try thinking about how you would do this!)</p>
 <p>My Approach:</p>
 <div id="spoiler" style="display:none">
 <p>I would try taking a bunch of random samples (with or without replacement) of size 5000 from my dataset and run them through the test (this is called bootstrapping if you’re interested), and then I would take the average of p-values as my estimate of the real p-value. I have no idea if this is q correct approach, and once I find out I will update this. Maybe will just include a simulation to confirm. Maybe you can try writing one and verifying and letting me know?</p>
 </div>
-<button title="Answer" type="button" onclick="if(document.getElementById('spoiler') .style.display=='none')
-              {document.getElementById('spoiler') .style.display=''}
-            else{document.getElementById('spoiler') .style.display='none'}">
+<button title="Answer" type="button" onclick="if(document.getElementById(&#39;spoiler&#39;) .style.display==&#39;none&#39;)
+              {document.getElementById(&#39;spoiler&#39;) .style.display=&#39;&#39;}
+            else{document.getElementById(&#39;spoiler&#39;) .style.display=&#39;none&#39;}">
 Show/hide
 </button>
 </div>
 </div>
-<div id="normal-q-q-plots" class="section level2">
-<h2>Normal Q-Q Plots</h2>
-<div id="unnecessary-introduction" class="section level3">
-<h3>Unnecessary introduction</h3>
+<div id="normal-q-q-plots" class="section level3">
+<h3>Normal Q-Q Plots</h3>
+<div id="unnecessary-introduction" class="section level4">
+<h4>Unnecessary introduction</h4>
 <div id="unnecessary intro" style="display:none">
 <p>How do we know what does it mean for a plot to be what we expect it to be ? Recently (Jan 23rd 2019) a <a href="https://export.arxiv.org/abs/1901.07851">paper</a> was posted to arxiv. It talks about training Machine Learning models to develop image dis-similarity measures to define a distance of any Q-Q plot from the expected one. I suggest we don’t do that every time we want to assess normality in this class, although I will be really impressed if someone attempts and succeeds at reproducing the results. This could be an interesting project for a class like CSC421.</p>
 </div>
-<button title="Show me the unnecessary introduction" type="button" onclick="if(document.getElementById('unnecessary intro') .style.display=='none')
-              {document.getElementById('unnecessary intro') .style.display=''}
-            else{document.getElementById('unnecessary intro') .style.display='none'}">
+<button title="Show me the unnecessary introduction" type="button" onclick="if(document.getElementById(&#39;unnecessary intro&#39;) .style.display==&#39;none&#39;)
+              {document.getElementById(&#39;unnecessary intro&#39;) .style.display=&#39;&#39;}
+            else{document.getElementById(&#39;unnecessary intro&#39;) .style.display=&#39;none&#39;}">
 Show/hide the unnecessary introduction
 </button>
 <p>As you can probably tell I am overly excited that I now know how to make buttons in Rmarkdown that will go on my website.</p>
 </div>
-<div id="interpreting-q-q-plots" class="section level3">
-<h3>Interpreting Q-Q Plots</h3>
+<div id="interpreting-q-q-plots" class="section level4">
+<h4>Interpreting Q-Q Plots</h4>
 <p>The general idea behind interpreting Normal Q-Q plots is that we transform our data in a very specific way. Again, if you want to know a bit more, take STA355. For the purpose of this course all you need to know is that you will expect the newly transformed data to lie on a straight line y = x. However, because the world is not ideal, we will always have data that doesn’t lie on that straight line exactly, that would be too easy. This doesn’t necessarily mean that we have outliers. I’m actually quite convinced that the probability of all points being exactly on that line is exactly 0 for a given sample larger than a few points.</p>
 </div>
-<div id="my-solution" class="section level3">
-<h3>My solution</h3>
+<div id="my-solution" class="section level4">
+<h4>My solution</h4>
 <p>So let’s say I am looking at a nice small set of 100 observations. How do I assess the normality in practice ? Back when I was taking my first steps in R and data analysis, as you are now, I struggled with this immensly and always resorted to Shapiro-Wilk to avoid the problem. Then sometime last year I stumbled upon an article that proposed a solution so simple yet so brilliant I am still quite angry for not coming up with it on my own.</p>
 <pre class="r"><code># Let&#39;s say I have some data, distribution of which I don&#39;t know. 
 my_data &lt;- rnorm(100) # Let&#39;s pretend this never happened
@@ -872,7 +875,7 @@ ht</code></pre>
     geom_vline(xintercept = median(distributions$heavy_tailed_2), size = 0.5, color = &quot;blue&quot;)
 ht</code></pre>
 <p><img src="StatsResources_files/figure-html/QQplots%20intuition%20-%20Heavy%20Tailed%202%20QQ-2.png" width="576" /></p>
-<p>As you can see the histogram seems “Bell shaped” and “Symmetric”, and yet we know that the distribution is (very much) not normal. If we conducted a Shapiro-Wilk Test (which is a test for non-normality), we would learn that the probability of observing a data as extreme as this from a normal distribution is 0 which is pretty much 0.</p>
+<p>As you can see the histogram seems “Bell shaped” and “Symmetric”, and yet we know that the distribution is (very much) not normal. If we conducted a Shapiro-Wilk Test (which is a test for non-normality), we would learn that the probability of observing a data as extreme as this from a normal distribution is 2.7780008^{-16} which is pretty much 0.</p>
 <p>This is why you should always do some normality checks beyond looking at a histogram, especially when your data looks normal.</p>
 <p>Now, for the sake of completion let’s look at a left skewed distribution:</p>
 <pre class="r"><code># ggplot qqplot
@@ -933,6 +936,73 @@ lt &lt;- ggplot(data = distributions) +
     xlim(-4, 4)
 lt</code></pre>
 <p><img src="StatsResources_files/figure-html/QQplots%20intuition%20-%20Light%20tail%20Hist%20with%20Norm-1.png" width="576" /></p>
+</div>
+</div>
+</div>
+<div id="p-values-deep-dive-for-sta130" class="section level2">
+<h2>P-values deep dive for STA130</h2>
+<div id="the-study-what-you-see" class="section level3">
+<h3>The study (what you see)</h3>
+<div id="the-hypothesis" class="section level4">
+<h4>The hypothesis</h4>
+</div>
+<div id="the-population" class="section level4">
+<h4>The population</h4>
+</div>
+<div id="the-sample" class="section level4">
+<h4>The sample</h4>
+</div>
+<div id="the-test-statistic" class="section level4">
+<h4>The test statistic</h4>
+</div>
+</div>
+<div id="the-analysis-what-you-do" class="section level3">
+<h3>The analysis (what you do)</h3>
+<div id="simulation" class="section level4">
+<h4>Simulation</h4>
+</div>
+<div id="p-values" class="section level4">
+<h4>P-values</h4>
+</div>
+<div id="result" class="section level4">
+<h4>Result</h4>
+</div>
+</div>
+<div id="the-study-what-really-happened" class="section level3">
+<h3>The study (what really happened)</h3>
+<div id="the-hypothesis-1" class="section level4">
+<h4>The hypothesis</h4>
+</div>
+<div id="the-population-1" class="section level4">
+<h4>The population</h4>
+</div>
+<div id="the-sample-1" class="section level4">
+<h4>The sample</h4>
+</div>
+<div id="the-test-statistic-1" class="section level4">
+<h4>The test statistic</h4>
+</div>
+</div>
+<div id="the-analysis-what-really-happened" class="section level3">
+<h3>The analysis (what really happened)</h3>
+<div id="simulation-1" class="section level4">
+<h4>Simulation</h4>
+</div>
+<div id="p-values-1" class="section level4">
+<h4>P-values</h4>
+</div>
+<div id="result-1" class="section level4">
+<h4>Result</h4>
+</div>
+</div>
+</div>
+<div id="other-stats-resources" class="section level2">
+<h2>Other Stats Resources:</h2>
+<div id="mcmc" class="section level3">
+<h3>MCMC</h3>
+<ul>
+<li>(a bunch on PyMC and couplings)[<a href="https://colindcarroll.com/" class="uri">https://colindcarroll.com/</a>]</li>
+</ul>
 </div>
 </div>
 </div>
