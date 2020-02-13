@@ -1234,6 +1234,158 @@ df &lt;- datasaurus_dozen %&gt;%
 <p>Everyone grabs a piece of paper, HAVE TO WRITE A QUESTION about the course materials.</p>
 </div>
 </div>
+<div id="tutorial-6" class="section level1">
+<h1>Tutorial 6</h1>
+<div id="agenda-4" class="section level2">
+<h2>Agenda:</h2>
+<ul>
+<li><p>Ticket out the door answers</p></li>
+<li><p>Reminders</p></li>
+<li><p>Midterm</p></li>
+<li><p>Vocab Review</p></li>
+<li><p>Group Discussion</p></li>
+<li><p>Poster Project</p></li>
+<li><p>Written Evaluation</p></li>
+</ul>
+</div>
+<div id="ticket-out-the-door-answers" class="section level2">
+<h2>Ticket out the door answers</h2>
+<ul>
+<li>Will the materials be more complicated and difficult than what we are learning now?</li>
+</ul>
+<p>In STA130 - I don’t think so. Hypothesis testing is probably the most difficult part of this course.</p>
+<ul>
+<li>NO</li>
+</ul>
+<p>Thank you</p>
+<ul>
+<li><p>How can we prepare for the midterm? What questions are we expecting to see?</p></li>
+<li><p>Can we skip one or two tutorials</p></li>
+</ul>
+<p>Firstly, :( Secondly: No, sorry.</p>
+<ul>
+<li>Can you set up a hypothesis for a 2 sample test as a 1 sample test?</li>
+</ul>
+<p>Not really. Two sample will always be comparing two observed things against eachother, one sample always compares one sample vs a constant.</p>
+<ul>
+<li>I have a lecture right before the class, can I be late?</li>
+</ul>
+<p>Yes, email me ahead and we can arrange for a 5 minute grace period.</p>
+<ul>
+<li>Why do we use permutation for two sample test and simulation for one sample test ?</li>
+</ul>
+<p>You can’t really do permutation for one sample (you only have one category so there is nothing to swap with). We do permutation for two sample because it is a bit simpler to do than simulation for two samples, but you can do simulation for two samples.</p>
+<ul>
+<li>What is the difference between permutation test and simulations</li>
+</ul>
+<p>Simulations are generating new, artificial data under the null hypothesis and make assumptions about the distribution, permutations require two groups but don’t generate new data, just shuffle it around.</p>
+<ul>
+<li>How can we test a null hypothesis if we only choose one sided alternative ?</li>
+</ul>
+<p>The only change you do in terms of code is your p-value calculation is gonna be one sided. You will not be looking for simulated test statistics “as extreme or more” in the magnitude sense but only one direction. So if you are testing an alternative of the form <span class="math inline">\(p &gt; 0.5\)</span> you will only look for test statistics of <span class="math inline">\(\hat{p}_{\text{simulated}} &gt; \hat{p}_{\text{observed}}\)</span> not <span class="math inline">\(|\hat{p}_{\text{simulated}}| &gt; |\hat{p}_{\text{observed}}|\)</span></p>
+<ul>
+<li>Can we get more examples on the presentation questions?</li>
+</ul>
+<p>I am not 100% sure what you mean. Would you like more good presentation examples?</p>
+<ul>
+<li>What permutation is ?</li>
+</ul>
+<p>Permutation is a fancy word for “shuffling things around”</p>
+<ul>
+<li>Is stats major a good choice with computer science ?</li>
+</ul>
+<p>Depends on what you want to do - for pure software development - I don’t think it’s gonna benefit you much. If you want to do Machine Learning or some other data related niche of CS then I think it is the best option.</p>
+<ul>
+<li>Is stats a good choice for math?</li>
+</ul>
+<p>Again, probably depends on what you want to do - The math we use in stats is not very advanced conceptually compared to what you would see in a math specialist program at UofT. The style of proofs is also very different until you get to grad school.</p>
+<ul>
+<li>For PS5 Q2c what would happen if we reversed the null and alternative hypotheses?</li>
+</ul>
+<p>Reversing hypotheses will result in your Null being “not equal” and the alternative being “equal”. Your simulations and test statistic computation would be very difficult to do, since evidence against “not equal” is very hard to define and simulate from.</p>
+<ul>
+<li>Will we be tested on how to write code on the midterm?</li>
+</ul>
+<p>You will not be expected to write perfect quality code on the exam. You might be asked to fill in some blanks or write simple code but we don’t expect you to memorize the syntax of functions.</p>
+</div>
+<div id="reminders" class="section level2">
+<h2>Reminders</h2>
+<ul>
+<li><p>Please submit your names along with your presentation outlines</p></li>
+<li><p>There is no tutorial next week (Reading week yay!)</p></li>
+</ul>
+</div>
+<div id="midterm" class="section level2">
+<h2>Midterm</h2>
+<ul>
+<li><p>Your midterm is on Friday after reading week during the tutorial time in EX100</p></li>
+<li><p>You <strong>MUST</strong> go to our section midterm</p></li>
+<li><p>No Calculators</p></li>
+<li><p>See Quercus for practice tests (DO THEM!)</p></li>
+<li><p>Go to Office hours (no OH during reading week)</p></li>
+</ul>
+</div>
+<div id="vocab-2" class="section level2">
+<h2>Vocab</h2>
+<ul>
+<li>Confidence Intervals:</li>
+</ul>
+<p>The definition of Confidence intervals is subtle and not at all intuitive. The intuitive definition you probably have in mind is actually for something that is called a <em>Credible Interval</em> that comes from a different part of statistics.</p>
+<p>Definition:</p>
+<p>Purpose: Obtain an estimate the parameter that reflects sampling variability.</p>
+<p>Check that they make sense - If you are looking at CI for probability make sure it is inside the <span class="math inline">\([0,1]\)</span> interval.</p>
+<ul>
+<li>Bootstrap</li>
+</ul>
+<p>The purpose of bootstrapping is to estimate the sampling distribution and extract some insight from it, for example confidence intervals for a parameter of choice.</p>
+<p>There are many different versions of bootstrapping. We are using <em>percentile</em> <em>bootstrapping</em> which works best for large samples and when the underlying distribution is symmetric and continuous.</p>
+<p>You will see other versions of bootstrapping in upper year statistics classes.</p>
+</div>
+<div id="group-discussions-2" class="section level2">
+<h2>Group Discussions</h2>
+<ul>
+<li><p>Are the use of p-values and confidence intervals mutually exclusive? What do the two have in common? How do they differ? Think about under which circumstances you may want to use each of these.</p></li>
+<li><p>If you and your partner both applied the same bootstrap sampling method to the same data, do you expect that you both arrive at the same estimate and CI? What are some factors that you would need to consider (and hold constant) to ensure that you both arrived at the same answer?</p></li>
+<li><p>It’s Valentine’s Day! You are interested in whether there is a difference in the proportion of couples who tilt their heads to the right or left when they kiss! You survey several students on campus and find that 35.5% tilt their heads to the left when kissing; 95% CI: (27%, 44%). Which of the below (Question 1d) is the correct interpretation of the 95% CI?</p>
+<ol style="list-style-type: lower-roman">
+<li><p>We are 95% confident that between 27% and 44% of kissing couples in this sample tilt their head to the left when they kiss</p></li>
+<li><p>There is a 95% chance that between 27% and 44% of all kissing couples in the population tilt their head to the left when they kiss.</p></li>
+<li><p>We are 95% confident that between 27% and 44% of all kissing couples in the population tilt their head to the left when they kiss.</p></li>
+<li><p>If we considered many random samples of 124 couples, and we calculated 95% confidence intervals for each sample, 95% of these confidence intervals will include the true proportion of kissing couples in the population who tilt their heads to the left when kissing.</p></li>
+</ol></li>
+</ul>
+</div>
+<div id="poster-project" class="section level2">
+<h2>Poster Project</h2>
+<p><img src="figures/STA130/Poster_Project_Handout.png" /></p>
+<p><img src="figures/STA130/Things_you_will_learn.png" /></p>
+<p><img src="figures/STA130/Data_Dictionary.png" /></p>
+<p>Now it’s time for you guys to start planning what you will do in for your poster project. Things you should talk about:</p>
+<ul>
+<li>The research question(s) they are interested in investigating.</li>
+</ul>
+<p>What is something that the Toronto Police might be interested in knowing?</p>
+<ul>
+<li><p>Any interesting visualizations. Remember, these should be interesting and useful for the audience. They should also be appropriately labelled and should stand alone</p></li>
+<li><p>Think about whether you will need to join datasets to answer your research question. You are able to use additional sources of data, if they like – and if relevant to their research question. (This would be considered in the WOW factor category!)</p></li>
+<li><p>What will each group member be responsible for?</p></li>
+<li><p>How often will you meet?</p></li>
+</ul>
+<p>NOTE: You are not committed to this plan and it can change as you learn new methods. This activity is to get you thinking about the project early on. If you wait until after reading week you will be very rushed to complete the project and it will likely end up not being very good.</p>
+<p>Aspects to consider in your research plan:</p>
+<ul>
+<li><p>The research question(s)</p></li>
+<li><p>The hypotheses</p></li>
+<li><p>Aims/objectives</p></li>
+<li><p>Research design: data, methods, visualizations, etc.</p></li>
+</ul>
+</div>
+<div id="written-evaluation-3" class="section level2">
+<h2>Written Evaluation</h2>
+<p>Write out your research plan!</p>
+<p>I suggest you consider formatting it to include the above sections (i.e., Research question; Hypothesis; Objective; Research design: data/ variables, methods, visualization, etc.)</p>
+</div>
+</div>
 
 
 
